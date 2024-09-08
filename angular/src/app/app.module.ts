@@ -4,21 +4,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AbstractListarComponent } from './shared/abstract-listar/abstract-listar.component';
-import { AbstractEditarComponent } from './shared/abstract-editar/abstract-editar.component';
-import { AbstractDataSourceComponent } from './shared/abstract-data-source.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
     AppComponent,
     AbstractListarComponent,
-    AbstractEditarComponent,
-    AbstractDataSourceComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,19 +10,10 @@ export abstract class AbstractService<T> {
 
   protected constructor(protected httpService: HttpClient) {}
 
-  async asyncListar(filtroObjeto: any, pageNumber: number, pageSize: number): Promise<T[]> {
-    filtroObjeto.pageNumber = pageNumber;
-    filtroObjeto.pageSize = pageSize;
-    try {
-      return await lastValueFrom(this.httpService.post<T[]>(`${myGlobals.API_URL}/listar`, filtroObjeto));
-    } catch (error) {
-      return Promise.reject(this.handleError(error));
-    }
-  }
-
   listar(filtroObjeto: any, pageNumber: number, pageSize: number): Observable<T[]> {
     filtroObjeto.pageNumber = pageNumber;
     filtroObjeto.pageSize = pageSize;
+
     return this.httpService.post<T[]>(`${myGlobals.API_URL}/listar`, filtroObjeto)
       .pipe(
         catchError(this.handleError)
