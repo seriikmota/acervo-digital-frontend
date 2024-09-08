@@ -34,6 +34,9 @@ export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
     });
   }
 
+  editar(element: T): void {
+    // Lógica para edição
+  }
 
   excluir(element: any): void {
       this.service.excluir(element.id).subscribe({
