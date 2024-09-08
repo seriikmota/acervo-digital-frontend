@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Directive, OnInit, ViewChild} from '@angular/core';
 import {AbstractService} from "../abstract.service";
 import {MatTableDataSource} from "@angular/material/table";
 import * as tableGlobals from './globals-table'
@@ -8,6 +8,7 @@ import {MatPaginator} from "@angular/material/paginator";
   templateUrl: './abstract-listar.component.html',
   styleUrls: ['./abstract-listar.component.scss']
 })
+@Directive()
 export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
   displayedColumns: string[] = tableGlobals.displayedColumns;
   dataSource = new MatTableDataSource<T>();
