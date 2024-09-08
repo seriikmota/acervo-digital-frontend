@@ -1,8 +1,10 @@
-import {AfterViewInit, Component, Directive, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Directive, Inject, OnInit, ViewChild} from '@angular/core';
 import {AbstractService} from "../abstract.service";
 import {MatTableDataSource} from "@angular/material/table";
 import * as tableGlobals from './globals-table'
 import {MatPaginator} from "@angular/material/paginator";
+import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 @Component({
   selector: 'app-abstract-listar',
   templateUrl: './abstract-listar.component.html',
@@ -15,10 +17,11 @@ export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
   filtroObjeto: any = {};
   pageNumber: number = 0;
   pageSize: number = 10;
+  private dialogRef!: MatDialogRef<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private service: AbstractService<T>) {}
+  constructor(private service: AbstractService<T>,@Inject(MAT_DIALOG_DATA) public data: any,   private dialog: MatDialog, private dialogRefCurrent: MatDialogRef<any>) {}
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -30,21 +33,22 @@ export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
 
   listarDados(): void {
     this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
-      next: (data) => this.dataSource.data = data,
-      error: (error) => console.error('Erro ao listar dados:', error)
+      next: (data) => {
+        this.dataSource.data = data
+      },
+      error: (error) =>   this.showMessage("Erro ao listar:\n" + error.error)
     });
   }
 
   editar(element: T): void {
-    // Lógica para edição
   }
 
   excluir(element: any): void {
       this.service.excluir(element.id).subscribe({
         next: () => {
-          console.log('Item excluído com sucesso!');
+          this.showMessage("Item excluido com sucesso!");
         },
-        error: (error) => console.error('Erro ao excluir item:', error)
+        error: (error) =>  this.showMessage("Erro ao excluir:\n" + error.error)
       });
   }
 
@@ -54,4 +58,16 @@ export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
     this.pageNumber = event.pageIndex;
     this.listarDados();
   }
+  private showMessage(message: string) {
+    this.dialogRef = this.dialog.open(DialogMessageOkComponent, {
+      minWidth: "200px",
+      minHeight: "100px",
+      disableClose: true,
+      data: message
+    });
+    this.dialogRef.afterClosed().subscribe(value => {
+      this.dialogRefCurrent.close();
+    });
+  }
+
 }

@@ -7,18 +7,26 @@ import { AbstractListarComponent } from './shared/abstract-listar/abstract-lista
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { DialogMessageConfirmComponent } from './core/dialog-message-confirm/dialog-message-confirm.component';
+import { DialogMessageOkComponent } from './core/dialog-message-ok/dialog-message-ok.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     AbstractListarComponent,
+    DialogMessageConfirmComponent,
+    DialogMessageOkComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

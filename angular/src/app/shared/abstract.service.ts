@@ -42,7 +42,6 @@ export abstract class AbstractService<T> {
   }
 
   protected handleError(error: any): Observable<never> {
-    // Aqui você pode implementar um tratamento de erro mais detalhado, como logging
     console.error('Ocorreu um erro:', error);
     return throwError(() => new Error('Ocorreu um erro, por favor tente novamente.'));
   }
