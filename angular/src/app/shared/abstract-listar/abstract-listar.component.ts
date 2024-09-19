@@ -1,16 +1,24 @@
 import {AfterViewInit, Component, Directive, Inject, OnInit, ViewChild} from '@angular/core';
 import {AbstractService} from "../abstract.service";
-import {MatTableDataSource} from "@angular/material/table";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import * as tableGlobals from './globals-table'
-import {MatPaginator} from "@angular/material/paginator";
+import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
 import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {NgForOf} from "@angular/common";
+import {MatButtonModule} from "@angular/material/button";
 @Component({
   selector: 'app-abstract-listar',
   templateUrl: './abstract-listar.component.html',
+  standalone: true,
+  imports: [
+    NgForOf,
+    MatTableModule,
+    MatButtonModule,
+    MatPaginatorModule
+  ],
   styleUrls: ['./abstract-listar.component.scss']
 })
-@Directive()
 export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
   displayedColumns: string[] = tableGlobals.displayedColumns;
   dataSource = new MatTableDataSource<T>();
