@@ -10,12 +10,21 @@ import { DialogMessageConfirmComponent } from './core/dialog-message-confirm/dia
 import { DialogMessageOkComponent } from './core/dialog-message-ok/dialog-message-ok.component';
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
+import { ListagemDeUsuarioComponent } from './listagem-de-usuario/listagem-de-usuario.component';
+import {AbstractListarComponent} from "./shared/abstract-listar/abstract-listar.component";
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { SidnavComponent } from './sidnav/sidnav.component';
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
     AppComponent,
     DialogMessageConfirmComponent,
     DialogMessageOkComponent,
+    ListagemDeUsuarioComponent,
+    SidnavComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +33,12 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    AbstractListarComponent,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

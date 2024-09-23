@@ -21,7 +21,7 @@ import {MatButtonModule} from "@angular/material/button";
 })
 export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
   displayedColumns: string[] = tableGlobals.displayedColumns;
-  dataSource = new MatTableDataSource<T>();
+  dataSource = new MatTableDataSource<any>();
   filtroObjeto: any = {};
   pageNumber: number = 0;
   pageSize: number = 10;
@@ -29,7 +29,7 @@ export class AbstractListarComponent<T> implements OnInit,AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private service: AbstractService<T>,@Inject(MAT_DIALOG_DATA) public data: any,   private dialog: MatDialog, private dialogRefCurrent: MatDialogRef<any>) {}
+  constructor(private service: AbstractService<any>,@Inject(MAT_DIALOG_DATA) public data: any,   private dialog: MatDialog, private dialogRefCurrent: MatDialogRef<any>) {}
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
