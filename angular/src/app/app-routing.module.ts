@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ListagemDeUsuarioComponent} from "./listagem-de-usuario/listagem-de-usuario.component";
+import {ListUserComponent} from "./list-user/list-user.component";
 
-const routes: Routes =  [{path:'',pathMatch:"full",redirectTo:'usuario'},
-  {path:'usuario', component:ListagemDeUsuarioComponent},];
+export const routes: Routes =  [{path:'',pathMatch:"full",redirectTo:'usuario'},
+  {path:'usuario', component:ListUserComponent},];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

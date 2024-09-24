@@ -11,5 +11,5 @@ export class SidnavComponent {
     this.sidenavCollapsed.set(value)
   }
 
-  profilePicSize = computed(()=> this.sidenavCollapsed() ? '35' : '100')
+  profilePicSize = computed(()=> this.sidenavCollapsed() ? '0' : '100')
 }

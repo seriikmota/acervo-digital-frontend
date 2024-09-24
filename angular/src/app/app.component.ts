@@ -8,8 +8,7 @@ import {Component, computed, signal} from '@angular/core';
 export class AppComponent {
   title = 'angular';
 
-
   collapsed=signal(true);
 
-  sidenavWidth = computed(()=>this.collapsed() ? '80px':'250px')
+  sidenavWidth = computed(()=>this.collapsed() ? '0px':'250px')
 }
