@@ -19,15 +19,15 @@ export abstract class AbstractService<T> {
       );
   }
 
-  consultarPorId(id: number): Observable<T> {
-    return this.httpService.get<T>(`${this.url}/${id}`)
+  update(dado: any, id: number): Observable<T> {
+    return this.httpService.put<T>(`${this.url}/${id}`, dado)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  incluir(registro: T): Observable<T> {
-    return this.httpService.post<T>(`${this.url}`, registro)
+  save(dado: any): Observable<any> {
+    return this.httpService.post<any>(`${this.url}`, dado)
       .pipe(
         catchError(this.handleError)
       );

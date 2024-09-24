@@ -1,5 +1,9 @@
 'use strict';
 
-export const displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-
+//user
 export const displayedColumnsUser: string[] = ['id','name', 'email'];
+export const columnNamesMappingUser = {
+  id: 'Código',
+  name: 'Nome',
+  email: 'Email',
+};

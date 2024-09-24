@@ -9,6 +9,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 @Directive()
 export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   displayedColumns: string[] = [];
+  columnNamesMapping: { [key: string]: string };
   dataSource = new MatTableDataSource<any>();
   filtroObjeto: any = {};
   pageNumber: number = 0;
@@ -17,7 +18,9 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  public constructor(public service: AbstractService<any>,@Inject(MAT_DIALOG_DATA) public data: any,   public dialog: MatDialog, public dialogRefCurrent: MatDialogRef<any>) {}
+  public constructor(public service: AbstractService<any>,@Inject(MAT_DIALOG_DATA) public data: any,   public dialog: MatDialog, public dialogRefCurrent: MatDialogRef<any>) {
+    this.columnNamesMapping = this.getColumnNamesMapping();
+  }
 
   ngOnInit(): void {
     this.listarDados();
@@ -27,6 +30,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
 
   }
 
+  protected abstract getColumnNamesMapping(): { [key: string]: string };
   listarDados(): void {
     this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
       next: (data) => {
@@ -36,7 +40,30 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     });
   }
 
+  abstract getEditComponent(): any;
+
   editar(element: any): void {
+    const dialogRef = this.dialog.open(this.getEditComponent(), {
+      width: '80%',
+      maxWidth: '600px',
+      height: 'auto',
+      maxHeight: '90vh',
+      data: element,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+        this.listarDados();
+    });
+  }
+
+  incluir(): void {
+    const dialogRef = this.dialog.open(this.getEditComponent(), {
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+        this.listarDados();
+    });
   }
 
   excluir(element: any): void {
@@ -60,10 +87,11 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
       minWidth: "200px",
       minHeight: "100px",
       disableClose: true,
-      data: message
+      data: message,
     });
     this.dialogRef.afterClosed().subscribe(value => {
       this.dialogRefCurrent.close();
+      this.listarDados()
     });
   }
 

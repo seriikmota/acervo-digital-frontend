@@ -20,6 +20,9 @@ import {provideHttpClient} from "@angular/common/http";
 import {provideRouter} from "@angular/router";
 import {AbstractService} from "./shared/abstract.service";
 import {MatCardModule} from "@angular/material/card";
+import { EditUserComponent } from './edit-user/edit-user.component';
+import {MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import {MatCardModule} from "@angular/material/card";
     DialogMessageOkComponent,
     ListUserComponent,
     SidnavComponent,
+    EditUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +46,8 @@ import {MatCardModule} from "@angular/material/card";
     MatSidenavModule,
     MatListModule,
     MatCardModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   providers: [provideRouter(routes),
     provideHttpClient(), {provide: MatDialogRef,   useValue: {}}, {provide: MAT_DIALOG_DATA,   useValue: {}},{provide: AbstractService,   useValue: {}}],

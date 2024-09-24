@@ -3,6 +3,8 @@ import {AbstractListarComponent} from "../shared/abstract-listar/abstract-listar
 import {ListUserService} from "./service/list-user.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import * as tableGlobals from "../shared/abstract-listar/globals-table";
+import {EditUserComponent} from "../edit-user/edit-user.component";
+import { columnNamesMappingUser} from "../shared/abstract-listar/globals-table";
 
 @Component({
   selector: 'app-listagem-de-usuario',
@@ -19,6 +21,12 @@ export class ListUserComponent extends AbstractListarComponent {
     this.displayedColumns = tableGlobals.displayedColumnsUser;
   }
 
+  override getEditComponent(): any {
+    return EditUserComponent;
+  }
 
+  override getColumnNamesMapping() {
+    return columnNamesMappingUser;
+  }
 
 }

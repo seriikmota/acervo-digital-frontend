@@ -1,0 +1,54 @@
+<h1 class="titulo">Cadastro de Assitente</h1>
+
+<mat-divider></mat-divider>
+<div class="form-container">
+  <form [formGroup]="usuarioForm">
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" placeholder="Nome do Usuário">
+        <mat-error *ngIf="usuarioForm.get('name')?.hasError('required')">
+          Nome é obrigatório!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Email" type="email">
+        <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">
+          Email é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">
+          Email inválido!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Senha</mat-label>
+        <input matInput formControlName="password" placeholder="Senha" type="password">
+        <mat-error *ngIf="usuarioForm.get('password')?.hasError('required')">
+          Senha é obrigatória!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Repita a Senha</mat-label>
+        <input matInput formControlName="confirmPassword" placeholder="Repita a Senha" type="password">
+        <mat-error *ngIf="usuarioForm.get('confirmPassword')?.hasError('required')">
+          Confirmação de senha é obrigatória!
+        </mat-error>
+        <mat-error *ngIf="usuarioForm.hasError('passwordMismatch')">
+          As senhas não coincidem!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Fechar</button>
+      <button mat-button color="primary" type="submit" (click)="onSubmit()">
+        {{ data ? 'Editar' : 'Cadastrar' }}
+      </button>
+    </div>
+  </form>
+</div>
