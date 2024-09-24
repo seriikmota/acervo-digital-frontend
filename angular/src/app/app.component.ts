@@ -1,4 +1,4 @@
-import {Component, computed, signal} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +7,4 @@ import {Component, computed, signal} from '@angular/core';
 })
 export class AppComponent {
   title = 'angular';
-
-
-  collapsed=signal(true);
-
-  sidenavWidth = computed(()=>this.collapsed() ? '80px':'250px')
 }
