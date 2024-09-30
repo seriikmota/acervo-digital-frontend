@@ -23,6 +23,8 @@ import {MatCardModule} from "@angular/material/card";
 import { EditUserComponent } from './edit-user/edit-user.component';
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import { ListItemsComponent } from './list-items/list-items.component';
+import { EditItemsComponent } from './edit-items/edit-items.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     ListUserComponent,
     SidnavComponent,
     EditUserComponent,
+    ListItemsComponent,
+    EditItemsComponent,
   ],
   imports: [
     BrowserModule,
