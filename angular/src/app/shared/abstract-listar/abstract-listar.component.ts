@@ -36,7 +36,6 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
       next: (data) => {
         this.dataSource.data = data
       },
-      error: (error) =>   this.showMessage("Erro ao listar:\n" + error.error)
     });
   }
 
@@ -44,7 +43,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
 
   editar(element: any): void {
     const dialogRef = this.dialog.open(this.getEditComponent(), {
-      width: '80%',
+      width: '100%',
       maxWidth: '600px',
       height: 'auto',
       maxHeight: '90vh',
