@@ -13,6 +13,10 @@
       <mat-icon>wallpaper</mat-icon>
       <span>Postagens</span>
     </a>
+    <a mat-list-item (click)="redirectToWhatsapp()" target="_blank">
+      <mat-icon>call</mat-icon>
+      <span>Contato</span>
+    </a>
   </mat-nav-list>
   <div class="sidenav-header">
     <div class="header-text" [class.hide-header-text]="sidenavCollapsed()">
@@ -21,8 +25,8 @@
       <p>Erik Mota</p>
       <p>Denis Ferreira</p>
       <p>Lucas Apparecido</p>
-      <p>Marcos Souza</p>
       <p>Luiz Felipe</p>
+      <p>Marcos Souza</p>
     </div>
   </div>
 </div>

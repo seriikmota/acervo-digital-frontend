@@ -14,4 +14,5 @@ export class Items {
   name?: string;
   taxonomy?: string;
   heritageDate?: string;
+  description?: string;
 }

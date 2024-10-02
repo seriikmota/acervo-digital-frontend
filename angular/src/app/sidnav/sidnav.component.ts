@@ -10,5 +10,8 @@ export class SidnavComponent {
   @Input() set collapsed(value: boolean) {
     this.sidenavCollapsed.set(value)
   }
+  redirectToWhatsapp() {
+    window.open('https://wa.me/5562996885739?text=Quero%20agendar%20uma%20visita%20ao%20seu%20acervo', '_blank');
+  }
 
 }
