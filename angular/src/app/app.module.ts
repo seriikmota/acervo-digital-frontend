@@ -25,6 +25,9 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import { ListItemsComponent } from './list-items/list-items.component';
 import { EditItemsComponent } from './edit-items/edit-items.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+
 
 @NgModule({
   declarations: [
@@ -52,6 +55,8 @@ import { EditItemsComponent } from './edit-items/edit-items.component';
     MatCardModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [provideRouter(routes),
     provideHttpClient(), {provide: MatDialogRef,   useValue: {}}, {provide: MAT_DIALOG_DATA,   useValue: {}},{provide: AbstractService,   useValue: {}}],

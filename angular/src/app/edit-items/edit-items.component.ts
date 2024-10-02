@@ -3,11 +3,12 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DialogMessageOkComponent} from "../core/dialog-message-ok/dialog-message-ok.component";
 import {EditItemsService} from "./service/edit-items.service";
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-edit-items',
   templateUrl: './edit-items.component.html',
-  styleUrls: ['./edit-items.component.scss']
+  styleUrls: ['./edit-items.component.scss'],
 })
 export class EditItemsComponent implements OnInit{
   itemsForm!: FormGroup;
@@ -18,8 +19,11 @@ export class EditItemsComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any,
     private itemsService: EditItemsService,
     private dialog: MatDialog,
-    private dialogRefCurrent: MatDialogRef<any>
-  ) {}
+    private dialogRefCurrent: MatDialogRef<any>,
+    private dateAdapter: DateAdapter<Date>,
+  ) {
+    this.dateAdapter.setLocale('en-GB');
+  }
 
   ngOnInit(): void {
     this.itemsForm = this.formBuilder.group({

@@ -79,18 +79,24 @@
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Data de Registro</mat-label>
-        <input matInput formControlName="registerDate" placeholder="Data de Registro" required>
+        <input matInput formControlName="registerDate" [matDatepicker]="RegisterPicker" placeholder="Data de Registro" required>
         <mat-error *ngIf="itemsForm.get('registerDate')?.hasError('required')">
           Data de Registro é obrigatória!
         </mat-error>
+        <mat-datepicker-toggle matIconSuffix [for]="RegisterPicker"></mat-datepicker-toggle>
+        <mat-datepicker #RegisterPicker>
+        </mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="form-field">
         <mat-label>Data de Patrimônio</mat-label>
-        <input matInput formControlName="heritageDate" placeholder="Data de Patrimônio" required>
+        <input matInput formControlName="heritageDate" [matDatepicker]="herigatePicker" placeholder="Data de Patrimônio" required>
         <mat-error *ngIf="itemsForm.get('heritageDate')?.hasError('required')">
           Data de Patrimônio é obrigatória!
         </mat-error>
+        <mat-datepicker-toggle matIconSuffix [for]="herigatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #herigatePicker>
+        </mat-datepicker>
       </mat-form-field>
     </div>
 

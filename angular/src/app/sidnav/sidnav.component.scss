@@ -3,6 +3,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+    align-items: center;
 }
 
 .sidenav-header {
@@ -29,7 +30,7 @@
 
 .hide-header-text {
   opacity: 0;
-  height: 0px;
+  height: 0;
 }
 
 span {
