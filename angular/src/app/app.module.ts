@@ -27,6 +27,8 @@ import { ListItemsComponent } from './list-items/list-items.component';
 import { EditItemsComponent } from './edit-items/edit-items.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { RegisterComponent } from './security/register/register.component';
+import { AuthenticationComponent } from './security/authentication/authentication.component';
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import {MatNativeDateModule} from "@angular/material/core";
     EditUserComponent,
     ListItemsComponent,
     EditItemsComponent,
+    RegisterComponent,
+    AuthenticationComponent,
   ],
   imports: [
     BrowserModule,
