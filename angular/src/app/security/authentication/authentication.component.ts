@@ -44,7 +44,6 @@ export class AuthenticationComponent implements OnInit{
           refreshToken: data.refreshToken,
           roles: data.roles,
           email: '',
-          function: ''
         };
 
         this.securityService.init(user);

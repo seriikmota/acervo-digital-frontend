@@ -17,8 +17,8 @@ export class SecurityService {
 
   public onUnauthorized: EventEmitter<Credential>;
 
-  constructor(/*@Inject(config) config: IConfig*/) {
-    this._credential = new Credential(/*config*/);
+  constructor() {
+    this._credential = new Credential();
     this.onRefresh = new EventEmitter<string>();
     this.onForbidden = new EventEmitter<Credential>();
     this.onUnauthorized = new EventEmitter<Credential>();
