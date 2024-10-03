@@ -62,12 +62,15 @@ import {AuthenticationService} from "./security/authentication/authentication.se
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  providers: [provideRouter(routes),
-    provideHttpClient(), {provide: MatDialogRef, useValue: {}}, {
-      provide: MAT_DIALOG_DATA,
-      useValue: {}
-    }, {provide: AbstractService, useValue: {}}, {provide: SecurityGuard, useValue: {}},
-    {provide: AuthenticationService, useValue: {}},],
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    {provide: AbstractService, useValue: {}},
+    { provide: SecurityGuard, useClass: SecurityGuard },
+    AuthenticationService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
