@@ -1,22 +1,21 @@
 import { lastValueFrom, Observable, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as myGlobals from './globals';
-import {Credential} from "../model/credential";
 
 export abstract class AbstractService<T> {
   protected url: string;
-  private _credential: Credential = new Credential;
 
   protected constructor(protected httpService: HttpClient, baseUrl: string) {
     this.url = `${myGlobals.API_URL}/${baseUrl}`;
-    console.log(this._credential)
   }
 
   listar(filtroObjeto: any, pageNumber: number, pageSize: number): Observable<any[]> {
     filtroObjeto.pageNumber = pageNumber;
     filtroObjeto.pageSize = pageSize;
 
-    return this.httpService.get<any[]>(this.url)
+    return this.httpService.get<any[]>(this.url,{
+      headers: this.createHeaders()
+    })
       .pipe(
         catchError(this.handleError)
       );
@@ -75,6 +74,7 @@ export abstract class AbstractService<T> {
 
   private createHeaders(): HttpHeaders {
     const token = this.getToken();
+    console.log(token)
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'

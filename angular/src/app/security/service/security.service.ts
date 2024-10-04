@@ -30,6 +30,8 @@ export class SecurityService {
 
     if (user) {
       const expiresIn = (user.expiresIn - 60) * 1000;
+
+      localStorage.setItem('userToken', user.accessToken);
       this.intervalId = setInterval(() => {
         clearInterval(this.intervalId);
         this.onRefresh.emit(this._credential.refreshToken);
