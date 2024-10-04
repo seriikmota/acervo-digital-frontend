@@ -66,6 +66,21 @@ export class EditUserComponent implements OnInit{
     }
   }
 
+  setActiveStatus(isActive: boolean) {
+    if (this.usuarioForm.get('id')?.value) {
+      this.userService.setActiveStatus(this.usuarioForm.get('id')?.value, isActive).subscribe(
+        response => {
+          const status = isActive ? "ativado" : "desativado";
+          this.showMessage(`Usuário ${status} com sucesso!`);
+        },
+        error => {
+          const status = isActive ? "ativar" : "desativar";
+          this.showMessage(`Erro ao ${status}:\n` + error.error);
+        }
+      );
+    }
+  }
+
   private showMessage(message: string) {
     this.dialogRef = this.dialog.open(DialogMessageOkComponent, {
       minWidth: "500px",

@@ -44,6 +44,10 @@
       </mat-form-field>
     </div>
 
+    <div mat-dialog-actions>
+      <button (click)="setActiveStatus(false)">Desativar Usuário</button>
+      <button (click)="setActiveStatus(true)">Ativar Usuário</button>
+    </div>
     <div mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Fechar</button>
       <button mat-button color="primary" type="submit" (click)="onSubmit()">
