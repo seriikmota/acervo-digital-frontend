@@ -41,7 +41,6 @@ export class SecurityService {
     }
   }
 
-  // Novo método para obter as roles do usuário
   public getUserRoles(): string[] {
     return this._credential.user?.roles || [];
   }

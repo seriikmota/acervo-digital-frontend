@@ -27,17 +27,21 @@ export class EditItemsComponent implements OnInit{
 
   ngOnInit(): void {
     this.itemsForm = this.formBuilder.group({
-      numberCode: [this.data?.numbercode || ''],
+      id: [this.data?.id || ''],
+      numberCode: [this.data?.number_code || ''],  // Atualizado para number_code
       name: [this.data?.name || '', Validators.required],
-      heritageDate: [this.data?.heritageDate || '', [Validators.required, ]],
-      taxonomy: [this.data?.taxonomy || '', [Validators.required, ]],
-      period: [this.data?.period || '', [Validators.required, ]],
-      provenance: [this.data?.provenance || '', [Validators.required, ]],
-      colleactionYear: [this.data?.colleactionYear || '', [Validators.required, ]],
-      collector: [this.data?.collector || '', [Validators.required, ]],
-      collection: [this.data?.collection || '', [Validators.required, ]],
-      location: [this.data?.location || '', [Validators.required, ]],
-      registerDate: [this.data?.registerDate || '', [Validators.required, ]],
+      heritageDate: [this.data?.heritage_date || '', Validators.required],  // Atualizado para heritage_date
+      taxonomy: [this.data?.taxonomy || '', Validators.required],
+      period: [this.data?.period || '', Validators.required],
+      provenance: [this.data?.provenance || '', Validators.required],
+      colleactionYear: [this.data?.colleaction_year || '', Validators.required],  // Atualizado para colleaction_year
+      collector: [this.data?.collector || '', Validators.required],
+      collection: [this.data?.collection || '', Validators.required],
+      location: [this.data?.location || '', Validators.required],
+      registerDate: [this.data?.register_date || '', Validators.required],  // Atualizado para register_date
+      status: [this.data?.status || null],  // Adicionado campo status
+      approval: [this.data?.approval || null],  // Adicionado campo approval
+      user: [this.data?.user || null]  // Adicionado campo user
     });
   }
 
@@ -46,9 +50,12 @@ export class EditItemsComponent implements OnInit{
       if (this.itemsForm.get('id')?.value) {
         this.itemsService.update(this.itemsForm.value, this.itemsForm.get('id')?.value).subscribe(
           response => {
+
             this.showMessage("Item atualizado com sucesso!");
-          },
+          }
+          ,
           error => {
+            console.log(error.header)
             this.showMessage("Erro ao atualizar:\n" + error.error);
           }
         );
