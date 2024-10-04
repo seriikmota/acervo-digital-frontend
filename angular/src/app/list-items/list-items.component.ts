@@ -29,4 +29,8 @@ export class ListItemsComponent extends AbstractListarComponent{
         return EditItemsComponent;
     }
 
+  override getnameComponent(): any {
+    return "items"
+  }
+
 }

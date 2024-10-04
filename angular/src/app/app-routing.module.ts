@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AuthenticationRoutes} from "./security/authentication/authentication.routing";
+import {ListUserComponent} from "./list-user/list-user.component";
 import {ListItemsComponent} from "./list-items/list-items.component";
 import {SecurityGuard} from "./security/security.guard";
-import {ListUserComponent} from "./list-user/list-user.component";
+import {AuthenticationRoutes} from "./security/authentication/authentication.routing";
 
 export const routes: Routes = [
   {
@@ -62,7 +62,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

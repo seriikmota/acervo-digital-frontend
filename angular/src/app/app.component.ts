@@ -1,7 +1,6 @@
 import {Component, computed, OnInit, signal} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {MessageService} from "./core/message.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {SecurityService} from "./security/service/security.service";
 import {AuthenticationService} from "./security/authentication/authentication.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";

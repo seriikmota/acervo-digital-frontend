@@ -33,12 +33,26 @@ export abstract class AbstractService<T> {
       );
   }
 
+  filter(dado: any): Observable<any> {
+    return this.httpService.get<any>(`${this.url}/search`, dado)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   excluir(id: number): Observable<void> {
     return this.httpService.delete<void>(`${this.url}/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
+
+exportar(dado: any): Observable<any> {
+  return this.httpService.post<any>(`${this.url}/exportar`, dado)
+    .pipe(
+      catchError(this.handleError)
+    );
+}
 
   protected handleError(error: any): Observable<never> {
     console.error('Ocorreu um erro:', error);
