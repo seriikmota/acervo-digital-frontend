@@ -26,12 +26,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ListItemsComponent} from './list-items/list-items.component';
 import {EditItemsComponent} from './edit-items/edit-items.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {SecurityGuard} from "./security/security.guard";
 import {AuthenticationService} from "./security/authentication/authentication.service";
 import {SecurityModule} from "./security/security.module";
 import {AuthenticationModule} from "./security/authentication/authentication/authentication.module";
 import {SecurityInterceptor} from "./security/security.interceptor";
+import {MatSelectModule} from "@angular/material/select";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 
 @NgModule({
@@ -69,6 +71,9 @@ import {SecurityInterceptor} from "./security/security.interceptor";
       loginRouter: '/acesso/login'
     }),
     FormsModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatSlideToggleModule,
   ],
   providers: [
     provideHttpClient(),

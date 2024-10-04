@@ -21,7 +21,18 @@ export abstract class AbstractService<T> {
       );
   }
 
+
+  consultarPorId(id:number): Observable<any[]> {
+    return this.httpService.get<any[]>(`${this.url}/${id}`,{
+      headers: this.createHeaders()
+    })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   update(dado: any, id: number): Observable<T> {
+    console.log(dado)
     return this.httpService.put<T>(`${this.url}/${id}`, dado, {
       headers: this.createHeaders()
     })

@@ -1,11 +1,10 @@
 <!-- Campo de filtro -->
-<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;" *ngIf="getnameComponent()=='items'">
   <mat-form-field style="flex-grow: 1; max-width: 400px;">
     <input matInput [(ngModel)]="filtro" placeholder="Pesquisar" />
     <button mat-icon-button *ngIf="filtro" matSuffix (click)="clearFilter()">
       <mat-icon>clear</mat-icon>
     </button>
-    <!-- Botão arredondado dentro do mat-form-field -->
     <button mat-icon-button  matSuffix (click)="applyFilter()" style="border-radius: 20px; margin: 10px;">
       <mat-icon>filter_list</mat-icon>
     </button>
