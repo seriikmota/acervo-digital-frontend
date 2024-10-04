@@ -1,6 +1,6 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {User} from "../../model/user";
-import {Credential} from "../../model/credential";
+import { EventEmitter, Injectable } from '@angular/core';
+import { User } from "../../model/user";
+import { Credential } from "../../model/credential";
 
 @Injectable({
   providedIn: 'root'
@@ -41,28 +41,25 @@ export class SecurityService {
     }
   }
 
+  // Novo método para obter as roles do usuário
+  public getUserRoles(): string[] {
+    return this._credential.user?.roles || [];
+  }
+
   public hasRoles(roles: string | string[]): boolean {
     let valid = false;
 
     if (this.isValid()) {
-
       if (roles && roles.length > 0) {
-        const userRoles = this.credential.user?.roles;
+        const userRoles = this.getUserRoles(); // Utilize o novo método para obter as roles
 
         if (userRoles) {
-
           if (typeof roles === 'string') {
-            valid = userRoles.filter((userRole: string) => {
-              return userRole === roles;
-            }).length !== 0;
+            valid = userRoles.includes(roles);
           } else {
             for (let index = 0; index < roles.length; index++) {
               const role = roles[index];
-
-              const count = userRoles.filter((userRole: string) => {
-                return userRole === role;
-              }).length;
-              if (count > 0) {
+              if (userRoles.includes(role)) {
                 valid = true;
                 break;
               }
@@ -75,7 +72,6 @@ export class SecurityService {
     }
     return valid;
   }
-
 
   public invalidate(): void {
     this._credential.clean();

@@ -15,13 +15,43 @@ export const routes: Routes = [
     path: 'items',
     component: ListItemsComponent,
     canActivate: [SecurityGuard],
-    data: { security: { roles: ['ROLE_USER'] } }
+    data: {
+      security: {
+        roles: [
+          'ROLE_USER_CREATE',
+          'ROLE_USER_READ',
+          'ROLE_USER_UPDATE',
+          'ROLE_USER_DELETE',
+          'ROLE_USER_LISTALL',
+          'ROLE_ITEM_CREATE',
+          'ROLE_ITEM_READ',
+          'ROLE_ITEM_UPDATE',
+          'ROLE_ITEM_DELETE',
+          'ROLE_ITEM_LISTALL'
+        ]
+      }
+    }
   },
   {
     path: 'user',
     component: ListUserComponent,
     canActivate: [SecurityGuard],
-    data: { security: { roles: ['ROLE_ADMIN'] } }
+    data: {
+      security: {
+        roles: [
+          'ROLE_USER_CREATE',
+          'ROLE_USER_READ',
+          'ROLE_USER_UPDATE',
+          'ROLE_USER_DELETE',
+          'ROLE_USER_LISTALL',
+          'ROLE_ITEM_CREATE',
+          'ROLE_ITEM_READ',
+          'ROLE_ITEM_UPDATE',
+          'ROLE_ITEM_DELETE',
+          'ROLE_ITEM_LISTALL'
+        ]
+      }
+    }
   },
   {
     path: 'acesso',

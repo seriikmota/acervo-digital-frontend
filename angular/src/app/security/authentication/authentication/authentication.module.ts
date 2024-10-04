@@ -10,6 +10,8 @@ import {MatCardModule} from "@angular/material/card";
 import {authenticationGuard} from "../authentication.guard";
 import {AuthenticationService} from "../authentication.service";
 import {AuthenticationRoutes} from "../authentication.routing";
+import {SecurityGuard} from "../../security.guard";
+import {MatIconModule} from "@angular/material/icon";
 
 
 
@@ -26,11 +28,13 @@ import {AuthenticationRoutes} from "../authentication.routing";
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [
     authenticationGuard,
-    AuthenticationService
+    AuthenticationService,
+    SecurityGuard
   ]
 })
 export class AuthenticationModule { }

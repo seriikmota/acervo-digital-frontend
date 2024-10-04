@@ -26,7 +26,7 @@ export class AuthService {
     this._rootUrl = rootUrl;
   }
 
-  static readonly LoginPath = 'http://localhost:8080/api/v1auth/login';
+  static readonly LoginPath = 'http://localhost:8080/api/v1/auth/login';
 
 
   login$Response(params: {
@@ -63,7 +63,7 @@ export class AuthService {
     );
   }
 
-  static readonly GetInfoByTokenValidacaoPath = 'http://localhost:8080/api/v1auth/senha/solicitacao/info';
+  static readonly GetInfoByTokenValidacaoPath = 'http://localhost:8080/api/v1/auth/senha/solicitacao/info';
 
 
   getInfoByTokenValidacao$Response(params?: {
@@ -106,7 +106,7 @@ export class AuthService {
     );
   }
 
-  static readonly RefreshPath = 'http://localhost:8080/api/v1auth/refresh';
+  static readonly RefreshPath = 'http://localhost:8080/api/v1/auth/refresh';
 
   refresh$Response(params: {
                      refreshToken: string;
@@ -143,7 +143,7 @@ export class AuthService {
     );
   }
 
-  static readonly GetInfoByTokenPath = 'http://localhost:8080/api/v1auth/info';
+  static readonly GetInfoByTokenPath = 'http://localhost:8080/api/v1/auth/info';
 
   getInfoByToken$Response(params: {
 

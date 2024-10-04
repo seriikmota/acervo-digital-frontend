@@ -16,7 +16,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {SidnavComponent} from './sidnav/sidnav.component';
 import {MatListModule} from "@angular/material/list";
-import {provideHttpClient} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, provideHttpClient} from "@angular/common/http";
 import {provideRouter} from "@angular/router";
 import {AbstractService} from "./shared/abstract.service";
 import {MatCardModule} from "@angular/material/card";
@@ -27,9 +27,11 @@ import {ListItemsComponent} from './list-items/list-items.component';
 import {EditItemsComponent} from './edit-items/edit-items.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
-import {AuthenticationComponent} from './security/authentication/authentication.component';
 import {SecurityGuard} from "./security/security.guard";
 import {AuthenticationService} from "./security/authentication/authentication.service";
+import {SecurityModule} from "./security/security.module";
+import {AuthenticationModule} from "./security/authentication/authentication/authentication.module";
+import {SecurityInterceptor} from "./security/security.interceptor";
 
 
 @NgModule({
@@ -42,7 +44,6 @@ import {AuthenticationService} from "./security/authentication/authentication.se
     EditUserComponent,
     ListItemsComponent,
     EditItemsComponent,
-    AuthenticationComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,16 +61,27 @@ import {AuthenticationService} from "./security/authentication/authentication.se
     MatInputModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AuthenticationModule,
+    SecurityModule,//TODO conferir a configuração
+    SecurityModule.forRoot({
+      nameStorage: 'portalSSOSecurityStorage',
+      loginRouter: '/acesso/login'
+    }),
   ],
   providers: [
-    provideRouter(routes),
     provideHttpClient(),
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: {} },
     {provide: AbstractService, useValue: {}},
-    { provide: SecurityGuard, useClass: SecurityGuard },
+    { provide: SecurityGuard, useValue: {} },
     AuthenticationService,
+    SecurityGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SecurityInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })

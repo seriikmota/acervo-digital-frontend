@@ -31,20 +31,21 @@ export class AuthenticationComponent implements OnInit{
   createForm() {
     this.formGroup = this.formBuilder.group({
       login: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
-      senha: [null, Validators.required],
+      password: [null, Validators.required],
     });
   }
 
   ngOnInit(): void {
   }
 
-onSubmit(): void {
+  onSubmit(): void {
     if (this.formGroup.valid) {
       this.autenticationService.login(this.formGroup.value).subscribe(data => {
         const user: User = {
           id: data.id,
           name: data.nome,
           login: data.login,
+          password: data.password,
           expiresIn: data.expiresIn,
           accessToken: data.accessToken,
           refreshToken: data.refreshToken,
@@ -52,10 +53,11 @@ onSubmit(): void {
         };
 
         this.securityService.init(user);
-        this.router.navigate(['/']);
+
+        this.router.navigate(['items']);
       }, error => {
         console.log('erro', error);
-        this.showMessage("Erro ao acessar: "+ error.message);
+        this.showMessage("Erro ao acessar: " + error.message);
       });
     }
   }
