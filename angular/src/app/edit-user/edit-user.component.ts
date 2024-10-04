@@ -21,22 +21,44 @@ export class EditUserComponent implements OnInit{
     private dialogRefCurrent: MatDialogRef<any>
   ) {}
 
+  permissions: string[] = ['Admin', 'Assistant'];
+
   ngOnInit(): void {
+    // Inicializando o form vazio
     this.usuarioForm = this.formBuilder.group({
-      id: [this.data?.id || ''],
-      name: [this.data?.name || '', Validators.required],
-      email: [this.data?.email || '', [Validators.required, Validators.email]],
-      password: ['', this.data? [] : Validators.required],
-      confirmPassword: ['', this.data ? [] : Validators.required]
+      id: [''],
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+      function: ['', Validators.required],
+      login: ['', Validators.required],
+      enabled: [false, Validators.required]  // false como padrão
     }, {
       validator: this.passwordMatchValidator
     });
+
+    // Se há um ID, fazer a consulta e atualizar o form com patchValue
+    if (this.data?.id != null) {
+      this.userService.consultarPorId(this.data.id).subscribe(response => {
+        if (response) {
+          this.usuarioForm.patchValue(response);
+          console.log(response)
+
+          // Desabilitar campos de senha se for edição
+          this.usuarioForm.get('password')?.clearValidators();
+          this.usuarioForm.get('password')?.updateValueAndValidity();
+          this.usuarioForm.get('confirmPassword')?.clearValidators();
+          this.usuarioForm.get('confirmPassword')?.updateValueAndValidity();
+        }
+      });
+    }
   }
 
+// Validador de senha
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
-
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 

@@ -1,28 +1,38 @@
 import { lastValueFrom, Observable, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as myGlobals from './globals';
-import {Credential} from "../model/credential";
 
 export abstract class AbstractService<T> {
   protected url: string;
-  private _credential: Credential = new Credential;
 
   protected constructor(protected httpService: HttpClient, baseUrl: string) {
     this.url = `${myGlobals.API_URL}/${baseUrl}`;
-    console.log(this._credential)
   }
 
   listar(filtroObjeto: any, pageNumber: number, pageSize: number): Observable<any[]> {
     filtroObjeto.pageNumber = pageNumber;
     filtroObjeto.pageSize = pageSize;
 
-    return this.httpService.get<any[]>(this.url)
+    return this.httpService.get<any[]>(this.url,{
+      headers: this.createHeaders()
+    })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  consultarPorId(id:number): Observable<any[]> {
+    return this.httpService.get<any[]>(`${this.url}/${id}`,{
+      headers: this.createHeaders()
+    })
       .pipe(
         catchError(this.handleError)
       );
   }
 
   update(dado: any, id: number): Observable<T> {
+    console.log(dado)
     return this.httpService.put<T>(`${this.url}/${id}`, dado, {
       headers: this.createHeaders()
     })
@@ -75,6 +85,7 @@ export abstract class AbstractService<T> {
 
   private createHeaders(): HttpHeaders {
     const token = this.getToken();
+    console.log(token)
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'

@@ -31,13 +31,6 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="form-field">
-        <mat-label>Ano de Coleta</mat-label>
-        <input matInput formControlName="colleactionYear" placeholder="Ano de Coleta" required>
-        <mat-error *ngIf="itemsForm.get('colleactionYear')?.hasError('required')">
-          Ano de Coleta é obrigatório!
-        </mat-error>
-      </mat-form-field>
     </div>
 
     <div class="form-row">
@@ -98,12 +91,25 @@
         <mat-datepicker #herigatePicker>
         </mat-datepicker>
       </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Ano Coleta</mat-label>
+        <input matInput formControlName="colleactionYear" [matDatepicker]="colleactionYear" placeholder="Ano Coleta" required>
+        <mat-error *ngIf="itemsForm.get('colleactionYear')?.hasError('required')">
+          Data de Ano coleta é obrigatória!
+        </mat-error>
+        <mat-datepicker-toggle matIconSuffix [for]="colleactionYear"></mat-datepicker-toggle>
+        <mat-datepicker #colleactionYear>
+        </mat-datepicker>
+      </mat-form-field>
     </div>
 
-    <div class="form-row">
-      <label>Imagem do Item</label>
-      <input type="file" (change)="onFileSelected($event)" accept="image/*">
-    </div>
+
+
+<!--    <div class="form-row">-->
+<!--      <label>Imagem do Item</label>-->
+<!--      <input type="file" (change)="onFileSelected($event)" accept="image/*">-->
+<!--    </div>-->
 
     <div mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Fechar</button>

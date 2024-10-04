@@ -26,24 +26,36 @@ export class EditItemsComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    // Inicializando o formulário com valores padrão ou vazios
     this.itemsForm = this.formBuilder.group({
-      id: [this.data?.id || ''],
-      numberCode: [this.data?.number_code || ''],  // Atualizado para number_code
-      name: [this.data?.name || '', Validators.required],
-      heritageDate: [this.data?.heritage_date || '', Validators.required],  // Atualizado para heritage_date
-      taxonomy: [this.data?.taxonomy || '', Validators.required],
-      period: [this.data?.period || '', Validators.required],
-      provenance: [this.data?.provenance || '', Validators.required],
-      colleactionYear: [this.data?.colleaction_year || '', Validators.required],  // Atualizado para colleaction_year
-      collector: [this.data?.collector || '', Validators.required],
-      collection: [this.data?.collection || '', Validators.required],
-      location: [this.data?.location || '', Validators.required],
-      registerDate: [this.data?.register_date || '', Validators.required],  // Atualizado para register_date
-      status: [this.data?.status || null],  // Adicionado campo status
-      approval: [this.data?.approval || null],  // Adicionado campo approval
-      user: [this.data?.user || null]  // Adicionado campo user
+      id: [''],  // Inicializando vazio
+      numberCode: ['', Validators.required],  // Campo obrigatório
+      name: ['', Validators.required],
+      heritageDate: ['', Validators.required],
+      taxonomy: ['', Validators.required],
+      period: ['', Validators.required],
+      provenance: ['', Validators.required],
+      colleactionYear: ['', Validators.required],
+      collector: ['', Validators.required],
+      collection: ['', Validators.required],
+      location: ['', Validators.required],
+      registerDate: ['', Validators.required],
+      status: [null],  // Pode ser null por padrão
+      approval: [null],  // Pode ser null por padrão
+      user: [{id:1}]  // Pode ser null por padrão
     });
+
+    // Verifica se há um ID e faz a requisição
+    if (this.data?.id != null) {
+      this.itemsService.consultarPorId(this.data.id).subscribe(response => {
+        if (response) {
+          // Preenchendo o formulário com os dados retornados
+          this.itemsForm.patchValue(response);
+        }
+      });
+    }
   }
+
 
   onSubmit() {
     if (this.itemsForm!=null) {

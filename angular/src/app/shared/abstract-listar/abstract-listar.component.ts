@@ -61,7 +61,9 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
 
   incluir(): void {
     const dialogRef = this.dialog.open(this.getEditComponent(), {
-      width: '800px',
+      maxWidth: 'auto',
+      height: 'auto',
+      maxHeight: '90vh',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

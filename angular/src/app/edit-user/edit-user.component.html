@@ -1,8 +1,10 @@
-<h1 class="titulo">Cadastro de Assitente</h1>
+<h1 class="titulo">Cadastro de Assistente</h1>
 
 <mat-divider></mat-divider>
+
 <div class="form-container">
   <form [formGroup]="usuarioForm">
+    <!-- Primeira linha: Nome e Email -->
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Nome</mat-label>
@@ -11,6 +13,7 @@
           Nome é obrigatório!
         </mat-error>
       </mat-form-field>
+
       <mat-form-field class="form-field">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" placeholder="Email" type="email">
@@ -23,6 +26,18 @@
       </mat-form-field>
     </div>
 
+    <!-- Segunda linha: Login -->
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Login</mat-label>
+        <input matInput formControlName="login" placeholder="Login">
+        <mat-error *ngIf="usuarioForm.get('login')?.hasError('required')">
+          Login é obrigatório!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Terceira linha: Senha e Confirmar Senha -->
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Senha</mat-label>
@@ -48,6 +63,29 @@
       <button (click)="setActiveStatus(false)">Desativar Usuário</button>
       <button (click)="setActiveStatus(true)">Ativar Usuário</button>
     </div>
+
+    <!-- Quarta linha: Permissão -->
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Permissão</mat-label>
+        <mat-select formControlName="function" placeholder="Selecione a Permissão">
+          <mat-option *ngFor="let permission of permissions" [value]="permission">
+            {{ permission }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="usuarioForm.get('function')?.hasError('required')">
+          Permissão é obrigatória!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Quinta linha: Toggle Ativo -->
+    <div class="form-row">
+      <mat-slide-toggle formControlName="enabled">
+        Ativo
+      </mat-slide-toggle>
+    </div>
+
     <div mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Fechar</button>
       <button mat-button color="primary" type="submit" (click)="onSubmit()">
