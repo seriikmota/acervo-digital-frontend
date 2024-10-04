@@ -37,6 +37,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   listarDados(): void {
     this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
       next: (data) => {
+        console.log("List", data)
         this.dataSource.data = data
       },
     });

@@ -1,5 +1,5 @@
 <!-- Campo de filtro -->
-<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;" *ngIf="getnameComponent()=='items'">
+<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;" *ngIf="false">
   <mat-form-field style="flex-grow: 1; max-width: 400px;">
     <input matInput [(ngModel)]="filtro" placeholder="Pesquisar" />
     <button mat-icon-button *ngIf="filtro" matSuffix (click)="clearFilter()">
@@ -45,7 +45,7 @@
       <!-- Botões de ação -->
       <div style="display: flex; justify-content: end; margin-top: 10px;">
         <button mat-raised-button style="background:#167362;color: white" class="button-incluir" (click)="incluir()">INCLUIR+</button>
-        <button mat-raised-button style="background:#731616;color: white" class="button-exportar" (click)="exportar()" *ngIf="getnameComponent()=='items'">EXPORTAR PDF</button>
+        <button mat-raised-button style="background:#731616;color: white" class="button-exportar" (click)="exportar()" *ngIf="false">EXPORTAR PDF</button>
       </div>
     </div>
   </mat-card-content>
