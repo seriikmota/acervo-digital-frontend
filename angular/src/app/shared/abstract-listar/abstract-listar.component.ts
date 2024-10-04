@@ -48,8 +48,8 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
 
   editar(element: any): void {
     const dialogRef = this.dialog.open(this.getEditComponent(), {
-      width: '100%',
-      maxWidth: '600px',
+      width: 'auto',
+      maxWidth: 'auto',
       height: 'auto',
       maxHeight: '90vh',
       data: element,

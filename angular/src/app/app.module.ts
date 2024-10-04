@@ -68,6 +68,7 @@ import {SecurityInterceptor} from "./security/security.interceptor";
       nameStorage: 'portalSSOSecurityStorage',
       loginRouter: '/acesso/login'
     }),
+    FormsModule,
   ],
   providers: [
     provideHttpClient(),

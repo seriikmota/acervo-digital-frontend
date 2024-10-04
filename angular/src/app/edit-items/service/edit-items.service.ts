@@ -8,6 +8,6 @@ import {HttpClient} from "@angular/common/http";
 export class EditItemsService extends AbstractService<any>{
 
   protected constructor(httpService: HttpClient) {
-    super(httpService,'?');
+    super(httpService,'item');
   }
 }
