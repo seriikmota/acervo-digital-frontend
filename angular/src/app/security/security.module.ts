@@ -1,6 +1,7 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {config, INITIAL_CONFIG, initialConfig, NEW_CONFIG, optionsConfig} from "../model/config";
+import {SecurityGuard} from "./security.guard";
 
 
 
@@ -28,7 +29,8 @@ export class SecurityModule {
           provide: config,
           useFactory: _configFactory,
           deps: [INITIAL_CONFIG, NEW_CONFIG]
-        }
+        },
+        SecurityGuard
       ]
     };
   }

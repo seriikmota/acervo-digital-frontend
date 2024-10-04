@@ -16,19 +16,19 @@ export class SecurityGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     let valid = false;
-    console.log('canActive');
+
     if (this.securityService.isValid()) {
       const roles = next.data['security'] ? next.data['security'].roles : [];
-
       if (this.securityService.hasRoles(roles)) {
         valid = true;
       } else {
         this.securityService.onForbidden.emit(this.securityService.credential);
-        this.router.navigate(['']);
+        this.router.navigate(['/acesso/login']);
       }
     } else {
-      this.router.navigate([this.config.loginRouter]);
+      this.router.navigate(['/acesso/login']);
     }
+
     return valid;
   }
 
