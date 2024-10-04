@@ -22,7 +22,7 @@ import {AbstractService} from "./shared/abstract.service";
 import {MatCardModule} from "@angular/material/card";
 import {EditUserComponent} from './edit-user/edit-user.component';
 import {MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ListItemsComponent} from './list-items/list-items.component';
 import {EditItemsComponent} from './edit-items/edit-items.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -30,6 +30,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {AuthenticationComponent} from './security/authentication/authentication.component';
 import {SecurityGuard} from "./security/security.guard";
 import {AuthenticationService} from "./security/authentication/authentication.service";
+import {SecurityService} from "./security/service/security.service";
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import {AuthenticationService} from "./security/authentication/authentication.se
     MatInputModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    FormsModule
   ],
   providers: [
     provideRouter(routes),
@@ -70,6 +72,7 @@ import {AuthenticationService} from "./security/authentication/authentication.se
     {provide: AbstractService, useValue: {}},
     { provide: SecurityGuard, useClass: SecurityGuard },
     AuthenticationService,
+    SecurityService
   ],
   bootstrap: [AppComponent]
 })

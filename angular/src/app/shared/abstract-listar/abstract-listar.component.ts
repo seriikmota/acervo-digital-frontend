@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, Directive, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Directive, Inject, OnInit, ViewChild} from '@angular/core';
 import {AbstractService} from "../abstract.service";
-import {MatTableDataSource, MatTableModule} from "@angular/material/table";
-import {MatPaginator, MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
 import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 
@@ -15,6 +15,8 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   pageNumber: number = 0;
   pageSize: number = 10;
   public dialogRef!: MatDialogRef<any>;
+  filtro: string = '';
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -31,6 +33,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   }
 
   protected abstract getColumnNamesMapping(): { [key: string]: string };
+
   listarDados(): void {
     this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
       next: (data) => {
@@ -40,6 +43,8 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   }
 
   abstract getEditComponent(): any;
+
+  abstract getnameComponent(): any;
 
   editar(element: any): void {
     const dialogRef = this.dialog.open(this.getEditComponent(), {
@@ -74,7 +79,15 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
         error: (error) =>  this.showMessage("Erro ao excluir:\n" + error.error)
       });
   }
-
+  exportar(): void {
+    this.service.exportar(this.filtroObjeto).subscribe({
+      next: (data) => {
+        let blob = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+        let url = window.URL.createObjectURL(blob);
+        window.open(url);
+      },
+    });
+  }
 
   onPageChange(event: any): void {
     this.pageSize = event.pageSize;
@@ -94,5 +107,18 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     });
   }
 
+  applyFilter() {
+    this.service.filter(this.filtro).subscribe({
+      next: (data) => {
+        this.dataSource.data = data
+      },
+    });
+  }
+
+  clearFilter() {
+    this.filtro = '';
+    this.listarDados()
+    this.applyFilter();
+  }
 
 }

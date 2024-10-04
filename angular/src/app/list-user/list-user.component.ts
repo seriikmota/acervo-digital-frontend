@@ -5,6 +5,8 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import * as tableGlobals from "../shared/abstract-listar/globals-table";
 import {EditUserComponent} from "../edit-user/edit-user.component";
 import { columnNamesMappingUser} from "../shared/abstract-listar/globals-table";
+import {ListItemsComponent} from "../list-items/list-items.component";
+import {EditItemsComponent} from "../edit-items/edit-items.component";
 
 @Component({
   selector: 'app-listagem-de-usuario',
@@ -27,6 +29,10 @@ export class ListUserComponent extends AbstractListarComponent {
 
   override getColumnNamesMapping() {
     return columnNamesMappingUser;
+  }
+
+  override getnameComponent(): any {
+    return "user";
   }
 
 }

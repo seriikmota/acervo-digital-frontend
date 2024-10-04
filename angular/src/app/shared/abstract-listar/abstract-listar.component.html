@@ -1,6 +1,22 @@
+<!-- Campo de filtro -->
+<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+  <mat-form-field style="flex-grow: 1; max-width: 400px;">
+    <input matInput [(ngModel)]="filtro" placeholder="Pesquisar" />
+    <button mat-icon-button *ngIf="filtro" matSuffix (click)="clearFilter()">
+      <mat-icon>clear</mat-icon>
+    </button>
+    <!-- Botão arredondado dentro do mat-form-field -->
+    <button mat-icon-button  matSuffix (click)="applyFilter()" style="border-radius: 20px; margin: 10px;">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
 <mat-card>
   <mat-card-content>
     <div style="align-items: end">
+
+      <!-- Tabela -->
       <table mat-table [dataSource]="dataSource">
         <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
           <th mat-header-cell *matHeaderCellDef>{{ columnNamesMapping[column] }}</th>
@@ -18,6 +34,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns.concat(['acao'])"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns.concat(['acao']);"></tr>
       </table>
+
+      <!-- Paginação -->
       <mat-paginator
         [pageSize]="pageSize"
         [pageSizeOptions]="[5, 10, 25, 100]"
@@ -25,8 +43,10 @@
         (page)="onPageChange($event)">
       </mat-paginator>
 
-      <div style="display: flex; justify-content: end">
+      <!-- Botões de ação -->
+      <div style="display: flex; justify-content: end; margin-top: 10px;">
         <button mat-raised-button style="background:#167362;color: white" class="button-incluir" (click)="incluir()">INCLUIR+</button>
+        <button mat-raised-button style="background:#731616;color: white" class="button-exportar" (click)="exportar()" *ngIf="getnameComponent()=='items'">EXPORTAR PDF</button>
       </div>
     </div>
   </mat-card-content>
