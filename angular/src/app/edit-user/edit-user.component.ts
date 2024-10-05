@@ -70,7 +70,7 @@ export class EditUserComponent implements OnInit{
             this.showMessage("Usuário atualizado com sucesso!");
           },
           error => {
-            this.showMessage("Erro ao atualizar:\n" + error.error);
+            this.showMessage("Erro ao atualizar:\n" + error.error.message);
           }
         );
       } else {
@@ -79,7 +79,7 @@ export class EditUserComponent implements OnInit{
             this.showMessage("Usuário salvo com sucesso!");
           },
           error => {
-            this.showMessage("Erro ao salvar:\n" + error.error());
+            this.showMessage("Erro ao salvar:\n" +  error.error.message);
           }
         );
       }
