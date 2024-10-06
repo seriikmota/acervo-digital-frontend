@@ -12,7 +12,7 @@ import {User} from "./model/user";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'angular';
   private dialogRef!: MatDialogRef<any>;
 
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit{
     private autenticationService: AuthenticationService,
     private securityService: SecurityService,
     private messageService: MessageService,
-  ){
+  ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.router.url === '/acesso/login') {
@@ -39,25 +39,38 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-
     this.securityService.onRefresh.subscribe((refreshToken: string) => {
+      const accessToken = localStorage.getItem('accessToken');
+      const storedRefreshToken = localStorage.getItem('refreshToken');
 
-      this.autenticationService.refresh(refreshToken).subscribe(data => {
-        const user: User = {
-          accessToken: data.accessToken,
-          expiresIn: data.expiresIn,
-          id: data.id,
-          login: data.login,
-          name: data.nome,
-          refreshToken: data.refreshToken,
-          roles: data.roles
-        };
-        this.securityService.init(user);
-      }, error => {
-        console.log(error);
-        this.showMessage(error);
-      });
+      if (accessToken && storedRefreshToken) {
+        this.autenticationService.refresh(storedRefreshToken).subscribe(data => {
+          const user: User = {
+            accessToken: data.accessToken,
+            expiresIn: data.expiresIn,
+            id: data.id,
+            login: data.login,
+            name: data.nome,
+            refreshToken: data.refreshToken,
+            roles: data.roles
+          };
+          this.securityService.init(user);
+          this.autenticationService.scheduleTokenRefresh(user.refreshToken, user.expiresIn);
+        }, error => {
+          if (error.error === "Token expirado!") {
+            console.error(error);
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            this.router.navigate(['/acesso/login']);
+          } else {
+            console.error(error);
+            this.showMessage(error);
+          }
+        });
+      } else {
+        console.warn("Usuário não autenticado. Não é possível realizar refresh.");
+        this.router.navigate(['/acesso/login']);
+      }
     });
 
     this.securityService.onForbidden.subscribe(() => {
@@ -70,10 +83,12 @@ export class AppComponent implements OnInit{
       this.router.navigate(['/']);
       this.securityService.invalidate();
     });
+
     this.securityService.init();
 
+
     this.messageService.getConfirmEmitter().subscribe((item: string) => this.addConfirmItem(item));
-    }
+  }
 
   private addConfirmItem(item: string): void {
     this.dialog.open(DialogMessageOkComponent, {

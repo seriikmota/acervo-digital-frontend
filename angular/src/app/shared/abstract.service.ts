@@ -32,7 +32,6 @@ export abstract class AbstractService<T> {
   }
 
   update(dado: any, id: number): Observable<T> {
-    console.log(dado)
     return this.httpService.put<T>(`${this.url}/${id}`, dado, {
       headers: this.createHeaders()
     })
@@ -85,7 +84,6 @@ export abstract class AbstractService<T> {
 
   private createHeaders(): HttpHeaders {
     const token = this.getToken();
-    console.log(token)
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
