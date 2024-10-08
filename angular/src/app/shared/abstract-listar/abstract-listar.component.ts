@@ -104,7 +104,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
         this.showMessage("Registro não encontrado")
 
       },
-      error: (error) =>  this.showMessage(""+error.error)
+      error: (error) =>  this.showMessage(""+error)
     });
   }
 

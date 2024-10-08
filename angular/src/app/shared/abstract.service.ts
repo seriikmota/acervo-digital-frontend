@@ -78,8 +78,7 @@ export abstract class AbstractService<T> {
   }
 
   protected handleError(error: any): Observable<never> {
-    console.error('Ocorreu um erro:', error);
-    return throwError(() => new Error('Ocorreu um erro, por favor tente novamente.'));
+    return throwError(() => new Error(error.error));
   }
 
   private createHeaders(): HttpHeaders {
