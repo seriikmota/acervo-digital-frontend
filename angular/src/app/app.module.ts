@@ -34,6 +34,7 @@ import {AuthenticationModule} from "./security/authentication/authentication/aut
 import {SecurityInterceptor} from "./security/security.interceptor";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { ListLogComponent } from './list-log/list-log.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     EditUserComponent,
     ListItemsComponent,
     EditItemsComponent,
+    ListLogComponent,
   ],
   imports: [
     BrowserModule,
