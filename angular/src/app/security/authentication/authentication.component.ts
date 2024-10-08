@@ -57,7 +57,7 @@ export class AuthenticationComponent implements OnInit{
         this.router.navigate(['items']);
       }, error => {
         console.log('erro', error);
-        this.showMessage("Erro ao acessar: " + error.message);
+        this.showMessage("Erro ao acessar: " + error.error);
       });
     }
   }

@@ -68,7 +68,7 @@ export class EditItemsComponent implements OnInit{
           ,
           error => {
             console.log(error.header)
-            this.showMessage("Erro ao atualizar:\n" + error.error.message);
+            this.showMessage("Erro ao atualizar:\n" + error.error);
           }
         );
       } else {
@@ -77,7 +77,7 @@ export class EditItemsComponent implements OnInit{
             this.showMessage("Item salvo com sucesso!");
           },
           error => {
-            this.showMessage("Erro ao salvar:\n" + error.error.message);
+            this.showMessage("Erro ao salvar:\n" + error.error);
           }
         );
       }

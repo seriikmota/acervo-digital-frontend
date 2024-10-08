@@ -95,6 +95,25 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     this.pageNumber = event.pageIndex;
     this.listarDados();
   }
+  applyFilter() {
+    this.service.filter(this.filtro).subscribe({
+      next: (data) => {
+        if (data!=null && data!=undefined) {
+          this.dataSource.data = data
+        }
+        this.showMessage("Registro não encontrado")
+
+      },
+      error: (error) =>  this.showMessage(""+error.error)
+    });
+  }
+
+  clearFilter() {
+    this.filtro = '';
+    this.listarDados()
+    this.applyFilter();
+  }
+
   private showMessage(message: string) {
     this.dialogRef = this.dialog.open(DialogMessageOkComponent, {
       minWidth: "200px",
@@ -106,20 +125,6 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
       this.dialogRefCurrent.close();
       this.listarDados()
     });
-  }
-
-  applyFilter() {
-    this.service.filter(this.filtro).subscribe({
-      next: (data) => {
-        this.dataSource.data = data
-      },
-    });
-  }
-
-  clearFilter() {
-    this.filtro = '';
-    this.listarDados()
-    this.applyFilter();
   }
 
 }

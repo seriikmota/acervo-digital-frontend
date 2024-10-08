@@ -50,8 +50,8 @@ export abstract class AbstractService<T> {
       );
   }
 
-  filter(dado: any): Observable<any> {
-    return this.httpService.get<any>(`${this.url}/search`, {
+  filter(dado: string): Observable<any> {
+    return this.httpService.get<any>(`${this.url}/search/${dado}`, {
       headers: this.createHeaders()
     })
       .pipe(

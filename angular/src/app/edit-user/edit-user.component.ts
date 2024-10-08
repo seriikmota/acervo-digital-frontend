@@ -33,7 +33,7 @@ export class EditUserComponent implements OnInit{
       confirmPassword: ['', Validators.required],
       function: ['', Validators.required],
       login: ['', Validators.required],
-      enabled: [false, Validators.required]  // false como padrão
+      enabled: [this.data?.enabled || false, Validators.required]
     }, {
       validator: this.passwordMatchValidator
     });
@@ -43,7 +43,6 @@ export class EditUserComponent implements OnInit{
       this.userService.consultarPorId(this.data.id).subscribe(response => {
         if (response) {
           this.usuarioForm.patchValue(response);
-          console.log(response)
 
           // Desabilitar campos de senha se for edição
           this.usuarioForm.get('password')?.clearValidators();
@@ -63,14 +62,21 @@ export class EditUserComponent implements OnInit{
   }
 
   onSubmit() {
-    if (this.usuarioForm!=null) {
+    if (this.usuarioForm != null) {
+      console.log(this.usuarioForm)
+
+      if (!this.usuarioForm.get('password')?.value && this.usuarioForm.get('id')?.value) {
+        this.usuarioForm.get('password')?.setValue(this.data.password);
+        this.usuarioForm.get('confirmPassword')?.setValue(this.data.password);
+      }
+
       if (this.usuarioForm.get('id')?.value) {
         this.userService.update(this.usuarioForm.value, this.usuarioForm.get('id')?.value).subscribe(
           response => {
             this.showMessage("Usuário atualizado com sucesso!");
           },
           error => {
-            this.showMessage("Erro ao atualizar:\n" + error.error.message);
+            this.showMessage("Erro ao atualizar:\n" + error.error);
           }
         );
       } else {
@@ -79,7 +85,7 @@ export class EditUserComponent implements OnInit{
             this.showMessage("Usuário salvo com sucesso!");
           },
           error => {
-            this.showMessage("Erro ao salvar:\n" +  error.error.message);
+            this.showMessage("Erro ao salvar:\n" + error.error);
           }
         );
       }
@@ -87,6 +93,7 @@ export class EditUserComponent implements OnInit{
       console.error("Formulário inválido. Por favor, preencha todos os campos obrigatórios.");
     }
   }
+
 
   private showMessage(message: string) {
     this.dialogRef = this.dialog.open(DialogMessageOkComponent, {

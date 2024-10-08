@@ -25,7 +25,6 @@ export class SecurityService {
   }
 
   public init(user?: User): void {
-    console.log('security.service', user);
     this.credential.init(user);
 
     if (user) {
