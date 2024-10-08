@@ -81,7 +81,7 @@ export abstract class AbstractService<T> {
     return throwError(() => new Error(error.error));
   }
 
-  private createHeaders(): HttpHeaders {
+  protected createHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,

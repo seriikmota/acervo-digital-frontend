@@ -17,3 +17,14 @@ export const columnNamesMappingItems = {
   period: 'Periodo',
   location: 'Localização',
 };
+
+//log
+  export const displayedColumnsLog: string[] = ['id', 'name', 'login', 'action', 'date'];
+  export const columnNamesMappingLog = {
+    id: 'Código',
+    name: 'Nome',
+    login: 'Login',
+    action: 'Ação',
+    date: 'Data',
+  };
+
