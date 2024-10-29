@@ -16,7 +16,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {SidnavComponent} from './sidnav/sidnav.component';
 import {MatListModule} from "@angular/material/list";
-import {HTTP_INTERCEPTORS, provideHttpClient} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient } from "@angular/common/http";
 import {provideRouter} from "@angular/router";
 import {AbstractService} from "./shared/abstract.service";
 import {MatCardModule} from "@angular/material/card";
