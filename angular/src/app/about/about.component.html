@@ -1,0 +1,40 @@
+<mat-card>
+  <mat-card-content style="display: flex; flex-direction: column; align-content: center">
+    <h1>Aplicação LAPAGEO - UEG 2024</h1>
+    <section style="padding: 10px; border-bottom: 1px solid #ddd;">
+      <p>Esta aplicação foi desenvolvida como componente de avaliação para as disciplinas de Programação Web 2 e Construção de Software, sobre a tutoria,
+      respectivamente, dos professores Guiliano Rangel e Hellen de Castro, do curso de Sistemas de Informação da Universidade Estadual de Goiás, sob as restrições
+        de código livre, dada a natureza didática do projeto.
+      A documentação do projeto pode ser encontrada <a href="teste">aqui</a>.</p>
+      <ul>
+        <li>Desenvolvido em Java com Spring no backend.</li>
+        <li>Desenvolvido em TypeScript com Angular no backend.</li>
+        <li>Versão do projeto: xx.xx</li>
+        <li>Última atualização: xx/xx/xxxx</li>
+      </ul>
+      <h1>Desenvolvido por: </h1>
+      <div style="display: flex; flex-direction: row;">
+        <div  style="flex-direction: column">
+          <section class="creator" *ngFor="let creator of creatorsColumn1">
+            <ul>
+              <li>{{ creator.name }}</li>
+              <li>Email: {{ creator.email }}</li>
+              <li>Telefone: {{ creator.phone }}</li>
+              <li><a href="{{creator.git}}">GitHub</a></li>
+            </ul>
+          </section>
+        </div>
+        <div  style="flex-direction: column">
+          <section class="creator" *ngFor="let creator of creatorsColumn2">
+            <ul>
+              <li>{{ creator.name }}</li>
+              <li>Email: {{ creator.email }}</li>
+              <li>Telefone: {{ creator.phone }}</li>
+              <li><a href="{{creator.git}}">GitHub</a></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+  </mat-card-content>
+</mat-card>
