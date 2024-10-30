@@ -30,6 +30,13 @@
           Coletor é obrigatório!
         </mat-error>
       </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Taxonomia</mat-label>
+        <input matInput formControlName="taxonomy" placeholder="Taxonomia" required>
+        <mat-error *ngIf="itemsForm.get('taxonomy')?.hasError('required')">
+          Taxonomia é obrigatória!
+        </mat-error>
+      </mat-form-field>
 
     </div>
 
@@ -103,13 +110,19 @@
         </mat-datepicker>
       </mat-form-field>
     </div>
-
-
-
-<!--    <div class="form-row">-->
-<!--      <label>Imagem do Item</label>-->
-<!--      <input type="file" (change)="onFileSelected($event)" accept="image/*">-->
-<!--    </div>-->
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Descrição</mat-label>
+        <input matInput formControlName="description" placeholder="Descrição" required>
+        <mat-error *ngIf="itemsForm.get('description')?.hasError('required')">
+          Descrição é obrigatória!
+        </mat-error>
+      </mat-form-field>
+    </div>
+      <div class="form-row">
+       <label>Imagem do Item</label>
+       <input type="file" (change)="onFileSelected($event)" accept="image/*">
+      </div>
 
     <div mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Fechar</button>
