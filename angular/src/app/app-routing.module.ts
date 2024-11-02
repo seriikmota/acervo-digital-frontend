@@ -5,6 +5,7 @@ import {ListItemsComponent} from "./list-items/list-items.component";
 import {ListLogComponent} from "./list-log/list-log.component";
 import {SecurityGuard} from "./architecture/security/security.guard";
 import {authenticationRoute} from "./architecture/authentication/authentication-routing.module";
+import {AboutComponent} from "./about/about.component";
 
 export const routes: Routes = [
   {
@@ -46,6 +47,27 @@ export const routes: Routes = [
         path: 'user',
         component: ListUserComponent,
         canActivate: [SecurityGuard], // Protege esta rota
+        data: {
+          security: {
+            roles: [
+              'ROLE_USER_CREATE',
+              'ROLE_USER_READ',
+              'ROLE_USER_UPDATE',
+              'ROLE_USER_DELETE',
+              'ROLE_USER_LISTALL',
+              'ROLE_ITEM_CREATE',
+              'ROLE_ITEM_READ',
+              'ROLE_ITEM_UPDATE',
+              'ROLE_ITEM_DELETE',
+              'ROLE_ITEM_LISTALL'
+            ]
+          }
+        }
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
+        canActivate: [SecurityGuard],
         data: {
           security: {
             roles: [
