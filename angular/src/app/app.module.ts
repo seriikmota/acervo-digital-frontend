@@ -16,6 +16,7 @@ import {ListUserComponent} from "./list-user/list-user.component";
 import {DialogMessageOkComponent} from "./core/dialog-message-ok/dialog-message-ok.component";
 import {DialogMessageConfirmComponent} from "./core/dialog-message-confirm/dialog-message-confirm.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { AboutComponent } from './about/about.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ListItemsComponent,
     EditItemsComponent,
     ListLogComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
