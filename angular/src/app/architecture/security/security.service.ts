@@ -1,11 +1,14 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { User } from "../../model/user";
-import { Credential } from "../../model/credential";
 
-@Injectable({
-  providedIn: 'root'
-})
+import { Injectable, EventEmitter, Inject } from '@angular/core';
+
+import { config, IConfig } from './config';
+import { Credential } from './credential';
+import {User} from './User';
+
+
+@Injectable()
 export class SecurityService {
+  public securityConfig: IConfig;
 
   private intervalId: any;
 
@@ -17,20 +20,21 @@ export class SecurityService {
 
   public onUnauthorized: EventEmitter<Credential>;
 
-  constructor() {
-    this._credential = new Credential();
+
+  constructor(@Inject(config) config: IConfig) {
+    this.securityConfig = config;
+    this._credential = new Credential(config);
     this.onRefresh = new EventEmitter<string>();
     this.onForbidden = new EventEmitter<Credential>();
     this.onUnauthorized = new EventEmitter<Credential>();
   }
 
   public init(user?: User): void {
+    console.log('security.service', user);
     this.credential.init(user);
 
     if (user) {
       const expiresIn = (user.expiresIn - 60) * 1000;
-
-      localStorage.setItem('userToken', user.accessToken);
       this.intervalId = setInterval(() => {
         clearInterval(this.intervalId);
         this.onRefresh.emit(this._credential.refreshToken);
@@ -42,24 +46,38 @@ export class SecurityService {
     }
   }
 
-  public getUserRoles(): string[] {
-    return this._credential.user?.roles || [];
-  }
-
+  /**
+   * Verifica se o Usuário possui o 'role' informado em sua credencial de acesso.
+   *
+   * @param roles
+   */
   public hasRoles(roles: string | string[]): boolean {
     let valid = false;
 
+    // Credencial deve ser 'true'.
     if (this.isValid()) {
-      if (roles && roles.length > 0) {
-        const userRoles = this.getUserRoles(); // Utilize o novo método para obter as roles
 
+      // Caso 'undefined' ou 'null' retorno será 'true'.
+      if (roles && roles.length > 0) {
+        const userRoles = this.credential.user?.roles;
+
+        // Caso o usuário ativo não possua 'roles' o retorno será 'false'.
         if (userRoles) {
+
+          // O atributo 'role' pode ser 'string' ou 'array'.
           if (typeof roles === 'string') {
-            valid = userRoles.includes(roles);
+            valid = userRoles.filter((userRole: string) => {
+              return userRole === roles;
+            }).length !== 0;
           } else {
+            // tslint:disable-next-line:prefer-for-of
             for (let index = 0; index < roles.length; index++) {
               const role = roles[index];
-              if (userRoles.includes(role)) {
+
+              const count = userRoles.filter((userRole: string) => {
+                return userRole === role;
+              }).length;
+              if (count > 0) {
                 valid = true;
                 break;
               }
@@ -73,15 +91,20 @@ export class SecurityService {
     return valid;
   }
 
+
   public invalidate(): void {
     this._credential.clean();
     clearInterval(this.intervalId);
   }
 
   public isValid(): boolean {
+    console.log("isValid(),",this._credential);
     return this._credential.user !== undefined;
   }
 
+  /**
+   * @returns credential
+   */
   public get credential(): Credential {
     return this._credential;
   }

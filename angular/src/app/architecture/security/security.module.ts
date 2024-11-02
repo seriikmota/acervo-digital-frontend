@@ -1,15 +1,25 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {config, INITIAL_CONFIG, initialConfig, NEW_CONFIG, optionsConfig} from "../model/config";
-import {SecurityGuard} from "./security.guard";
+/* tslint:disable:ban-types */
+import { RouterModule } from '@angular/router';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
+import { SecurityGuard } from './security.guard';
+import { SecurityService } from './security.service';
+import { config, INITIAL_CONFIG, initialConfig, NEW_CONFIG, optionsConfig } from './config';
 
-
+/**
+ * Modulo responsável por encapsular os mecanismos de 'Segurança' necessários na aplicação.
+ *
+ * @author Guiliano Rangel (UEG)
+ */
 @NgModule({
-  declarations: [],
   imports: [
-    CommonModule
-  ]
+    RouterModule
+  ],
+  providers: [
+    SecurityGuard,
+    SecurityService
+  ],
+  declarations: []
 })
 export class SecurityModule {
 
@@ -29,8 +39,7 @@ export class SecurityModule {
           provide: config,
           useFactory: _configFactory,
           deps: [INITIAL_CONFIG, NEW_CONFIG]
-        },
-        SecurityGuard
+        }
       ]
     };
   }

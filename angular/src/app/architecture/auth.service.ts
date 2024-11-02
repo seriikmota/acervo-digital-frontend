@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import { HttpClient, HttpContext, HttpResponse } from "@angular/common/http";
+import {HttpClient, HttpContext, HttpResponse} from "@angular/common/http";
 import {filter, map, Observable} from "rxjs";
-import {CredencialDto} from "../../model/credencial-dto";
-import {AuthDto} from "../../model/auth";
-import {StrictHttpResponse} from "../../model/strict-http-response";
-import {RequestBuilder} from "../../model/request-builder";
-import {User} from "../../model/user";
+import {AuthDto} from "../model/auth";
+import {StrictHttpResponse} from "../model/strict-http-response";
+import {CredencialDto} from "../model/credencial-dto";
+import {RequestBuilder} from "../model/request-builder";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   constructor(
     protected http: HttpClient
   ) { }
@@ -63,4 +63,3 @@ export class AuthService {
     return this.refresh$Response(params, context).pipe(map((r: StrictHttpResponse<Array<CredencialDto>>) => r.body as Array<CredencialDto>));
   }
 }
-

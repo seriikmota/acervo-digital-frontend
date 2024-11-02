@@ -1,17 +1,35 @@
-import { Injectable } from '@angular/core';
+/* tslint:disable:no-redundant-jsdoc callable-types no-shadowed-variable */
+/* tslint:disable:variable-name */
+import {Injectable} from '@angular/core';
+import { catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
-import {catchError, Observable, throwError} from 'rxjs';
-import {SecurityService} from "./service/security.service";
 
+import { SecurityService } from './security.service';
+
+/**
+ * Implementação responsável por interceptar as requisições Http.
+ */
 @Injectable()
 export class SecurityInterceptor implements HttpInterceptor {
 
-
+  /**
+   * Construtor da classe.
+   *
+   * @param securityService
+   */
   constructor(
     private securityService: SecurityService
-  ) { }
+    ) { console.log("Security Interceptor"); }
 
+  /**
+   * Método responsável por interceptar a requisição Http.
+   *
+   * @param request
+   * @param next
+   */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log("Intercept", request.url);
     if (this.securityService.isValid()) {
       request = request.clone({
         setHeaders: {
