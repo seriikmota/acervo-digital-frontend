@@ -42,9 +42,36 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   listarDados(): void {
     this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
       next: (data) => {
-        this.dataSource.data = data
+        this.dataSource.data = data.map((item: any) => {
+          // Itera sobre cada propriedade do item
+          for (const key in item) {
+            if (Object.prototype.hasOwnProperty.call(item, key)) {
+              const value = item[key];
+              // Verifica se o nome do campo contém "date" e formata se for uma data válida
+              if (key.toLowerCase().includes('date') && this.isValidDate(value)) {
+                item[key] = this.formatDate(value);
+              }
+            }
+          }
+          return item;
+        });
       },
     });
+  }
+
+// Função para verificar se um valor é uma data válida
+  isValidDate(value: any): boolean {
+    return !isNaN(Date.parse(value));
+  }
+
+// Função para formatar a data
+  formatDate(date: any): string {
+    const parsedDate = new Date(date);
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }).format(parsedDate);
   }
 
   abstract getEditComponent(): any;
