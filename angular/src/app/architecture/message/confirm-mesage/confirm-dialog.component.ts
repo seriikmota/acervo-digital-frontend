@@ -22,7 +22,6 @@ export class ConfirmDialogComponent {
    * @param data
    */
   constructor(private dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) data: ConfirmationDialogData) {
-    console.log("data:", data);
     this.item = data.item;
   }
 

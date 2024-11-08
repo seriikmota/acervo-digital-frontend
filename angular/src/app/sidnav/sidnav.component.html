@@ -1,6 +1,6 @@
 <div class="sidenav-container"> <!-- Contêiner para o fundo -->
   <mat-nav-list>
-    <a mat-list-item routerLink='/user' routerLinkActive="active-link">
+    <a mat-list-item routerLink='/user' routerLinkActive="active-link" *ngIf="validaPermissoes()">
       <mat-icon>person</mat-icon>
       <span>Usuários</span>
     </a>
@@ -13,7 +13,7 @@
       <mat-icon>wallpaper</mat-icon>
       <span>Postagens</span>
     </a>
-    <a mat-list-item routerLink='/log' routerLinkActive="active-link">
+    <a mat-list-item routerLink='/log' routerLinkActive="active-link" *ngIf="validaPermissoes()">
       <mat-icon>history</mat-icon>
       <span>Histórico</span>
     </a>

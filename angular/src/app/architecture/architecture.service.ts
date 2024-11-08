@@ -95,7 +95,6 @@ export class ArchitectureService {
               this.securityService.init(user);
             },
             error: error => {
-              console.log(error);
               this.messageService.addMsgInf(error);
             }
           });

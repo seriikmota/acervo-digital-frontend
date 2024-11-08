@@ -6,8 +6,19 @@
     <span class="example-spacer"></span>
     <img src="assets/logo.png" class="img-logo">
     <span class="example-spacer"></span>
-    <mat-icon>person</mat-icon>
+
+    <!-- Ícone "person" com menu -->
+    <button mat-icon-button [matMenuTriggerFor]="personMenu">
+      <mat-icon>person</mat-icon>
+    </button>
   </mat-toolbar>
+
+  <!-- Definição do menu -->
+  <mat-menu #personMenu="matMenu">
+    <button mat-menu-item routerLink='/auth/login'>Login</button>
+    <button mat-menu-item>Sair</button>
+  </mat-menu>
+
   <mat-sidenav-container>
     <mat-sidenav opened mode="side" [style.width]="sidenavWidth()" >
       <app-sidnav [collapsed]="collapsed()"></app-sidnav>

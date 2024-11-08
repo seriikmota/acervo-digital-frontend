@@ -42,12 +42,10 @@ export class AuthenticationComponent {
             refreshToken: data.refreshToken ,
             roles: data.roles
           };
-          console.log(data)
           this.securityService.init(user);
-          this.router.navigate(['/']);
+          this.router.navigate(['/items']);
         },
         (error: any) => {
-          console.log('erro', error);
           alert(error);
           // }
         });

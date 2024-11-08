@@ -31,7 +31,6 @@ export class SecurityGuard implements CanActivate {
             }
         } else {
           this.securityService.onForbidden.emit(this.securityService.credential);
-          console.log("Credencial02 ",this.securityService.credential);
         }
         return valid;
     }

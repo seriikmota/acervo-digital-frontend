@@ -22,14 +22,7 @@ export class SecurityInterceptor implements HttpInterceptor {
     private securityService: SecurityService
     ) { console.log("Security Interceptor"); }
 
-  /**
-   * Método responsável por interceptar a requisição Http.
-   *
-   * @param request
-   * @param next
-   */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("Intercept", request.url);
     if (this.securityService.isValid()) {
       request = request.clone({
         setHeaders: {
@@ -37,18 +30,20 @@ export class SecurityInterceptor implements HttpInterceptor {
         }
       });
     }
-    return next.handle(request).pipe(catchError((response: HttpErrorResponse): Observable<HttpEvent<any>> => {
 
-      if (response.status === 401) {
-        console.log("401", response);
-        this.securityService.onUnauthorized.emit(this.securityService.credential);
-      }
+    return next.handle(request).pipe(
+      catchError((response: HttpErrorResponse): Observable<HttpEvent<any>> => {
+        if (response.status === 401) {
+          this.securityService.invalidate(); // Limpa o cache do usuário sem redirecionar
+          this.securityService.onUnauthorized.emit(this.securityService.credential);
+        }
 
-      if (response.status === 403) {
-        console.log("403", response);
-        this.securityService.onForbidden.emit(this.securityService.credential);
-      }
-      return throwError(response);
-    }));
+        if (response.status === 403) {
+          this.securityService.onForbidden.emit(this.securityService.credential);
+        }
+
+        return throwError(response);
+      })
+    );
   }
 }

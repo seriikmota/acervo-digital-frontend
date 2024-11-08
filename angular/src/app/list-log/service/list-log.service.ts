@@ -19,7 +19,6 @@ export class ListLogService extends AbstractService<any> {
 
     const url = `${myGlobals.API_URL}/user/getLogUsers`;
 
-    console.log(url);
 
     return this.httpService.get<any[]>(url, {
       headers: this.createHeaders()

@@ -19,14 +19,12 @@ export class LoaderInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (++this.requestCount === 1) {
       this.loaderService.onStart.emit();
-      console.log("LoaderInterceptor-start, count:"+this.requestCount);
     }
 
     //esse pipe, é disparado quando a requisição http retorna ou seja finaliza
     return next.handle(request).pipe(finalize(() => {
       if (--this.requestCount === 0) {
         this.loaderService.onStop.emit();
-        console.log("LoaderInterceptor-stop, count:"+this.requestCount);
       }
     }));
   }

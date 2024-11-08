@@ -1,9 +1,11 @@
-import {AfterViewInit, Directive, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Directive, inject, Inject, OnInit, ViewChild} from '@angular/core';
 import {AbstractService} from "../abstract.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {USER_ASSISTENT_ROLE, USER_ROLES} from "../roles";
+import {SecurityService} from "../../architecture/security/security.service";
 
 
 @Directive()
@@ -23,6 +25,9 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   public constructor(public service: AbstractService<any>,@Inject(MAT_DIALOG_DATA) public data: any,   public dialog: MatDialog, public dialogRefCurrent: MatDialogRef<any>) {
     this.columnNamesMapping = this.getColumnNamesMapping();
   }
+
+  protected securityService: SecurityService = inject(SecurityService);
+
 
   ngOnInit(): void {
     this.listarDados();
@@ -80,6 +85,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
         error: (error) =>  this.showMessage("Erro ao excluir:\n" + error.error)
       });
   }
+
   exportar(): void {
     this.service.exportar(this.filtroObjeto).subscribe({
       next: (data) => {
@@ -89,6 +95,15 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
       },
     });
   }
+
+  validaPermissoes(): boolean {
+    return this.securityService.hasRoles(USER_ASSISTENT_ROLE);
+  }
+
+  validaPermissoesUsuarioExterno(): boolean {
+    return this.securityService.hasRoles(USER_ASSISTENT_ROLE) || this.securityService.hasRoles(USER_ROLES);
+  }
+
 
   onPageChange(event: any): void {
     this.pageSize = event.pageSize;

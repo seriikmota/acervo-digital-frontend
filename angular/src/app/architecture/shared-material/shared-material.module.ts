@@ -18,11 +18,13 @@ import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatMenuModule} from "@angular/material/menu";
 
 
 @NgModule({
   declarations: [],
   imports: [
+    MatMenuModule,
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
@@ -59,6 +61,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatOptionModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatMenuModule
   ]
 })
-export class SharedMaterialModule { }
+export class SharedMaterialModule {
+}

@@ -95,16 +95,25 @@ export class SecurityService {
   public invalidate(): void {
     this._credential.clean();
     clearInterval(this.intervalId);
+    this.onUnauthorized.emit(this._credential);
   }
 
   public isValid(): boolean {
-    console.log("isValid(),",this._credential);
-    return this._credential.user !== undefined;
+    const user = this._credential.user;
+
+    // Verifica se há um usuário e se o token ainda é válido.
+    if (user && user.expiresIn) {
+      const currentTime = Math.floor(Date.now() / 1000); // Tempo atual em segundos
+      if (user.expiresIn > currentTime) {
+        return true;
+      }
+    }
+
+    // Token expirado ou usuário não autenticado, limpa cache
+    this.invalidate();
+    return false;
   }
 
-  /**
-   * @returns credential
-   */
   public get credential(): Credential {
     return this._credential;
   }

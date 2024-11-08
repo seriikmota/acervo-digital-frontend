@@ -6,12 +6,17 @@ import {ListLogComponent} from "./list-log/list-log.component";
 import {SecurityGuard} from "./architecture/security/security.guard";
 import {authenticationRoute} from "./architecture/authentication/authentication-routing.module";
 import {AboutComponent} from "./about/about.component";
+import * as roles from "../../src/app/shared/roles";
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'auth/login', // Redireciona para a tela de login inicialmente
-    pathMatch: 'full'
+    path: '', // Rota vazia redireciona para 'items'
+    redirectTo: 'items',
+    pathMatch: 'full',
+  },
+  {
+    path: 'items',
+    component: ListItemsComponent, // Componente para 'items'
   },
   {
     path: 'auth',
@@ -23,67 +28,18 @@ export const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'items',
-        component: ListItemsComponent,
-        canActivate: [SecurityGuard], // Protege esta rota
-        data: {
-          security: {
-            roles: [
-              'ROLE_USER_CREATE',
-              'ROLE_USER_READ',
-              'ROLE_USER_UPDATE',
-              'ROLE_USER_DELETE',
-              'ROLE_USER_LISTALL',
-              'ROLE_ITEM_CREATE',
-              'ROLE_ITEM_READ',
-              'ROLE_ITEM_UPDATE',
-              'ROLE_ITEM_DELETE',
-              'ROLE_ITEM_LISTALL'
-            ]
-          }
-        }
-      },
-      {
         path: 'user',
         component: ListUserComponent,
         canActivate: [SecurityGuard], // Protege esta rota
         data: {
           security: {
-            roles: [
-              'ROLE_USER_CREATE',
-              'ROLE_USER_READ',
-              'ROLE_USER_UPDATE',
-              'ROLE_USER_DELETE',
-              'ROLE_USER_LISTALL',
-              'ROLE_ITEM_CREATE',
-              'ROLE_ITEM_READ',
-              'ROLE_ITEM_UPDATE',
-              'ROLE_ITEM_DELETE',
-              'ROLE_ITEM_LISTALL'
-            ]
+            roles: roles.USER_ROLES
           }
         }
       },
       {
         path: 'about',
         component: AboutComponent,
-        canActivate: [SecurityGuard],
-        data: {
-          security: {
-            roles: [
-              'ROLE_USER_CREATE',
-              'ROLE_USER_READ',
-              'ROLE_USER_UPDATE',
-              'ROLE_USER_DELETE',
-              'ROLE_USER_LISTALL',
-              'ROLE_ITEM_CREATE',
-              'ROLE_ITEM_READ',
-              'ROLE_ITEM_UPDATE',
-              'ROLE_ITEM_DELETE',
-              'ROLE_ITEM_LISTALL'
-            ]
-          }
-        }
       },
       {
         path: 'log',
@@ -91,18 +47,7 @@ export const routes: Routes = [
         canActivate: [SecurityGuard], // Protege esta rota
         data: {
           security: {
-            roles: [
-              'ROLE_USER_CREATE',
-              'ROLE_USER_READ',
-              'ROLE_USER_UPDATE',
-              'ROLE_USER_DELETE',
-              'ROLE_USER_LISTALL',
-              'ROLE_ITEM_CREATE',
-              'ROLE_ITEM_READ',
-              'ROLE_ITEM_UPDATE',
-              'ROLE_ITEM_DELETE',
-              'ROLE_ITEM_LISTALL'
-            ]
+            roles: roles.USER_ROLES
           }
         }
       }

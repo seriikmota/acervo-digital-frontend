@@ -67,7 +67,6 @@ export class EditItemsComponent implements OnInit{
           }
           ,
           error => {
-            console.log(error.header)
             this.showMessage("Erro ao atualizar:\n" + error.error);
           }
         );

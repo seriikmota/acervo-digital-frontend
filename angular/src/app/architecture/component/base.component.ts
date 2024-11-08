@@ -21,7 +21,6 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
     this.crudAction = new CrudAction(this.route);
     this.crudActionService.onListChange.subscribe(value => {
       this.crudAction.setAction(this.route);
-      console.log("subscript-CrudActionService:", this.crudAction.labelAction);
       this.changeDetector.detectChanges();
     });
     this.navigationSubscription = this.router.events.subscribe(event => {
@@ -40,7 +39,6 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.crudAction.setAction(this.route);
-    console.log("CrudAction", this.crudAction.labelAction);
     this.crudActionService.onListChange.emit(this.crudAction);
   }
 
