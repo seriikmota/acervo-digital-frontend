@@ -4,7 +4,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {MessageModule} from "./architecture/message/message.module";
 import {SecurityModule} from "./architecture/security/security.module";
-import {environment} from "./environments/environment";
 import {SharedMaterialModule} from "./architecture/shared-material/shared-material.module";
 import {ArchitectureModule} from "./architecture/architecture.module";
 import {SidnavComponent} from "./sidnav/sidnav.component";
@@ -39,7 +38,7 @@ import { AboutComponent } from './about/about.component';
     ArchitectureModule,
     SharedMaterialModule,
     SecurityModule.forRoot({
-      nameStorage: environment.nameStorage,
+      nameStorage: 'portalSSOSecurityStorage',
       loginRouter: '/auth/login'
     }),
     MessageModule,

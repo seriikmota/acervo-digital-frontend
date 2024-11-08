@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, inject, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DialogMessageOkComponent} from "../core/dialog-message-ok/dialog-message-ok.component";
 import {EditItemsService} from "./service/edit-items.service";
 import { DateAdapter } from '@angular/material/core';
+import {SecurityService} from "../architecture/security/security.service";
 
 @Component({
   selector: 'app-edit-items',
@@ -24,6 +25,7 @@ export class EditItemsComponent implements OnInit{
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
+  protected securityService: SecurityService = inject(SecurityService);
 
   ngOnInit(): void {
     // Inicializando o formulário com valores padrão ou vazios
@@ -42,7 +44,7 @@ export class EditItemsComponent implements OnInit{
       registerDate: ['', Validators.required],
       status: [null],  // Pode ser null por padrão
       approval: [null],  // Pode ser null por padrão
-      user: [{id:1}]  // Pode ser null por padrão
+      user: [this.securityService.credential.user?.id]  // Pode ser null por padrão
     });
 
     // Verifica se há um ID e faz a requisição

@@ -30,7 +30,7 @@
               <button mat-flat-button (click)="editar(element)" style="background-color: #1976D2; color: white;" *ngIf="validaPermissoesUsuarioExterno()">Editar</button>
               <button mat-button (click)="excluir(element)" style="background-color: #D32F2F; color:white;" [disabled]="validaPermissoes()" *ngIf="validaPermissoesUsuarioExterno()">Excluir</button>
             </div>
-            <button mat-button (click)="exportar()" style="background-color: #388E3C; color:white;">Exportar</button>
+            <button mat-button (click)="exportar()" style="background-color: #388E3C; color:white;" *ngIf="getnameComponent() !== 'user'">Exportar</button>
           </td>
         </ng-container>
 
