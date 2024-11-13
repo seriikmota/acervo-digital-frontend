@@ -16,6 +16,7 @@ import {DialogMessageOkComponent} from "./core/dialog-message-ok/dialog-message-
 import {DialogMessageConfirmComponent} from "./core/dialog-message-confirm/dialog-message-confirm.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AboutComponent } from './about/about.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 
 @NgModule({
@@ -31,18 +32,19 @@ import { AboutComponent } from './about/about.component';
     ListLogComponent,
     AboutComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    ArchitectureModule,
-    SharedMaterialModule,
-    SecurityModule.forRoot({
-      nameStorage: 'portalSSOSecurityStorage',
-      loginRouter: '/auth/login'
-    }),
-    MessageModule,
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ArchitectureModule,
+        SharedMaterialModule,
+        SecurityModule.forRoot({
+            nameStorage: 'portalSSOSecurityStorage',
+            loginRouter: '/auth/login'
+        }),
+        MessageModule,
+        MatChipsModule,
+    ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
