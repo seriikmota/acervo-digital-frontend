@@ -1,5 +1,5 @@
-import { lastValueFrom, Observable, catchError, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {catchError, Observable, throwError} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import * as myGlobals from './globals';
 
 export abstract class AbstractService<T> {
@@ -68,13 +68,17 @@ export abstract class AbstractService<T> {
       );
   }
 
-  exportar(dado: any): Observable<any> {
-    return this.httpService.post<any>(`${this.url}/exportar`, dado, {
-      headers: this.createHeaders()
-    })
-      .pipe(
+  exportarPdf(id: any): Observable<any> {
+    let params = new HttpParams()
+      .set('id', id);
+
+    return this.httpService.get<any>(`${this.url}/pdf`, {
+      headers: this.createHeaders(),
+      params: params,
+      responseType: 'arraybuffer' as 'json',
+    }).pipe(
         catchError(this.handleError)
-      );
+    );
   }
 
   protected handleError(error: any): Observable<never> {

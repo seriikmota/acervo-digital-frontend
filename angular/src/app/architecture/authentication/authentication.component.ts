@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "./authentication.service";
 import {Router} from "@angular/router";
 import {User} from "../security/User";
 import {SecurityService} from "../security/security.service";
-import {CredencialDto} from "../../model/credencial-dto";
 
 @Component({
   selector: 'app-authentication',
@@ -43,7 +42,7 @@ export class AuthenticationComponent {
             roles: data.roles
           };
           this.securityService.init(user);
-          this.router.navigate(['/items']);
+          this.router.navigate(['/item']);
         },
         (error: any) => {
           alert(error);

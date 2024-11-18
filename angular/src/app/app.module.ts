@@ -7,16 +7,13 @@ import {SecurityModule} from "./architecture/security/security.module";
 import {SharedMaterialModule} from "./architecture/shared-material/shared-material.module";
 import {ArchitectureModule} from "./architecture/architecture.module";
 import {SidnavComponent} from "./sidnav/sidnav.component";
-import {ListLogComponent} from "./list-log/list-log.component";
-import {EditItemsComponent} from "./edit-items/edit-items.component";
-import {ListItemsComponent} from "./list-items/list-items.component";
-import {EditUserComponent} from "./edit-user/edit-user.component";
-import {ListUserComponent} from "./list-user/list-user.component";
 import {DialogMessageOkComponent} from "./core/dialog-message-ok/dialog-message-ok.component";
 import {DialogMessageConfirmComponent} from "./core/dialog-message-confirm/dialog-message-confirm.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { AboutComponent } from './about/about.component';
 import {MatChipsModule} from "@angular/material/chips";
+import {UserModule} from "./feature-user/user.module";
+import {ItemModule} from "./feature-item/item.module";
 
 
 @NgModule({
@@ -24,12 +21,7 @@ import {MatChipsModule} from "@angular/material/chips";
     AppComponent,
     DialogMessageConfirmComponent,
     DialogMessageOkComponent,
-    ListUserComponent,
     SidnavComponent,
-    EditUserComponent,
-    ListItemsComponent,
-    EditItemsComponent,
-    ListLogComponent,
     AboutComponent,
   ],
     imports: [
@@ -44,6 +36,8 @@ import {MatChipsModule} from "@angular/material/chips";
         }),
         MessageModule,
         MatChipsModule,
+        UserModule,
+        ItemModule,
     ],
   bootstrap: [AppComponent],
 })

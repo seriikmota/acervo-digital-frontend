@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MessageDialog, MessageItem, MessageService} from "./message/message.service";
 import {ConfirmDialogComponent} from "./message/confirm-mesage/confirm-dialog.component";
@@ -8,7 +8,6 @@ import {SecurityService} from "./security/security.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "./authentication/authentication.service";
 import {User} from "./security/User";
-import {IConfig} from "./security/config";
 //import {GenericDialogComponent} from "./message/generic-dialog/generic-dialog.component";
 
 @Injectable({
@@ -61,7 +60,7 @@ export class ArchitectureService {
         minWidth: '50px',
         minHeight: '50px',
         hasBackdrop: true,
-        disableClose: true
+        disableClose: true,
       });
     });
 
@@ -107,7 +106,7 @@ export class ArchitectureService {
 
     this.securityService.onUnauthorized.subscribe(() => {
       this.messageService.addMsgWarning("Não autorizado!");
-      // this.router.navigate(['/']);
+      this.router.navigate(['/']);
     });
   }
 }

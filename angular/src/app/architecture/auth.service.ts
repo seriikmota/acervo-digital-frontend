@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpContext, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpContext, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {filter, map, Observable} from "rxjs";
 import {AuthDto} from "../model/auth";
 import {StrictHttpResponse} from "../model/strict-http-response";
@@ -61,5 +61,17 @@ export class AuthService {
 
   refresh(params: { refreshToken: string }, context?: HttpContext): Observable<Array<CredencialDto>> {
     return this.refresh$Response(params, context).pipe(map((r: StrictHttpResponse<Array<CredencialDto>>) => r.body as Array<CredencialDto>));
+  }
+
+  static readonly LogoutPath: string = 'http://localhost:8080/api/v1/auth/logout';
+
+  logout(token: string): Observable<any> {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+
+    return this.http.get<any>(AuthService.LogoutPath,{
+      headers: headers,
+    });
   }
 }

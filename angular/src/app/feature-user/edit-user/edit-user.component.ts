@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DialogMessageOkComponent} from "../core/dialog-message-ok/dialog-message-ok.component";
+import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {EditUserService} from "./service/edit-user.service";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-edit-user',
@@ -16,7 +16,7 @@ export class EditUserComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userService: EditUserService,
+    private userService: UserService,
     private dialog: MatDialog,
     private dialogRefCurrent: MatDialogRef<any>
   ) {}

@@ -1,10 +1,10 @@
 import {Component, inject, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {DialogMessageOkComponent} from "../core/dialog-message-ok/dialog-message-ok.component";
-import {EditItemsService} from "./service/edit-items.service";
+import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
 import { DateAdapter } from '@angular/material/core';
-import {SecurityService} from "../architecture/security/security.service";
+import {SecurityService} from "../../architecture/security/security.service";
+import {ItemService} from "../item.service";
 
 @Component({
   selector: 'app-edit-items',
@@ -18,7 +18,7 @@ export class EditItemsComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private itemsService: EditItemsService,
+    private itemsService: ItemService,
     private dialog: MatDialog,
     private dialogRefCurrent: MatDialogRef<any>,
     private dateAdapter: DateAdapter<Date>,

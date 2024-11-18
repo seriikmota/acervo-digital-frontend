@@ -1,9 +1,9 @@
+import {EventEmitter, Inject, Injectable} from '@angular/core';
 
-import { Injectable, EventEmitter, Inject } from '@angular/core';
-
-import { config, IConfig } from './config';
-import { Credential } from './credential';
+import {IConfig} from './config';
+import {Credential} from './credential';
 import {User} from './User';
+import {AuthService} from "../auth.service";
 
 
 @Injectable()
@@ -20,18 +20,24 @@ export class SecurityService {
 
   public onUnauthorized: EventEmitter<Credential>;
 
+  public onUpdateUser: EventEmitter<User | undefined>;
+  public onUpdateMenu: EventEmitter<undefined>;
 
-  constructor(@Inject(config) config: IConfig) {
+  constructor(@Inject(config) config: IConfig, private authService: AuthService) {
     this.securityConfig = config;
     this._credential = new Credential(config);
     this.onRefresh = new EventEmitter<string>();
     this.onForbidden = new EventEmitter<Credential>();
     this.onUnauthorized = new EventEmitter<Credential>();
+    this.onUpdateUser = new EventEmitter<User | undefined>();
+    this.onUpdateMenu = new EventEmitter<undefined>();
   }
 
   public init(user?: User): void {
     console.log('security.service', user);
     this.credential.init(user);
+    this.onUpdateMenu.emit();
+    this.onUpdateUser.emit(this._credential.user);
 
     if (user) {
       const expiresIn = (user.expiresIn - 60) * 1000;
@@ -91,6 +97,15 @@ export class SecurityService {
     return valid;
   }
 
+  public logout(): void {
+    this.authService.logout(this._credential.accessToken).subscribe({
+      next: () => {
+        this.invalidate();
+        this.onUpdateUser.emit(undefined);
+        this.onUpdateMenu.emit(undefined);
+      }
+    });
+  }
 
   public invalidate(): void {
     this._credential.clean();
