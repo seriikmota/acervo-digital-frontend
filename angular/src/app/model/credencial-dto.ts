@@ -1,22 +1,12 @@
 export interface CredencialDto {
-
-  accessToken: string;
-
-  email: string;
-
-  expiresIn: number;
-
   id: number;
-
-  login: string;
-
   name: string;
-
-  refreshExpiresIn: number;
-
-  refreshToken: string;
-
+  login: string;
+  email: string;
   roles: Array<string>;
-
+  accessToken: string;
+  expiresIn: number;
+  refreshToken: string;
+  refreshExpiresIn: number;
   statusAtivo: boolean;
 }

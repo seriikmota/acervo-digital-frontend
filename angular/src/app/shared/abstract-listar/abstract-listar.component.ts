@@ -2,9 +2,10 @@ import {AfterViewInit, Directive, inject, Inject, OnInit, ViewChild} from '@angu
 import {AbstractService} from "../abstract.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
-import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {SecurityService} from "../../architecture/security/security.service";
+import {NotificationsService} from "angular2-notifications";
+import {MessageService} from "../../architecture/message/message.service";
 
 export type RoleConfig = {
   CREATE_ROLE?: string,
@@ -34,7 +35,12 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   permissionConfig: PermissionConfig;
 
-  public constructor(public service: AbstractService<any>,@Inject(MAT_DIALOG_DATA) public data: any,   public dialog: MatDialog, public dialogRefCurrent: MatDialogRef<any>) {
+  protected notificationsService: NotificationsService = inject(NotificationsService);
+  protected messageService: MessageService = inject(MessageService);
+
+  public constructor(public service: AbstractService<any>,
+                     @Inject(MAT_DIALOG_DATA) public data: any,
+                     public dialog: MatDialog, public dialogRefCurrent: MatDialogRef<any>) {
     this.columnNamesMapping = this.getColumnNamesMapping();
     this.permissionConfig = this.getPermissions();
   }
@@ -53,6 +59,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   protected abstract getColumnNamesMapping(): { [key: string]: string };
 
   listarDados(): void {
+    this.notificationsService.remove();
     this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
       next: (data) => {
         this.dataSource.data = data.map((item: any) => {
@@ -117,16 +124,19 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   }
 
   excluir(element: any): void {
+    this.notificationsService.remove();
+    this.messageService.addConfirmYesNo(`Você deseja excluir esse registro? Essa ação é irreversível!`,() => {
       this.service.excluir(element.id).subscribe({
         next: () => {
-          this.showMessage("Item excluido com sucesso!");
+          this.notificationsService.success("Registro excluido com sucesso!");
           this.listarDados()
-        },
-        error: (error) =>  this.showMessage("Erro ao excluir:\n" + error.error)
+        }
       });
+    });
   }
 
   exportarPdf(id: any): void {
+    this.notificationsService.remove();
     this.service.exportarPdf(id).subscribe({
       next: (data) => {
         let blob = new Blob([data], {type: 'application/pdf'});
@@ -141,16 +151,16 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     this.pageNumber = event.pageIndex;
     this.listarDados();
   }
+
   applyFilter() {
+    this.notificationsService.remove();
     this.service.filter(this.filtro).subscribe({
       next: (data) => {
-        if (data!=null && data!=undefined) {
+        if (data != null) {
           this.dataSource.data = data
         }
-        this.showMessage("Registro não encontrado")
-
-      },
-      error: (error) =>  this.showMessage(""+error)
+        this.notificationsService.error("Registro não encontrado")
+      }
     });
   }
 
@@ -158,19 +168,6 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     this.filtro = '';
     this.listarDados()
     this.applyFilter();
-  }
-
-  private showMessage(message: string) {
-    this.dialogRef = this.dialog.open(DialogMessageOkComponent, {
-      minWidth: "200px",
-      minHeight: "100px",
-      disableClose: true,
-      data: message,
-    });
-    this.dialogRef.afterClosed().subscribe(value => {
-      this.dialogRefCurrent.close();
-      this.listarDados()
-    });
   }
 
   abstract getRoles(): RoleConfig;

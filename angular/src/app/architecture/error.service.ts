@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Message, MessageService} from "./message/message.service";
-import {Observable, throwError} from "rxjs";
-import {HttpErrorResponse} from "@angular/common/http";
+import {Message, MessageResponse} from "./message/message.service";
+import {NotificationsService} from "angular2-notifications";
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +8,33 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class ErrorService {
   private _handleLocalError = false;
 
-  constructor(private messageService: MessageService) { }
+  constructor(private notificationsService: NotificationsService) { }
 
   public handleLocalError(){
     this._handleLocalError = true;
   }
 
-  handleGlobalError(error: Message): void {
+  handleGlobalError(messageResponse: MessageResponse): void {
     if(!this._handleLocalError){
-      console.error('Global Error Handler:', error);
       this._handleLocalError = false;
-      // Mostrar uma mensagem de erro global
-      this.messageService.addMsgWarning(error);
+      for (let message of messageResponse.messages) {
+        if (message.type === Message.ALERT_TYPE_INFO) {
+          this.notificationsService.info(message.message)
+        }
+        else if (message.type === Message.ALERT_TYPE_WARNING) {
+          this.notificationsService.warn(message.message)
+        }
+        else if (message.type === Message.ALERT_TYPE_ERROR) {
+          this.notificationsService.error(message.message)
+        }
+        else if (message.type === Message.ALERT_TYPE_SUCCESS) {
+          this.notificationsService.success(message.message)
+        } else {
+          this.notificationsService.error(message.message)
+        }
+      }
     } else {
       this._handleLocalError = false;
-      console.info('Global error handler ignored!');
     }
   }
 }

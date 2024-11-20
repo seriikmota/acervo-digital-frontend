@@ -14,6 +14,7 @@ import { AboutComponent } from './about/about.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {UserModule} from "./feature-user/user.module";
 import {ItemModule} from "./feature-item/item.module";
+import {SimpleNotificationsModule} from "angular2-notifications";
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import {ItemModule} from "./feature-item/item.module";
             nameStorage: 'portalSSOSecurityStorage',
             loginRouter: '/auth/login'
         }),
+        SimpleNotificationsModule.forRoot(),
         MessageModule,
         MatChipsModule,
         UserModule,

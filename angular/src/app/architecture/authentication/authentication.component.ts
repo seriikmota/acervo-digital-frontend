@@ -4,6 +4,8 @@ import {AuthenticationService} from "./authentication.service";
 import {Router} from "@angular/router";
 import {User} from "../security/User";
 import {SecurityService} from "../security/security.service";
+import {NotificationsService} from "angular2-notifications";
+import {CredencialDto} from "../../model/credencial-dto";
 
 @Component({
   selector: 'app-authentication',
@@ -18,7 +20,8 @@ export class AuthenticationComponent {
     private securityService: SecurityService,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private formBuilder: FormBuilder,) {
+    private formBuilder: FormBuilder,
+    private notificationsService: NotificationsService) {
     this.createForm();
   }
 
@@ -30,8 +33,9 @@ export class AuthenticationComponent {
   }
 
   public onSubmit(): void {
+    this.notificationsService.remove();
     if (this.formGroup.valid) {
-      this.authenticationService.login(this.formGroup.value).subscribe((data:any) => {
+      this.authenticationService.login(this.formGroup.value).subscribe((data:CredencialDto) => {
           const user: User = {
             id: data.id ,
             name: data.name ,
@@ -43,11 +47,7 @@ export class AuthenticationComponent {
           };
           this.securityService.init(user);
           this.router.navigate(['/item']);
-        },
-        (error: any) => {
-          alert(error);
-          // }
-        });
+        })
     }
   }
 

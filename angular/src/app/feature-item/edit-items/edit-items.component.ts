@@ -1,10 +1,10 @@
 import {Component, inject, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {DialogMessageOkComponent} from "../../core/dialog-message-ok/dialog-message-ok.component";
-import { DateAdapter } from '@angular/material/core';
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {DateAdapter} from '@angular/material/core';
 import {SecurityService} from "../../architecture/security/security.service";
 import {ItemService} from "../item.service";
+import {NotificationsService} from "angular2-notifications";
 
 @Component({
   selector: 'app-edit-items',
@@ -13,15 +13,13 @@ import {ItemService} from "../item.service";
 })
 export class EditItemsComponent implements OnInit{
   itemsForm!: FormGroup;
-  private dialogRef!: MatDialogRef<any>;
 
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private itemsService: ItemService,
-    private dialog: MatDialog,
-    private dialogRefCurrent: MatDialogRef<any>,
     private dateAdapter: DateAdapter<Date>,
+    private notificationsService: NotificationsService,
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
@@ -64,39 +62,19 @@ export class EditItemsComponent implements OnInit{
       if (this.itemsForm.get('id')?.value) {
         this.itemsService.update(this.itemsForm.value, this.itemsForm.get('id')?.value).subscribe(
           response => {
-
-            this.showMessage("Item atualizado com sucesso!");
-          }
-          ,
-          error => {
-            this.showMessage("Erro ao atualizar:\n" + error.error);
+            this.notificationsService.success("Item atualizado com sucesso!");
           }
         );
       } else {
         this.itemsService.save(this.itemsForm.value).subscribe(
           response => {
-            this.showMessage("Item salvo com sucesso!");
-          },
-          error => {
-            this.showMessage("Erro ao salvar:\n" + error.error);
+            this.notificationsService.success("Item salvo com sucesso!");
           }
         );
       }
     } else {
-      console.error("Formulário inválido. Por favor, preencha todos os campos obrigatórios.");
+      this.notificationsService.warn("Formulário inválido. Por favor, preencha todos os campos obrigatórios.");
     }
-  }
-
-  private showMessage(message: string) {
-    this.dialogRef = this.dialog.open(DialogMessageOkComponent, {
-      minWidth: "500px",
-      minHeight: "100px",
-      disableClose: true,
-      data: message
-    });
-    this.dialogRef.afterClosed().subscribe(value => {
-      this.dialogRefCurrent.close();
-    });
   }
 
   onFileSelected(event: Event): void {
@@ -105,6 +83,5 @@ export class EditItemsComponent implements OnInit{
       // Realize ações com o arquivo, como upload ou pré-visualização
     }
   }
-
 
 }

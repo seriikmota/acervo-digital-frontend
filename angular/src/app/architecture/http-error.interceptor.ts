@@ -1,12 +1,5 @@
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpInterceptorFn,
-  HttpRequest
-} from '@angular/common/http';
-import {Message} from "./message/message.service";
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Message, MessageResponse} from "./message/message.service";
 import {catchError} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {Observable, throwError} from "rxjs";
@@ -19,16 +12,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError((response: HttpErrorResponse): Observable<HttpEvent<Message>> => {
-      const messageTO = Object.assign(new Message(), response.error);
+      const messageReponse = Object.assign(new MessageResponse(), response.error);
 
-      if (messageTO.status === 401 || messageTO.status === 403) {
-        delete messageTO.message;
-      }
+      this.errorService.handleGlobalError(messageReponse);
 
-      // Tratamento de erros global
-      this.errorService.handleGlobalError(messageTO);
-
-      return throwError(messageTO);
+      return throwError(messageReponse);
     }));
   }
 }

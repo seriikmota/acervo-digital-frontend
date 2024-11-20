@@ -1,6 +1,6 @@
 import {EventEmitter, Inject, Injectable} from '@angular/core';
 
-import {IConfig} from './config';
+import {IConfig, config} from './config';
 import {Credential} from './credential';
 import {User} from './User';
 import {AuthService} from "../auth.service";
