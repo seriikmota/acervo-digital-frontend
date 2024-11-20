@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MessageDialog, MessageItem, MessageService} from "./message/message.service";
 import {ConfirmDialogComponent} from "./message/confirm-mesage/confirm-dialog.component";
@@ -8,7 +8,8 @@ import {SecurityService} from "./security/security.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "./authentication/authentication.service";
 import {User} from "./security/User";
-import {IConfig} from "./security/config";
+import {CredencialDto} from "../model/credencial-dto";
+import {NotificationsService} from "angular2-notifications";
 //import {GenericDialogComponent} from "./message/generic-dialog/generic-dialog.component";
 
 @Injectable({
@@ -25,6 +26,7 @@ export class ArchitectureService {
     private loaderService: LoaderService,
     private securityService: SecurityService,
     private authenticationService: AuthenticationService,
+    private notificationsService: NotificationsService,
     ) { }
 
   init(): void {
@@ -61,7 +63,7 @@ export class ArchitectureService {
         minWidth: '50px',
         minHeight: '50px',
         hasBackdrop: true,
-        disableClose: true
+        disableClose: true,
       });
     });
 
@@ -79,10 +81,9 @@ export class ArchitectureService {
    */
   private configureSecurityActions() {
     this.securityService.onRefresh.subscribe((refreshToken: string) => {
-      this.authenticationService.refresh(refreshToken)
-        .subscribe(
+      this.authenticationService.refresh(refreshToken).subscribe(
           {
-            next: data => {
+            next: (data: CredencialDto) => {
               const user: User = {
                 id: data.id || 0,
                 name: data.name || '',
@@ -93,21 +94,18 @@ export class ArchitectureService {
                 roles: data.roles
               };
               this.securityService.init(user);
-            },
-            error: error => {
-              this.messageService.addMsgInf(error);
             }
           });
     });
 
     this.securityService.onForbidden.subscribe(() => {
-      this.messageService.addMsgWarning("Sem acesso");
+      this.notificationsService.warn("Sem acesso");
       this.router.navigate([this.securityService.securityConfig.loginRouter]);
     });
 
     this.securityService.onUnauthorized.subscribe(() => {
-      this.messageService.addMsgWarning("Não autorizado!");
-      // this.router.navigate(['/']);
+      this.notificationsService.warn("Não autorizado!");
+      this.router.navigate(['/']);
     });
   }
 }

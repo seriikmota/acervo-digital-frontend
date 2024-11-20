@@ -1,12 +1,23 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {ComponentType} from "@angular/cdk/overlay";
 
-export class Message {
+export class MessageResponse {
   constructor(
+    public status?: number,
+    public messages: Array<Message> = new Array<Message>,
+  ) { }
+}
+
+export class Message {
+  public static ALERT_TYPE_INFO = 'info';
+  public static ALERT_TYPE_ERROR = 'error';
+  public static ALERT_TYPE_SUCCESS = 'done';
+  public static ALERT_TYPE_WARNING = 'warning';
+
+  constructor(
+    public type?: string,
     public code?: string,
-    public error?: string,
     public message?: string,
-    public status?: number
   ) { }
 }
 

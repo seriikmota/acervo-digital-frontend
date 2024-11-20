@@ -13,12 +13,12 @@ export class AuthenticationService {
   constructor(private authService: AuthService) {
   }
 
-  public login(authDto: AuthDto): Observable<Array<CredencialDto>> {
-    return  this.authService.login({body: authDto});
+  public login(authDto: AuthDto): Observable<CredencialDto> {
+    return this.authService.login(authDto);
   }
 
   public refresh(refreshToken: string): Observable<any> {
-    return this.authService.refresh({refreshToken});
+    return this.authService.refresh(refreshToken);
   }
 
 }

@@ -8,6 +8,7 @@ import {SharedMaterialModule} from "../shared-material/shared-material.module";
 import {RouterModule} from "@angular/router";
 import {authenticationRoute} from "./authentication-routing.module";
 import {MessageModule} from "../message/message.module";
+import {SimpleNotificationsModule} from "angular2-notifications";
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {MessageModule} from "../message/message.module";
         SharedMaterialModule,
         RouterModule.forChild(authenticationRoute),
         MessageModule,
+        SimpleNotificationsModule,
     ],
   providers: [
     AuthenticationService

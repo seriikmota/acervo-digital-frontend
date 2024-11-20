@@ -1,5 +1,5 @@
 <!-- Campo de filtro -->
-<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;" *ngIf="getnameComponent() === 'items'">
+<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;" *ngIf="getShowFilter()">
   <mat-form-field style="flex-grow: 1; max-width: 400px;">
     <input matInput [(ngModel)]="filtro" placeholder="Pesquisar" />
     <button mat-icon-button *ngIf="filtro" matSuffix (click)="clearFilter()">
@@ -22,18 +22,17 @@
           <td mat-cell *matCellDef="let element" style="text-align: center">{{ element[column] }}</td>
         </ng-container>
 
-        <!-- Condicional para mostrar coluna de ações apenas se o componente não for 'log' -->
-        <ng-container matColumnDef="acao" *ngIf="getnameComponent() !== 'log'">
+        <ng-container matColumnDef="acao" *ngIf="getShowActions()">
           <th mat-header-cell *matHeaderCellDef style="text-align: center"> Ação </th>
           <td mat-cell *matCellDef="let element" style="display:flex; flex-direction: row; justify-content: center">
-            <button mat-raised-button (click)="editar(element)" style="background-color: #1976D2; color: white; justify-content: end; border-radius: 20px" *ngIf="validaPermissoesUsuarioExterno()"><mat-icon>edit</mat-icon></button>
-            <button mat-raised-button (click)="excluir(element)" style="background-color: #D32F2F; color:white; justify-content: flex-end; border-radius: 20px" [disabled]="validaPermissoes()" *ngIf="validaPermissoesUsuarioExterno()"><mat-icon>delete</mat-icon></button>
-            <button mat-raised-button (click)="exportar()" style="background-color: #388E3C; color:white; justify-content: end; border-radius: 20px" *ngIf="getnameComponent() !== 'user'"><mat-icon>picture_as_pdf</mat-icon></button>
+            <button mat-raised-button (click)="editar(element)" style="background-color: #1976D2; color: white; justify-content: end; border-radius: 20px" *ngIf="permissionConfig.HAS_PERMISSION_UPDATE"><mat-icon>edit</mat-icon></button>
+            <button mat-raised-button (click)="excluir(element)" style="background-color: #D32F2F; color:white; justify-content: flex-end; border-radius: 20px" *ngIf="permissionConfig.HAS_PERMISSION_DELETE"><mat-icon>delete</mat-icon></button>
+            <button mat-raised-button (click)="exportarPdf(element.id)" style="background-color: #388E3C; color:white; justify-content: end; border-radius: 20px" *ngIf="getShowExportPdf()"><mat-icon>picture_as_pdf</mat-icon></button>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns.concat(getnameComponent() !== 'log' ? ['acao'] : [])"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns.concat(getnameComponent() !== 'log' ? ['acao'] : []);"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns.concat(getShowActions() ? ['acao'] : [])"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns.concat(getShowActions() ? ['acao'] : []);"></tr>
       </table>
 
       <!-- Paginação -->
@@ -44,12 +43,13 @@
         (page)="onPageChange($event)">
       </mat-paginator>
 
-      <!-- Botão de inclusão, exibido apenas se o componente não for 'log' -->
-      <div *ngIf="getnameComponent() !== 'log'" style="display: flex; justify-content: end; margin-top: 10px;">
-        <button mat-raised-button style="background-color: #167362; color: white; justify-content: flex-end; border-radius: 20px" class="button-incluir" (click)="incluir()" *ngIf="validaPermissoesUsuarioExterno()">
+      <div *ngIf="getShowActions()" style="display: flex; justify-content: end; margin-top: 10px;">
+        <button mat-raised-button style="background-color: #167362; color: white; justify-content: flex-end; border-radius: 20px" class="button-incluir" (click)="incluir()" *ngIf="permissionConfig.HAS_PERMISSION_CREATE">
           <mat-icon>add</mat-icon>
         </button>
       </div>
     </div>
   </mat-card-content>
 </mat-card>
+
+<simple-notifications></simple-notifications>

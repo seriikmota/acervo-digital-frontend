@@ -1,21 +1,22 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpContext, HttpResponse} from "@angular/common/http";
-import {filter, map, Observable} from "rxjs";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {catchError, Observable, throwError} from "rxjs";
 import {AuthDto} from "../model/auth";
-import {StrictHttpResponse} from "../model/strict-http-response";
 import {CredencialDto} from "../model/credencial-dto";
-import {RequestBuilder} from "../model/request-builder";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(
-    protected http: HttpClient
-  ) { }
-
   private _rootUrl: string = '';
+
+  static readonly LoginPath = 'http://localhost:8080/api/v1/auth/login';
+  static readonly RefreshPath = 'http://localhost:8080/api/v1/auth/refresh';
+  static readonly LogoutPath = 'http://localhost:8080/api/v1/auth/logout';
+
+  constructor(protected http: HttpClient) {
+  }
+
   get rootUrl(): string {
     return this._rootUrl;
   }
@@ -23,43 +24,30 @@ export class AuthService {
     this._rootUrl = rootUrl;
   }
 
-  static readonly LoginPath = 'http://localhost:8080/api/v1/auth/login';
-
-  login$Response(params: { body: AuthDto }, context?: HttpContext): Observable<StrictHttpResponse<Array<CredencialDto>>> {
-    const rb = new RequestBuilder(this.rootUrl, AuthService.LoginPath, 'post');
-    if (params) rb.body(params.body, 'application/json');
-    return this.http.request(rb.build({ responseType: 'json', accept: 'application/json', context }))
-      .pipe(
-        filter((r: any) => r instanceof HttpResponse),
-        map((r: HttpResponse<any>) => r as StrictHttpResponse<Array<CredencialDto>>)
-      );
+  login(authDto: AuthDto): Observable<CredencialDto> {
+    return this.http.post<CredencialDto>(AuthService.LoginPath, authDto).pipe(catchError(this.handleError))
   }
 
-  login(params: { body: AuthDto }, context?: HttpContext): Observable<Array<CredencialDto>> {
-    return this.login$Response(params, context).pipe(map((r: StrictHttpResponse<Array<CredencialDto>>) => r.body as Array<CredencialDto>));
+  refresh(refreshToken: string): Observable<CredencialDto> {
+    let params = new HttpParams()
+      .set('refreshToken', refreshToken);
+
+    return this.http.get<CredencialDto>(AuthService.RefreshPath, {
+        params: params
+      }).pipe(catchError(this.handleError));
   }
 
-  static readonly RefreshPath = 'http://localhost:8080/api/v1/auth/refresh';
+  logout(token: string): Observable<any> {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
 
-  refresh$Response(params: { refreshToken: string }, context?: HttpContext): Observable<StrictHttpResponse<CredencialDto[]>> {
-    const rb = new RequestBuilder(this.rootUrl, AuthService.RefreshPath, 'get');
-    if (params) {
-      rb.query('refreshToken', params.refreshToken, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<CredencialDto[]>;
-      })
-    );
+    return this.http.get<any>(AuthService.LogoutPath,{
+      headers: headers,
+    }).pipe(catchError(this.handleError));
   }
 
-  refresh(params: { refreshToken: string }, context?: HttpContext): Observable<Array<CredencialDto>> {
-    return this.refresh$Response(params, context).pipe(map((r: StrictHttpResponse<Array<CredencialDto>>) => r.body as Array<CredencialDto>));
+  protected handleError(error: any): Observable<never> {
+    return throwError(() => new Error(error.error));
   }
 }

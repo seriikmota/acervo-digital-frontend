@@ -7,7 +7,10 @@
     <img src="assets/logo.png" class="img-logo">
     <span class="example-spacer"></span>
 
-    <!-- Ícone "person" com menu -->
+    <div *ngIf="showUser">
+      <span>Bem Vindo, {{nameUser}}</span>
+    </div>
+
     <button mat-icon-button [matMenuTriggerFor]="personMenu">
       <mat-icon>person</mat-icon>
     </button>
@@ -15,8 +18,8 @@
 
   <!-- Definição do menu -->
   <mat-menu #personMenu="matMenu">
-    <button mat-menu-item routerLink='/auth/login'>Login</button>
-    <button mat-menu-item>Sair</button>
+    <button mat-menu-item routerLink='/auth/login' *ngIf="!showUser">Login</button>
+    <button mat-menu-item (click)="sair()" *ngIf="showUser">Sair</button>
   </mat-menu>
 
   <mat-sidenav-container>
