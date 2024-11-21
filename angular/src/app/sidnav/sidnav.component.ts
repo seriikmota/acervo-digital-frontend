@@ -2,6 +2,7 @@ import {Component, inject, Input, signal} from '@angular/core';
 import {SecurityService} from "../architecture/security/security.service";
 import {ItemPaths} from "../feature-item/item-routing.module";
 import {UserPaths, UserRoles} from "../feature-user/user-routing.module";
+import {postPaths} from "../feature-post/post-routing.module";
 
 @Component({
   selector: 'app-sidnav',
@@ -49,4 +50,6 @@ export class SidnavComponent {
       this.sidenavCollapsed.set(state.sidenavCollapsed);
     }
   }
+
+  protected readonly postPaths = postPaths;
 }

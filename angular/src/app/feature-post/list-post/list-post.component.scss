@@ -1,0 +1,13 @@
+.post-card {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.author-avatar {
+  background-color: #3f51b5;
+}
+
+mat-card-image {
+  max-height: 400px;
+  object-fit: cover;
+}
