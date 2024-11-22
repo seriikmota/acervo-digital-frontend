@@ -1,18 +1,49 @@
-<mat-card class="post-card">
-  <mat-card-header>
-    <div mat-card-avatar class="author-avatar"></div>
-    <mat-card-title>{{ post.title }}</mat-card-title>
-    <mat-card-subtitle>by {{ post.author }} - {{ post.date | date:'mediumDate' }}</mat-card-subtitle>
-  </mat-card-header>
+<div class="add-post-button">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="openAddPostDialog()">
+    <mat-icon>add</mat-icon> Nova Postagem
+  </button>
+</div>
 
-  <img mat-card-image [src]="post.imageUrl" alt="{{ post.title }}">
+<div class="post-container">
+  <mat-card class="post-card" *ngFor="let post of posts">
+    <mat-card-header>
+      <div mat-card-avatar class="author-avatar"></div>
+      <mat-card-title>{{ post.title }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ post.subtitle }} - Publicado em: {{ post.publicationDate | date: 'mediumDate' }}
+      </mat-card-subtitle>
+    </mat-card-header>
 
-  <mat-card-content>
-    <p>{{ post.content }}</p>
-  </mat-card-content>
+    <img mat-card-image [src]="post.files[0]" alt="{{ post.title }}" *ngIf="post.files !=null">
 
-  <mat-card-actions>
-    <button mat-raised-button  style="background-color: #1976D2; color: white; justify-content: end; border-radius: 20px" *ngIf="permissionConfig.HAS_PERMISSION_UPDATE"><mat-icon>edit</mat-icon></button>
-    <button mat-raised-button  style="background-color: #D32F2F; color:white; justify-content: flex-end; border-radius: 20px" *ngIf="permissionConfig.HAS_PERMISSION_DELETE"><mat-icon>delete</mat-icon></button>
-  </mat-card-actions>
-</mat-card>
+    <mat-card-content>
+      <p>{{ post.content }}</p>
+      <p class="post-tag" *ngIf="post.tag">Tag: {{ post.tag }}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <!-- Botão de editar -->
+      <button
+        mat-raised-button
+        style="background-color: #1976D2; color: white; border-radius: 20px"
+        *ngIf="permissionConfig.HAS_PERMISSION_UPDATE"
+        (click)="editar(post)"
+        aria-label="Editar">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <!-- Botão de deletar -->
+      <button
+        mat-raised-button
+        style="background-color: #D32F2F; color: white; border-radius: 20px"
+        *ngIf="permissionConfig.HAS_PERMISSION_DELETE"
+        (click)="excluir(post)"
+        aria-label="Deletar">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -4,13 +4,15 @@ import {SharedMaterialModule} from "../architecture/shared-material/shared-mater
 import {PostRoutingModule} from "./post-routing.module";
 import {ListPostComponent} from "./list-post/list-post.component";
 import {EditPostComponent} from "./edit-post/edit-post.component";
+import {AddPostModalComponent} from "./add-post-modal/add-post-modal.component";
 
 
 
 @NgModule({
   declarations: [
     ListPostComponent,
-    EditPostComponent
+    EditPostComponent,
+    AddPostModalComponent
   ],
   imports: [
     CommonModule,

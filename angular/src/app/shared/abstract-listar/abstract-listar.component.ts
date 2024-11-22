@@ -128,6 +128,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     this.messageService.addConfirmYesNo(`Você deseja excluir esse registro? Essa ação é irreversível!`,() => {
       this.service.excluir(element.id).subscribe({
         next: () => {
+          console.log("valor exclusão",element)
           this.notificationsService.success("Registro excluido com sucesso!");
           this.listarDados()
         }

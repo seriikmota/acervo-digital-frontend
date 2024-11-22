@@ -6,6 +6,8 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import * as tableGlobals from "../../shared/abstract-listar/globals-table";
 import {PostService} from "../post.service";
 import {columnNamesMappingItems} from "../../shared/abstract-listar/globals-table";
+import {Post} from "../../model/post";
+import {AddPostModalComponent} from "../add-post-modal/add-post-modal.component";
 
 @Component({
   selector: 'app-list-post',
@@ -21,7 +23,7 @@ export class ListPostComponent extends AbstractListarComponent {
               @Inject(MAT_DIALOG_DATA) public override  data: any) {
     super(service, dialogRef, dialog, data);
   }
-
+  posts: Post[] = [];
   protected override getColumnNamesMapping(): { [key: string]: string; } {
      return columnNamesMappingItems;
   }
@@ -40,14 +42,29 @@ export class ListPostComponent extends AbstractListarComponent {
     };
   }
 
-  post = {
-    title: 'A Journey into Angular Material',
-    author: 'John Doe',
-    date: new Date(),
-    imageUrl: 'https://source.unsplash.com/800x400/?technology,code',
-    content: `
-      Angular Material simplifies the process of building clean, consistent, and responsive UIs.
-      This blog post explores the various components and their applications in modern development.
-    `
-  };
+  override ngOnInit(): void {
+    this.loadPosts();
+  }
+
+  loadPosts(): void {
+    this.service.getPosts().subscribe({
+      next: (data) => {
+        this.posts = data;
+      }
+    });
+  }
+
+  openAddPostDialog(): void {
+    const dialogRef = this.dialog.open(AddPostModalComponent, {
+      width: '500px',
+      data: {} // Você pode passar dados iniciais para o modal se necessário
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Lógica para adicionar o novo post (chamar serviço ou atualizar a lista local)
+        console.log('Nova postagem criada:', result);
+      }
+    });
+  }
 }
