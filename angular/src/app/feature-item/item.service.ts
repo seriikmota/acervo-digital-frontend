@@ -12,14 +12,18 @@ export class ItemService extends AbstractService<any>{
     super(httpService,'item');
   }
 
-  override listar(filtroObjeto: any, pageNumber: number, pageSize: number): Observable<any[]> {
-    filtroObjeto.pageNumber = pageNumber;
-    filtroObjeto.pageSize = pageSize;
-
-    let params = new HttpParams()
-      .set('page', pageNumber.toString())
-      .set('size', pageSize.toString())
-      .set('sort', 'id,asc');
+  override listar(filtroObjeto: any, pageNumber: number, pageSize: number, sortData: any): Observable<any[]> {
+    let params;
+    if (sortData) {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize)
+        .set('sort', `${sortData.sortParam},${sortData.sortDirection}`)
+    } else {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize)
+    }
 
     return this.httpService.get<any[]>(`${this.url}/list`, {
       params: params,

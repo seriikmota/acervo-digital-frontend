@@ -16,6 +16,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatMenuModule} from "@angular/material/menu";
 import {SimpleNotificationsModule} from "angular2-notifications";
+import {MatSortModule} from "@angular/material/sort";
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {SimpleNotificationsModule} from "angular2-notifications";
     MatSelectModule,
     MatSlideToggleModule,
     SimpleNotificationsModule,
+    MatSortModule,
   ],
   exports: [
     MatTableModule,
@@ -61,6 +63,7 @@ import {SimpleNotificationsModule} from "angular2-notifications";
     MatSlideToggleModule,
     MatMenuModule,
     SimpleNotificationsModule,
+    MatSortModule,
   ]
 })
 export class SharedMaterialModule {
