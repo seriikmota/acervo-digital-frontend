@@ -26,9 +26,10 @@
       <input matInput formControlName="tag" placeholder="Digite uma tag">
     </mat-form-field>
 
+    <!-- Upload de Arquivos -->
     <div class="upload-container">
       <button mat-raised-button color="primary" (click)="fileInput.click()">
-        Escolher Arquivo
+        Escolher Arquivos
       </button>
       <input
         #fileInput
@@ -36,7 +37,16 @@
         (change)="onFileSelected($event)"
         accept="image/*"
         hidden
+        multiple
       />
+      <div *ngIf="selectedFiles.length > 0" class="file-list">
+        <p *ngFor="let file of selectedFiles; let i = index">
+          {{ file.name }}
+          <button mat-icon-button color="warn" (click)="removeFile(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </p>
+      </div>
     </div>
   </form>
 </div>

@@ -11,7 +11,7 @@ import {NotificationsService} from "angular2-notifications";
 })
 export class AddPostModalComponent {
   addPostForm: FormGroup;
-  selectedFile: File | null = null;
+  selectedFiles: File[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -33,9 +33,19 @@ export class AddPostModalComponent {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
-      this.selectedFile = input.files[0];
-      console.log('Arquivo selecionado:', this.selectedFile.name);
+      const filesArray = Array.from(input.files);
+      if (this.selectedFiles.length + filesArray.length > 3) {
+        this.notificationsService.error('Você pode enviar no máximo 3 imagens.');
+        return;
+      }
+
+      this.selectedFiles.push(...filesArray);
+      console.log('Arquivos selecionados:', this.selectedFiles.map(file => file.name));
     }
+  }
+
+  removeFile(index: number): void {
+    this.selectedFiles.splice(index, 1);
   }
 
   onSubmit(): void {
@@ -53,20 +63,19 @@ export class AddPostModalComponent {
       const formData = new FormData();
       formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
 
-      if (this.selectedFile) {
-        formData.append('files', this.selectedFile);
-      }
+      this.selectedFiles.forEach((file, index) => {
+        formData.append(`files`, file); // Adiciona cada arquivo
+      });
 
       this.postService.createPost(formData).subscribe({
         next: (response) => {
-          this.notificationsService.success("Atualizado com sucesso!");
+          this.notificationsService.success('Postagem criada com sucesso!');
           this.dialogRef.close(true);
         },
         error: (error) => {
           console.error('Erro ao criar postagem:', error);
-        },
+        }
       });
     }
   }
-
 }
