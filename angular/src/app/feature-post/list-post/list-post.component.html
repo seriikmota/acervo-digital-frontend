@@ -17,7 +17,7 @@
       </mat-card-subtitle>
     </mat-card-header>
 
-    <img mat-card-image [src]="post.files[0]" alt="{{ post.title }}" *ngIf="post.files !=null">
+    <img mat-card-image src="{{'data:image/jpg;base64,' + post.images[0].image}}"*ngIf="post.images !=null">
 
     <mat-card-content>
       <p>{{ post.content }}</p>
@@ -47,3 +47,5 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
+

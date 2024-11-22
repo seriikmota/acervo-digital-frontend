@@ -25,8 +25,11 @@ export class PostService extends AbstractService<any>{
     );
   }
 
-  createPost(data: any): Observable<any> {
-    console.log(data)
-    return this.httpService.post(this.url, data);
+  createPost(formData: FormData): Observable<any> {
+    return this.httpService.post(this.url, formData);
+  }
+
+  updatePost(formData: FormData, id:number): Observable<any> {
+    return this.httpService.put(`${this.url}/${id}`, formData);
   }
 }

@@ -8,6 +8,7 @@ import {PostService} from "../post.service";
 import {columnNamesMappingItems} from "../../shared/abstract-listar/globals-table";
 import {Post} from "../../model/post";
 import {AddPostModalComponent} from "../add-post-modal/add-post-modal.component";
+import {EditPostComponent} from "../edit-post/edit-post.component";
 
 @Component({
   selector: 'app-list-post',
@@ -28,7 +29,7 @@ export class ListPostComponent extends AbstractListarComponent {
      return columnNamesMappingItems;
   }
   override getEditComponent() {
-      return 'post'
+      return EditPostComponent;
   }
   override getnameComponent() {
       return 'post'
@@ -49,6 +50,7 @@ export class ListPostComponent extends AbstractListarComponent {
   loadPosts(): void {
     this.service.getPosts().subscribe({
       next: (data) => {
+        console.log(data)
         this.posts = data;
       }
     });
@@ -57,13 +59,12 @@ export class ListPostComponent extends AbstractListarComponent {
   openAddPostDialog(): void {
     const dialogRef = this.dialog.open(AddPostModalComponent, {
       width: '500px',
-      data: {} // Você pode passar dados iniciais para o modal se necessário
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Lógica para adicionar o novo post (chamar serviço ou atualizar a lista local)
-        console.log('Nova postagem criada:', result);
+      this.loadPosts()
       }
     });
   }

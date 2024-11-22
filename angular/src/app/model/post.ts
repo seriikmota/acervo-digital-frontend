@@ -3,7 +3,7 @@
 export interface FileDTO {
   id: number;
   fileName: string;
-  file: string;
+  image: string;
 }
 
 export interface Post {
@@ -14,7 +14,7 @@ export interface Post {
   approval: boolean;
   publicationDate: string;
   tag: string;
-  files: FileDTO[];
+  images: FileDTO[];
 }
 
 export interface CreatePostPayload {

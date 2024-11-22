@@ -1,0 +1,106 @@
+/* Estiliza os campos de entrada */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Define um tamanho total para o formulário */
+.full-width {
+  width: 100%;
+}
+
+/* Estiliza o botão de upload */
+.upload-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.upload-container button {
+  margin-right: 8px;
+}
+
+/* Estiliza os botões de ação no rodapé */
+mat-dialog-actions {
+  padding-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+mat-dialog-actions button {
+  margin-left: 8px;
+}
+
+/* Ajusta o espaçamento entre os campos */
+mat-dialog-content {
+  padding-bottom: 16px;
+}
+
+/* Títulos */
+h1[mat-dialog-title] {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+/* Botões */
+button[mat-button] {
+  color: #757575;
+}
+
+button[mat-raised-button] {
+  color: #fff;
+}
+.carousel-container {
+  position: relative;
+  max-width: 100%;
+  margin: auto;
+  overflow: hidden;
+  margin-bottom: 20px; /* Espaçamento entre o carrossel e os campos do formulário */
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.carousel-control:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-slide:not(.active) {
+  opacity: 0;
+}
+

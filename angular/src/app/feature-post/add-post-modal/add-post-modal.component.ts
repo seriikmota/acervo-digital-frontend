@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {CreatePostPayload, Post} from "../../model/post";
 import {PostService} from "../post.service";
+import {NotificationsService} from "angular2-notifications";
 
 @Component({
   selector: 'app-add-post-modal',
@@ -11,10 +11,11 @@ import {PostService} from "../post.service";
 })
 export class AddPostModalComponent {
   addPostForm: FormGroup;
-  selectedFiles: File[] = [];
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
+    private notificationsService: NotificationsService,
     private postService: PostService,
     private dialogRef: MatDialogRef<AddPostModalComponent>
   ) {
@@ -31,62 +32,39 @@ export class AddPostModalComponent {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input?.files) {
-      this.selectedFiles = Array.from(input.files);
+    if (input?.files?.length) {
+      this.selectedFile = input.files[0];
+      console.log('Arquivo selecionado:', this.selectedFile.name);
     }
   }
 
   onSubmit(): void {
     if (this.addPostForm.valid) {
-      const formValues = this.addPostForm.value;
-
-      const postDTO: Post = {
-        id: 0,
-        title: formValues.title,
-        subtitle: formValues.subtitle,
-        content: formValues.content,
-        approval: formValues.approval,
-        publicationDate: formValues.publicationDate,
-        tag: formValues.tag,
+      const dto = {
+        title: this.addPostForm.get('title')?.value,
+        subtitle: this.addPostForm.get('subtitle')?.value,
+        content: this.addPostForm.get('content')?.value,
+        approval: true,
+        publicationDate: new Date().toISOString(),
+        tag: this.addPostForm.get('tag')?.value,
         files: []
       };
 
-      const convertFileToBase64 = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      };
+      const formData = new FormData();
+      formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
 
-      const filePromises = this.selectedFiles.map((file: File, index: number) =>
-        convertFileToBase64(file).then(base64File => {
-          postDTO.files.push({
-            id: index,
-            fileName: `file_${index + 1}.png`,
-            file: base64File.split(',')[1]
-          });
-        })
-      );
+      if (this.selectedFile) {
+        formData.append('files', this.selectedFile);
+      }
 
-      Promise.all(filePromises).then(() => {
-        const postData = {
-          dto: postDTO,
-          files: this.selectedFiles.map(file => file.name)
-        };
-
-        this.postService.createPost(postData).subscribe({
-          next: (response: any) => {
-            console.log('Post criado com sucesso:', response);
-            this.dialogRef.close(response);
-          },
-          error: (error: any) => {
-            console.error('Erro ao criar o post:', error);
-          }
-        });
-      }).catch(error => {
-        console.error('Erro ao converter arquivos:', error);
+      this.postService.createPost(formData).subscribe({
+        next: (response) => {
+          this.notificationsService.success("Atualizado com sucesso!");
+          this.dialogRef.close(true);
+        },
+        error: (error) => {
+          console.error('Erro ao criar postagem:', error);
+        },
       });
     }
   }
