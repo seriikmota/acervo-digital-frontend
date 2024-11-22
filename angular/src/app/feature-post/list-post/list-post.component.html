@@ -1,11 +1,5 @@
-<div class="add-post-button">
-  <button mat-raised-button (click)="openAddPostDialog()">
-    <mat-icon>add</mat-icon> Nova Postagem
-  </button>
-</div>
-
 <div class="post-container">
-  <mat-card class="post-card" *ngFor="let post of posts">
+  <mat-card class="post-card mat-elevation-z21" *ngFor="let post of posts">
     <!-- Cabeçalho do Post -->
     <mat-card-header>
       <div>
@@ -32,18 +26,10 @@
       <button
         mat-raised-button
         aria-label="Editar"
-        *ngIf="permissionConfig.HAS_PERMISSION_UPDATE"
         (click)="editar(post)">
         <mat-icon>edit</mat-icon> Editar
       </button>
 
-      <button
-        mat-raised-button
-        aria-label="Deletar"
-        *ngIf="permissionConfig.HAS_PERMISSION_DELETE"
-        (click)="excluir(post)">
-        <mat-icon>delete</mat-icon> Deletar
-      </button>
     </mat-card-actions>
   </mat-card>
 </div>

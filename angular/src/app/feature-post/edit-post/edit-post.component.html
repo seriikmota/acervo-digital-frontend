@@ -1,17 +1,11 @@
 <h1 mat-dialog-title>Editar Postagem</h1>
 <div mat-dialog-content>
   <form [formGroup]="editPostForm">
-    <!-- Carrossel de Imagens -->
-    <div *ngIf="data?.images?.length > 0" class="carousel-container">
-      <div class="carousel">
-        <div *ngFor="let image of data.images; let i = index" class="carousel-slide" [ngClass]="{'active': i === currentIndex}">
-          <img  src="{{'data:image/jpg;base64,' + image.image}}" alt="Image" class="carousel-image" />
-        </div>
+    <!-- Exibição de imagens -->
+    <div *ngIf="data?.images?.length > 0" class="image-container">
+      <div *ngFor="let image of data.images" class="image-item">
+        <img src="{{'data:image/jpg;base64,' + image.image}}" alt="Image" class="image" />
       </div>
-
-      <!-- Controls -->
-      <button (click)="prevSlide()" class="carousel-control prev">❮</button>
-      <button (click)="nextSlide()" class="carousel-control next">❯</button>
     </div>
 
     <!-- Título -->
@@ -39,7 +33,7 @@
     </mat-form-field>
 
     <!-- Escolher arquivo -->
-    <div class="upload-container">
+    <div class="upload-container"  *ngIf="permissionConfig.HAS_PERMISSION_UPDATE">
       <button mat-raised-button color="primary" (click)="fileInput.click()">
         Escolher Novo Arquivo
       </button>
@@ -54,7 +48,7 @@
   </form>
 </div>
 
-<div mat-dialog-actions align="end">
+<div mat-dialog-actions align="end"  *ngIf="permissionConfig.HAS_PERMISSION_UPDATE">
   <button mat-button mat-dialog-close>Cancelar</button>
   <button
     mat-raised-button
