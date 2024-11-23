@@ -4,6 +4,7 @@ import {authenticationRoute} from "./architecture/authentication/authentication-
 import {AboutComponent} from "./about/about.component";
 import {itemRoutes} from "./feature-item/item-routing.module";
 import {userRoutes} from "./feature-user/user-routing.module";
+import {postRoutes} from "./feature-post/post-routing.module";
 
 export const routes: Routes = [
   {
@@ -11,6 +12,7 @@ export const routes: Routes = [
     children: [
       ...itemRoutes,
       ...userRoutes,
+      ...postRoutes
     ]
   },
   {

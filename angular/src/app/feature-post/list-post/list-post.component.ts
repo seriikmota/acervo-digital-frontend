@@ -56,16 +56,4 @@ export class ListPostComponent extends AbstractListarComponent {
     });
   }
 
-  openAddPostDialog(): void {
-    const dialogRef = this.dialog.open(AddPostModalComponent, {
-      width: '500px',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-      this.loadPosts()
-      }
-    });
-  }
 }

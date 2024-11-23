@@ -20,6 +20,11 @@
       <span>Postagens</span>
     </a>
 
+    <a mat-list-item [routerLink]="postTablePaths.LIST_TABLE" routerLinkActive="active-link" *ngIf="showPostTable">
+      <mat-icon>wallpaper</mat-icon>
+      <span>Configurações Postagem</span>
+    </a>
+
     <a mat-list-item (click)="redirectToWhatsapp()" target="_blank">
       <mat-icon>call</mat-icon>
       <span>Contato</span>

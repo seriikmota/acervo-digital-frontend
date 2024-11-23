@@ -1,5 +1,5 @@
-<div class="post-container">
-  <mat-card class="post-card mat-elevation-z21" *ngFor="let post of posts">
+<div class="post-container" *ngFor="let post of posts" >
+  <mat-card class="post-card mat-elevation-z21" *ngIf="post.approval">
     <!-- Cabeçalho do Post -->
     <mat-card-header>
       <div>
@@ -27,7 +27,7 @@
         mat-raised-button
         aria-label="Editar"
         (click)="editar(post)">
-        <mat-icon>edit</mat-icon> Editar
+        <mat-icon>remove_red_eye</mat-icon>
       </button>
 
     </mat-card-actions>

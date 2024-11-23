@@ -43,6 +43,7 @@ export class EditPostComponent {
       subtitle: [{ value: this.data?.subtitle || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE }, [Validators.required]],
       content: [{ value: this.data?.content || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE }, [Validators.required]],
       tag: [{ value: this.data?.tag || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE }, [Validators.required]],
+      approval: [this.data?.approval || false, Validators.required]
     });
   }
 
