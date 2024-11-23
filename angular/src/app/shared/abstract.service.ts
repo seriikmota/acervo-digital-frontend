@@ -9,12 +9,22 @@ export abstract class AbstractService<T> {
     this.url = `${myGlobals.API_URL}/${baseUrl}`;
   }
 
-  listar(filtroObjeto: any, pageNumber: number, pageSize: number): Observable<any[]> {
-    filtroObjeto.pageNumber = pageNumber;
-    filtroObjeto.pageSize = pageSize;
+  listar(filtroObjeto: any, pageNumber: number, pageSize: number, sortData: any): Observable<any[]> {
+    let params;
+    if (sortData) {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize)
+        .set('sort', `${sortData.sortParam},${sortData.sortDirection}`)
+    } else {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize)
+    }
 
     return this.httpService.get<any[]>(this.url,{
-      headers: this.createHeaders()
+      headers: this.createHeaders(),
+      params: params
     })
       .pipe(
         catchError(this.handleError)
