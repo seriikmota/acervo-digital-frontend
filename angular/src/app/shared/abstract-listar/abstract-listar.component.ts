@@ -1,4 +1,4 @@
-import {AfterViewInit, Directive, inject, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Directive, inject, Inject, OnInit, ViewChild} from '@angular/core';
 import {AbstractService} from "../abstract.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -6,6 +6,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {SecurityService} from "../../architecture/security/security.service";
 import {NotificationsService} from "angular2-notifications";
 import {MessageService} from "../../architecture/message/message.service";
+import {MatSort} from "@angular/material/sort";
 
 export type RoleConfig = {
   CREATE_ROLE?: string,
@@ -28,21 +29,25 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   columnNamesMapping: { [key: string]: string };
   dataSource = new MatTableDataSource<any>();
   filtroObjeto: any = {};
-  pageNumber: number = 0;
-  pageSize: number = 10;
   public dialogRef!: MatDialogRef<any>;
   filtro: string = '';
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   permissionConfig: PermissionConfig;
+
+  pageNumber: number = 0;
+  pageSize: number = 10;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   protected notificationsService: NotificationsService = inject(NotificationsService);
   protected messageService: MessageService = inject(MessageService);
+  protected changeDetector: ChangeDetectorRef = inject(ChangeDetectorRef)
 
   public constructor(public service: AbstractService<any>,
                      @Inject(MAT_DIALOG_DATA) public data: any,
                      public dialog: MatDialog, public dialogRefCurrent: MatDialogRef<any>) {
     this.columnNamesMapping = this.getColumnNamesMapping();
     this.permissionConfig = this.getPermissions();
+    this.dataSource.paginator = this.paginator;
   }
 
   protected securityService: SecurityService = inject(SecurityService);
@@ -52,17 +57,15 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     this.listarDados();
   }
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-
   }
 
   protected abstract getColumnNamesMapping(): { [key: string]: string };
 
   listarDados(): void {
     this.notificationsService.remove();
-    this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
-      next: (data) => {
-        this.dataSource.data = data.map((item: any) => {
+    this.service.listar(this.filtroObjeto, this.pageNumber, this.pageSize, this.getSortData()).subscribe({
+      next: (data: any) => {
+        this.dataSource.data = data.content.map((item: any) => {
           // Itera sobre cada propriedade do item
           for (const key in item) {
             if (Object.prototype.hasOwnProperty.call(item, key)) {
@@ -75,8 +78,26 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
           }
           return item;
         });
+        this.paginator.pageIndex = data.pageable.pageNumber;
+        this.paginator.pageSize = data.pageable.pageSize;
+        this.paginator.length = data.totalElements;
+
+        this.changeDetector.detectChanges();
       },
     });
+  }
+
+  getSortData() {
+    let sortData;
+    if (this.sort?.active) {
+      sortData = {
+        sortParam: this.sort.active,
+        sortDirection: this.sort.direction
+      }
+    } else {
+      sortData = null;
+    }
+    return sortData;
   }
 
 // Função para verificar se um valor é uma data válida

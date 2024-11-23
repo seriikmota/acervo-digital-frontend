@@ -33,9 +33,9 @@ export class ListLogComponent extends AbstractListarComponent {
   }
 
   override listarDados(): void {
-    this.service.listarLogs(this.filtroObjeto, this.pageNumber, this.pageSize).subscribe({
-      next: (data) => {
-        this.dataSource.data = data.map((item: any) => {
+    this.service.listarLogs(this.filtroObjeto, this.pageNumber, this.pageSize, this.getSortData()).subscribe({
+      next: (data: any) => {
+        this.dataSource.data = data.content.map((item: any) => {
           for (const key in item) {
             if (Object.prototype.hasOwnProperty.call(item, key)) {
               const value = item[key];
@@ -46,6 +46,11 @@ export class ListLogComponent extends AbstractListarComponent {
           }
           return item;
         });
+        this.paginator.pageIndex = data.pageable.pageNumber;
+        this.paginator.pageSize = data.pageable.pageSize;
+        this.paginator.length = data.totalElements;
+
+        this.changeDetector.detectChanges();
       },
     });
   }
