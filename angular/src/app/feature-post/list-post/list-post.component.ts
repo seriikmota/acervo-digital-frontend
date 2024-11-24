@@ -9,6 +9,7 @@ import {columnNamesMappingItems} from "../../shared/abstract-listar/globals-tabl
 import {Post} from "../../model/post";
 import {AddPostModalComponent} from "../add-post-modal/add-post-modal.component";
 import {EditPostComponent} from "../edit-post/edit-post.component";
+import {ViewPostComponent} from "../view-post/view-post.component";
 
 @Component({
   selector: 'app-list-post',
@@ -49,11 +50,39 @@ export class ListPostComponent extends AbstractListarComponent {
 
   loadPosts(): void {
     this.service.getPosts().subscribe({
-      next: (data) => {
-        console.log(data)
-        this.posts = data;
+      next: (data: any) => {
+        console.log('Data from API:', data);
+
+        if (data && Array.isArray(data.content)) {
+          this.posts = data.content.filter((post: any) => post.approval === true);
+
+          if (this.posts.length === 0) {
+            console.warn('No approved posts found');
+          }
+        } else {
+          console.error('Expected an array in data.content but got:', data);
+          this.posts = [];
+        }
+      },
+      error: (err) => {
+        console.error('Error loading posts:', err);
+        this.posts = [];
       }
     });
+
   }
+  override editar(element: any): void {
+    const dialogRef = this.dialog.open(ViewPostComponent, {
+      maxWidth: 'auto',
+      height: 'auto',
+      maxHeight: '90vh',
+      data: element,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.loadPosts();
+    });
+  }
+
 
 }

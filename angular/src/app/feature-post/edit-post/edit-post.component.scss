@@ -3,6 +3,8 @@ mat-dialog-content {
   padding: 24px 16px;
   background: #f9f9f9; /* Fundo mais claro */
   border-radius: 8px;
+  width: 600px; /* Largura fixa */
+  max-width: 90%; /* Responsivo em telas menores */
 }
 
 h1[mat-dialog-title] {
@@ -49,7 +51,7 @@ mat-dialog-actions button {
 }
 
 .image-item {
-  flex: 1;
+  flex: 1 1 auto; /* Flexível, mas ocupa espaço proporcional */
   display: flex;
   justify-content: center;
   overflow: hidden;
@@ -84,4 +86,63 @@ button[mat-raised-button][color="primary"] {
 
 button[mat-raised-button][color="primary"]:hover {
   background-color: #388e3c;
+}
+
+/* Estilos para o conteúdo de texto como uma matéria de jornal */
+.content-journal {
+  font-family: 'Georgia', serif; /* Fonte de estilo jornalístico */
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.content-journal h1 {
+  font-size: 32px; /* Tamanho maior para o título */
+  color: #333; /* Cor escura para o título */
+  margin-bottom: 16px;
+}
+
+.content-journal h2 {
+  font-size: 28px; /* Subtítulo com tamanho ligeiramente menor */
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.content-journal p {
+  font-size: 16px; /* Tamanho de texto mais adequado para leitura */
+  color: #666; /* Texto mais suave */
+  margin-bottom: 16px; /* Espaçamento entre os parágrafos */
+}
+
+.content-journal blockquote {
+  font-style: italic;
+  color: #444;
+  border-left: 4px solid #4caf50;
+  padding-left: 16px;
+  margin-left: 0;
+  margin-bottom: 16px;
+}
+
+/* Ajuste para os inputs do formulário para que fiquem mais discretos quando viewE for false */
+mat-form-field {
+  display: block;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+mat-form-field mat-label {
+  font-size: 14px;
+  color: #4caf50;
+}
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  color: #757575;
+}
+
+.close-btn mat-icon {
+  font-size: 24px;
 }

@@ -1,5 +1,5 @@
 <div *ngIf="showLayout()">
-  <mat-toolbar class="mat-elevation-z3">
+  <mat-toolbar class="mat-elevation-z3 toolbar">
     <button mat-icon-button (click)="collapsed.set(!collapsed())">
       <mat-icon>menu</mat-icon>
     </button>
@@ -7,7 +7,7 @@
     <img src="assets/logo.png" class="img-logo">
     <span class="example-spacer"></span>
 
-    <div *ngIf="showUser">
+    <div *ngIf="showUser" class="user-info">
       <span>Bem Vindo, {{nameUser}}</span>
     </div>
 
@@ -22,8 +22,8 @@
     <button mat-menu-item (click)="sair()" *ngIf="showUser">Sair</button>
   </mat-menu>
 
-  <mat-sidenav-container>
-    <mat-sidenav opened mode="side" [style.width]="sidenavWidth()" >
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
       <app-sidnav [collapsed]="collapsed()"></app-sidnav>
     </mat-sidenav>
     <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
@@ -32,6 +32,6 @@
   </mat-sidenav-container>
 </div>
 
-<div *ngIf="!showLayout()" style="overflow: hidden;">
+<div *ngIf="!showLayout()" class="no-layout">
   <router-outlet></router-outlet>
 </div>

@@ -1,5 +1,5 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from "@angular/material/form-field";
 import {ArchitectureService} from "./architecture.service";
@@ -27,6 +27,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
     MessageService,
     { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: {} },
+    {provide: DatePipe,useValue:{}},
     provideHttpClient(withInterceptorsFromDi()),
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     {provide: HTTP_INTERCEPTORS,              useClass: HttpErrorInterceptor, multi: true},

@@ -12,6 +12,7 @@ export enum UserRoles {
   DELETE = "ROLE_USER_DELETE",
   LIST_ALL = "ROLE_USER_LISTALL",
   LIST_LOG = "ROLE_USER_LOG_LISTALL",
+  LIST_TABLE_ALL="ROLE_POST_TABLE_ALL"
 }
 
 export enum UserPaths {

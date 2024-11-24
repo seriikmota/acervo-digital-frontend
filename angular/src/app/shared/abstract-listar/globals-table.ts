@@ -29,12 +29,11 @@ export const columnNamesMappingItems = {
     date: 'Data',
   };
 
-export const displayedColumnsDTO: string[] = ['id', 'title', 'subtitle', 'content', 'approval', 'publicationDate'];
+export const displayedColumnsDTO: string[] = ['id', 'title', 'subtitle', 'approval', 'publicationDate'];
 export const columnNamesMappingDTO = {
   id: 'Código',
   title: 'Título',
   subtitle: 'Subtítulo',
-  content: 'Conteúdo',
   approval: 'Aprovação',
   publicationDate: 'Data de Publicação',
 };

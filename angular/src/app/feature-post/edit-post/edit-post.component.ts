@@ -4,6 +4,7 @@ import {PostService} from "../post.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {SecurityService} from "../../architecture/security/security.service";
 import {postRoles} from "../post-routing.module";
+import {DatePipe} from "@angular/common";
 type PermissionConfig = {
   HAS_PERMISSION_CREATE?: boolean,
   HAS_PERMISSION_UPDATE?: boolean,
@@ -23,8 +24,7 @@ export type RoleConfig = {
 })
 export class EditPostComponent {
   editPostForm: FormGroup;
-  selectedFile: File | null = null;
-  currentIndex: number = 0;
+  selectedFiles: File[] = [];
   permissionConfig: PermissionConfig;
 
   constructor(
@@ -32,35 +32,48 @@ export class EditPostComponent {
     private postService: PostService,
     private dialogRef: MatDialogRef<EditPostComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private datePipe: DatePipe
   ) {
     // Inicializando as permissões
     this.permissionConfig = this.getPermissions();
 
     // Criando o formulário com as permissões
     this.editPostForm = this.fb.group({
-      title: [{ value: this.data?.title || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE }, [Validators.required]],
-      subtitle: [{ value: this.data?.subtitle || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE }, [Validators.required]],
-      content: [{ value: this.data?.content || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE }, [Validators.required]],
-      tag: [{ value: this.data?.tag || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE }, [Validators.required]],
-      approval: [this.data?.approval || false, Validators.required]
+      title: [
+        { value: this.data?.title || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
+        [Validators.required],
+      ],
+      subtitle: [
+        { value: this.data?.subtitle || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
+        [Validators.required],
+      ],
+      content: [
+        { value: this.data?.content || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
+        [Validators.required],
+      ],
+      tag: [
+        { value: this.data?.tag || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
+        [Validators.required],
+      ],
+      approval: [this.data?.approval || false, Validators.required],
+      publicationDate: [this.data?.publicationDate || new Date().toISOString(), Validators.required],
     });
   }
 
   // Retorna a configuração de roles
   private getRoles(): RoleConfig {
-    // Aqui você deve definir os roles de acordo com sua lógica ou carregar de algum serviço
     return {
       CREATE_ROLE: postRoles.CREATE,
-      UPDATE_ROLE: postRoles.UPDATE ,
-      DELETE_ROLE: postRoles.DELETE ,
-      READ_ROLE:  postRoles.READ,
+      UPDATE_ROLE: postRoles.UPDATE,
+      DELETE_ROLE: postRoles.DELETE,
+      READ_ROLE: postRoles.READ,
     };
   }
 
   // Retorna as permissões do usuário com base nos roles
   private getPermissions(): PermissionConfig {
-    const roles = this.getRoles();  // Obtendo os roles definidos acima
+    const roles = this.getRoles(); // Obtendo os roles definidos acima
     return {
       HAS_PERMISSION_CREATE: this.securityService.hasRoles(roles.CREATE_ROLE || ''),
       HAS_PERMISSION_UPDATE: this.securityService.hasRoles(roles.UPDATE_ROLE || ''),
@@ -69,8 +82,20 @@ export class EditPostComponent {
     };
   }
 
+  removeImage(index: number): void {
+    this.data.images.splice(index, 1); // Remove a imagem do array de imagens existentes
+  }
+  removeFile(index: number): void {
+    this.selectedFiles.splice(index, 1);
+  }
+
   onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        this.selectedFiles.push(files[i]); // Armazena arquivos selecionados
+      }
+    }
   }
 
   onSubmit(): void {
@@ -80,26 +105,21 @@ export class EditPostComponent {
         title: this.editPostForm.get('title')?.value,
         subtitle: this.editPostForm.get('subtitle')?.value,
         content: this.editPostForm.get('content')?.value,
-        approval: this.data?.approval || true,
-        publicationDate: this.data?.publicationDate || new Date().toISOString(),
+        approval: this.editPostForm.get('approval')?.value,
+        publicationDate: this.editPostForm.get('publicationDate')?.value, // Garantindo que seja uma string ISO válida
         tag: this.editPostForm.get('tag')?.value,
-        images: []
+        images: this.data.images, // Inclui as imagens existentes
       };
 
       const formData = new FormData();
       formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
 
-      if (this.selectedFile) {
-        formData.append('files', this.selectedFile);
-      } else if (this.data?.images?.length > 0) {
-        const existingFile = this.data.images[0];
-        if (existingFile && existingFile.image) {
-          const fileBlob = this.base64ToBlob(existingFile.image);
-          formData.append('files', fileBlob, 'existing-image.png');
-        }
-      }
+      // Adiciona novas imagens ao FormData
+      this.selectedFiles.forEach((file) => {
+        formData.append('files', file);
+      });
 
-      this.postService.updatePost(formData,this.data.id).subscribe({
+      this.postService.updatePost(formData, this.data.id).subscribe({
         next: (response) => {
           console.log('Postagem editada com sucesso:', response);
           this.dialogRef.close(true);
@@ -111,26 +131,4 @@ export class EditPostComponent {
     }
   }
 
-  base64ToBlob(base64String: string): Blob {
-    const byteCharacters = atob(base64String);
-    const byteArrays = [];
-    for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
-      const slice = byteCharacters.slice(offset, offset + 1024);
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-    return new Blob(byteArrays, { type: 'image/png' });
-  }
-
-  prevSlide(): void {
-    this.currentIndex = (this.currentIndex === 0) ? this.data?.images.length - 1 : this.currentIndex - 1;
-  }
-
-  nextSlide(): void {
-    this.currentIndex = (this.currentIndex === this.data?.images.length - 1) ? 0 : this.currentIndex + 1;
-  }
 }

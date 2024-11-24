@@ -13,11 +13,11 @@ export class SidnavComponent {
   protected securityService: SecurityService = inject(SecurityService);
   protected readonly UserPaths = UserPaths;
   protected readonly ItemPaths = ItemPaths;
-  protected readonly TablePostPaths =postTablePaths;
   protected readonly postPaths = postPaths;
+  protected readonly postTablePaths = postTablePaths;
   showUser: boolean = false;
   showUserLog: boolean = false;
-  showPostTable:boolean=false;
+  showPostTable:boolean= false;
 
   sidenavCollapsed = signal(false)
   @Input() set collapsed(value: boolean) {
@@ -59,5 +59,5 @@ export class SidnavComponent {
   }
 
 
-  protected readonly postTablePaths = postTablePaths;
+
 }

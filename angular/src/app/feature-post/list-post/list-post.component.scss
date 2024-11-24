@@ -1,11 +1,34 @@
 /* Container Geral */
 .post-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas com largura igual */
+  gap: 20px; /* espaçamento entre os cards */
+  justify-items: center;
   padding: 40px 20px;
+  width: 100%; /* Garantir que o container ocupe toda a largura da tela */
+  box-sizing: border-box; /* Inclui o padding no cálculo da largura */
+  margin: 0 auto; /* Centraliza o container */
 }
 
+/* Cartão de Post */
+.post-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  width: 100%; /* Deixe o cartão ocupar toda a largura disponível da célula */
+  max-width: 500px; /* Limite a largura máxima do cartão */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card img {
+  width: 200px; /* Define a largura fixa */
+  height: 200px; /* Define a altura fixa para manter o formato circular */
+  object-fit: cover; /* Garante que a imagem seja ajustada proporcionalmente */
+  border-radius: 50%; /* Torna a imagem redonda */
+  margin: 10px auto; /* Centraliza a imagem dentro do cartão */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona um leve efeito de sombra */
+}
 /* Botão de Nova Postagem */
 .add-post-button {
   display: flex;
@@ -37,17 +60,6 @@
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-/* Imagens do Post */
-.post-card img {
-  width: 200px; /* Define a largura fixa */
-  height: 200px; /* Define a altura fixa para manter o formato circular */
-  object-fit: cover; /* Garante que a imagem seja ajustada proporcionalmente */
-  border-radius: 50%; /* Torna a imagem redonda */
-  margin: 10px auto; /* Centraliza a imagem dentro do cartão */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona um leve efeito de sombra */
-}
-
 
 .post-card:hover {
   transform: translateY(-5px);
@@ -144,4 +156,16 @@ button[aria-label="Deletar"] {
 
 button[aria-label="Deletar"]:hover {
   background-color: #b71c1c;
+}
+/* Layout Responsivo */
+@media (max-width: 1024px) {
+  .post-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas médias */
+  }
+}
+
+@media (max-width: 768px) {
+  .post-container {
+    grid-template-columns: 1fr; /* 1 coluna em telas pequenas */
+  }
 }

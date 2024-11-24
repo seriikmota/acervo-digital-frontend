@@ -6,6 +6,7 @@ import {ListPostComponent} from "./list-post/list-post.component";
 import {EditPostComponent} from "./edit-post/edit-post.component";
 import {AddPostModalComponent} from "./add-post-modal/add-post-modal.component";
 import {TablePostComponent} from "./table-post/table-post.component";
+import {ViewPostComponent} from "./view-post/view-post.component";
 
 
 
@@ -14,7 +15,8 @@ import {TablePostComponent} from "./table-post/table-post.component";
     ListPostComponent,
     EditPostComponent,
     AddPostModalComponent,
-    TablePostComponent
+    TablePostComponent,
+    ViewPostComponent
   ],
   imports: [
     CommonModule,

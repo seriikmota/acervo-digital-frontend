@@ -57,19 +57,21 @@ export class TablePostComponent extends AbstractListarComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.listarDados()
       }
     });
   }
 
  override editar(element: any): void {
     const dialogRef = this.dialog.open(EditPostComponent, {
-      maxWidth: '500px',
+      width: '800px',
       height: 'auto',
       maxHeight: '90vh',
       data: element,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      this.listarDados()
     });
   }
 
