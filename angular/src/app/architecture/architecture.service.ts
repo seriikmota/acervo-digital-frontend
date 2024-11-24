@@ -93,6 +93,7 @@ export class ArchitectureService {
                 refreshToken: data.refreshToken || '',
                 roles: data.roles
               };
+              console.log(data.roles)
               this.securityService.init(user);
             }
           });

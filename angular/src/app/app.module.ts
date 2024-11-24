@@ -10,11 +10,12 @@ import {SidnavComponent} from "./sidnav/sidnav.component";
 import {DialogMessageOkComponent} from "./core/dialog-message-ok/dialog-message-ok.component";
 import {DialogMessageConfirmComponent} from "./core/dialog-message-confirm/dialog-message-confirm.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { AboutComponent } from './about/about.component';
+import {AboutComponent} from './about/about.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {UserModule} from "./feature-user/user.module";
 import {ItemModule} from "./feature-item/item.module";
 import {SimpleNotificationsModule} from "angular2-notifications";
+import {PostModule} from "./feature-post/post.module";
 
 
 @NgModule({
@@ -25,22 +26,23 @@ import {SimpleNotificationsModule} from "angular2-notifications";
     SidnavComponent,
     AboutComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        ArchitectureModule,
-        SharedMaterialModule,
-        SecurityModule.forRoot({
-            nameStorage: 'portalSSOSecurityStorage',
-            loginRouter: '/auth/login'
-        }),
-        SimpleNotificationsModule.forRoot(),
-        MessageModule,
-        MatChipsModule,
-        UserModule,
-        ItemModule,
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ArchitectureModule,
+    SharedMaterialModule,
+    SecurityModule.forRoot({
+      nameStorage: 'portalSSOSecurityStorage',
+      loginRouter: '/auth/login'
+    }),
+    SimpleNotificationsModule.forRoot(),
+    MessageModule,
+    MatChipsModule,
+    UserModule,
+    ItemModule,
+    PostModule
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

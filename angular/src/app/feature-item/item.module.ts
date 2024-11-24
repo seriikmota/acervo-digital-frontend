@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ItemRoutingModule } from './item-routing.module';
 import {ListItemsComponent} from "./list-items/list-items.component";
 import {EditItemsComponent} from "./edit-items/edit-items.component";

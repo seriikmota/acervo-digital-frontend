@@ -22,7 +22,6 @@ type PermissionConfig = {
   HAS_PERMISSION_READ?: boolean,
 };
 
-
 @Directive()
 export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   displayedColumns: string[] = [];
@@ -73,6 +72,9 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
               // Verifica se o nome do campo contém "date" e formata se for uma data válida
               if (key.toLowerCase().includes('date') && this.isValidDate(value)) {
                 item[key] = this.formatDate(value);
+              }
+              if (key.toLowerCase().includes('approval')) {
+                item[key] = item[key] ? 'Ativo' : 'Inativo';
               }
             }
           }
@@ -149,6 +151,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     this.messageService.addConfirmYesNo(`Você deseja excluir esse registro? Essa ação é irreversível!`,() => {
       this.service.excluir(element.id).subscribe({
         next: () => {
+          console.log("valor exclusão",element)
           this.notificationsService.success("Registro excluido com sucesso!");
           this.listarDados()
         }

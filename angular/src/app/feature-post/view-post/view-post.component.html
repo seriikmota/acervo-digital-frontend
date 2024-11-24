@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>
+  Visualizar Postagem
+  <!-- Botão de Fechar no topo -->
+  <button mat-icon-button mat-dialog-close class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+
+<div mat-dialog-content>
+  <!-- Exibição de imagens -->
+  <div *ngIf="data?.images?.length > 0" class="image-container">
+    <div *ngFor="let image of data.images; let i = index" class="image-item">
+      <img src="{{ 'data:image/jpg;base64,' + image.image }}" alt="Image" class="image" />
+    </div>
+  </div>
+
+  <!-- Título -->
+  <h1>{{ data.title || 'Sem título' }}</h1> <!-- Exibe o título -->
+
+  <!-- Subtítulo -->
+  <h2>{{ data.subtitle || 'Sem subtítulo' }}</h2> <!-- Exibe o subtítulo -->
+
+  <!-- Conteúdo -->
+  <div class="content-journal">
+    <p>{{ data.content || 'Sem conteúdo' }}</p> <!-- Exibe o conteúdo -->
+  </div>
+</div>
+
+

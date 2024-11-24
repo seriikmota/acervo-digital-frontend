@@ -1,0 +1,95 @@
+<h1 mat-dialog-title>
+  Editar Postagem
+  <!-- Botão de Fechar no topo -->
+  <button mat-icon-button mat-dialog-close class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="editPostForm">
+    <!-- Exibição de imagens -->
+    <div *ngIf="data?.images?.length > 0" class="image-container">
+      <div *ngFor="let image of data.images; let i = index" class="image-item">
+        <img src="{{ 'data:image/jpg;base64,' + image.image }}" alt="Image" class="image" />
+        <button mat-icon-button color="warn" (click)="removeImage(i)" *ngIf="data.view">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Título -->
+    <div >
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title" placeholder="Digite o título da postagem">
+      </mat-form-field>
+    </div>
+
+
+    <!-- Subtítulo -->
+    <div >
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Subtítulo</mat-label>
+        <input matInput formControlName="subtitle" placeholder="Digite o subtítulo">
+      </mat-form-field>
+    </div>
+
+
+    <!-- Conteúdo -->
+    <div >
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Conteúdo</mat-label>
+        <textarea matInput formControlName="content" rows="4" placeholder="Digite o conteúdo"></textarea>
+      </mat-form-field>
+    </div>
+
+
+    <!-- Tag -->
+    <div >
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Tag</mat-label>
+        <input matInput formControlName="tag" placeholder="Digite uma tag">
+      </mat-form-field>
+    </div>
+
+    <!-- Ativo -->
+    <div class="form-row" >
+      <mat-slide-toggle formControlName="approval">
+        Ativo
+      </mat-slide-toggle>
+    </div>
+
+    <!-- Escolher arquivo -->
+    <div class="upload-container" >
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        Escolher Novo Arquivo
+      </button>
+      <input
+        #fileInput
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        hidden
+      />
+    </div>
+    <div *ngIf="selectedFiles.length > 0" class="file-list">
+      <p *ngFor="let file of selectedFiles; let i = index">
+        {{ file.name }}
+        <button mat-icon-button color="warn" (click)="removeFile(i)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </p>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end" >
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!editPostForm.valid"
+    (click)="onSubmit()">
+    Salvar
+  </button>
+</div>

@@ -1,0 +1,140 @@
+// Container principal do modal de visualização
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  // Centraliza horizontalmente
+  justify-content: center;  // Centraliza verticalmente
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+  max-width: 800px;
+  margin: auto;
+  height: 100%; // Garantir que o conteúdo ocupe toda a altura do modal
+  overflow-y: auto; // Para rolar se o conteúdo for grande
+  border-radius: 10px;
+}
+
+// Título da postagem
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  text-align: center;  // Centraliza o título
+}
+
+// Subtítulo
+h2 {
+  font-size: 1.8rem;
+  font-weight: normal;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;  // Centraliza o subtítulo
+}
+
+// Corpo do conteúdo (parágrafos)
+.content-journal {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 20px;
+  text-align: center;  // Centraliza o conteúdo
+  p {
+    margin-bottom: 10px;
+  }
+}
+
+// Exibição de imagens
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;  // Centraliza as imagens
+  margin-bottom: 20px;
+
+  .image-item {
+    width: calc(33.33% - 10px);
+    height: auto;
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+// Exibição de informações adicionais (Tag, Ativo, etc.)
+div p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+  color: #333;
+  text-align: center;  // Centraliza o texto
+}
+
+strong {
+  font-weight: bold;
+}
+
+// Estilo para a visualização de arquivos
+.file-list {
+  margin-top: 15px;
+  text-align: center;  // Centraliza a lista de arquivos
+  p {
+    font-size: 1rem;
+    color: #444;
+  }
+}
+
+// Botões
+mat-icon-button {
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  padding: 5px;
+  &:hover {
+    background-color: #ddd;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+// Botão de fechar no final
+mat-dialog-actions {
+  display: flex;
+  justify-content: center;  // Centraliza os botões
+  padding: 10px;
+  background-color: #fafafa;
+  border-top: 1px solid #ddd;
+
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin-left: 10px;
+
+    &:first-child {
+      background-color: transparent;
+      color: #333;
+      border: 1px solid #ddd;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+
+    &:last-child {
+      background-color: #4CAF50;
+      color: white;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+}
