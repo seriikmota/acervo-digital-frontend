@@ -13,6 +13,8 @@ import {NotificationsService} from "angular2-notifications";
 })
 export class EditItemsComponent implements OnInit{
   itemsForm!: FormGroup;
+  selectedFiles: File[] = [];
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,6 +44,7 @@ export class EditItemsComponent implements OnInit{
       registerDate: ['', Validators.required],
       status: [null],  // Pode ser null por padrão
       approval: [null],  // Pode ser null por padrão
+      files: [[]],
       user: [this.securityService.credential.user?.id]  // Pode ser null por padrão
     });
 
@@ -56,17 +59,57 @@ export class EditItemsComponent implements OnInit{
     }
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const filesArray = Array.from(input.files);
+      if (this.selectedFiles.length + filesArray.length > 3) {
+        this.notificationsService.error('Você pode enviar no máximo 3 imagens.');
+        return;
+      }
+
+      this.selectedFiles.push(...filesArray);
+      console.log('Arquivos selecionados:', this.selectedFiles.map(file => file.name));
+    }
+  }
 
   onSubmit() {
     if (this.itemsForm!=null) {
+      const dto = {
+        id: this.itemsForm.get('id')?.value,
+        numberCode: this.itemsForm.get('numberCode')?.value,
+        collector: this.itemsForm.get('collector')?.value,
+        colleactionYear: this.itemsForm.get('colleactionYear')?.value,
+        collection: this.itemsForm.get('collection')?.value,
+        location: this.itemsForm.get('location')?.value,
+        provenance: this.itemsForm.get('provenance')?.value,
+        period: this.itemsForm.get('period')?.value,
+        registerDate: this.itemsForm.get('registerDate')?.value,
+        status: this.itemsForm.get('status')?.value,
+        approval: this.itemsForm.get('approval')?.value,
+        name: this.itemsForm.get('name')?.value,
+        taxonomy: this.itemsForm.get('taxonomy')?.value,
+        description: this.itemsForm.get('description')?.value,
+        heritageDate: this.itemsForm.get('heritageDate')?.value,
+        files:[]
+      };
+
+      const formData = new FormData();
+      formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+
+      this.selectedFiles.forEach((file, index) => {
+        formData.append(`files`, file); // Adiciona cada arquivo
+      });
+
       if (this.itemsForm.get('id')?.value) {
+
         this.itemsService.update(this.itemsForm.value, this.itemsForm.get('id')?.value).subscribe(
           response => {
             this.notificationsService.success("Item atualizado com sucesso!");
           }
         );
       } else {
-        this.itemsService.save(this.itemsForm.value).subscribe(
+        this.itemsService.save(formData).subscribe(
           response => {
             this.notificationsService.success("Item salvo com sucesso!");
           }
@@ -77,11 +120,13 @@ export class EditItemsComponent implements OnInit{
     }
   }
 
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      // Realize ações com o arquivo, como upload ou pré-visualização
-    }
-  }
+  // onFileSelected(event: Event): void {
+  //   const file = (event.target as HTMLInputElement).files?.[0];
+  //   if (file) {
+  //     // Realize ações com o arquivo, como upload ou pré-visualização
+  //   }
+  // }
+
+
 
 }

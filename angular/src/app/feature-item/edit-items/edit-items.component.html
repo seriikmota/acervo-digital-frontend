@@ -119,10 +119,28 @@
         </mat-error>
       </mat-form-field>
     </div>
-      <div class="form-row">
-       <label>Imagem do Item</label>
-       <input type="file" (change)="onFileSelected($event)" accept="image/*">
+    <div class="upload-container">
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        Escolher Arquivos
+      </button>
+      <input
+        #fileInput
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        hidden
+        multiple
+      />
+      <div *ngIf="selectedFiles.length > 0" class="file-list">
+        <p *ngFor="let file of selectedFiles; let i = index">
+          {{ file.name }}
+          <button mat-icon-button color="warn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </p>
       </div>
+    </div>
+
 
     <div mat-dialog-actions align="end">
       <button mat-button mat-dialog-close style="background-color: #D32F2F; color: white; border-radius: 20px">Fechar</button>
