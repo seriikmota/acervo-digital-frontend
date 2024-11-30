@@ -79,7 +79,8 @@
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Data de Registro</mat-label>
-        <input matInput formControlName="registerDate" [matDatepicker]="RegisterPicker" placeholder="Data de Registro" required>
+        <input matInput formControlName="registerDate" [matDatepicker]="RegisterPicker" placeholder="Data de Registro"
+               required>
         <mat-error *ngIf="itemsForm.get('registerDate')?.hasError('required')">
           Data de Registro é obrigatória!
         </mat-error>
@@ -90,7 +91,8 @@
 
       <mat-form-field class="form-field">
         <mat-label>Data de Patrimônio</mat-label>
-        <input matInput formControlName="heritageDate" [matDatepicker]="herigatePicker" placeholder="Data de Patrimônio" required>
+        <input matInput formControlName="heritageDate" [matDatepicker]="herigatePicker" placeholder="Data de Patrimônio"
+               required>
         <mat-error *ngIf="itemsForm.get('heritageDate')?.hasError('required')">
           Data de Patrimônio é obrigatória!
         </mat-error>
@@ -101,7 +103,8 @@
 
       <mat-form-field class="form-field">
         <mat-label>Ano Coleta</mat-label>
-        <input matInput formControlName="colleactionYear" [matDatepicker]="colleactionYear" placeholder="Ano Coleta" required>
+        <input matInput formControlName="colleactionYear" [matDatepicker]="colleactionYear" placeholder="Ano Coleta"
+               required>
         <mat-error *ngIf="itemsForm.get('colleactionYear')?.hasError('required')">
           Data de Ano coleta é obrigatória!
         </mat-error>
@@ -113,13 +116,31 @@
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Descrição</mat-label>
-        <input matInput formControlName="description" placeholder="Descrição" required>
+        <textarea matInput formControlName="description" placeholder="Descrição" required></textarea>
         <mat-error *ngIf="itemsForm.get('description')?.hasError('required')">
           Descrição é obrigatória!
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="upload-container">
+
+    <div class="form-row" style="margin-bottom: 10px;">
+      <mat-form-field class="form-field">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" placeholder="Selecione Status">
+          <mat-option [value]="1">Ativo</mat-option>
+          <mat-option [value]="0">Inativo</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row" style="margin-top: 10px;">
+      <mat-slide-toggle formControlName="approval">
+        Ativo
+      </mat-slide-toggle>
+    </div>
+
+
+    <div class="upload-container"  style="margin-top: 10px;">
       <button mat-raised-button color="primary" (click)="fileInput.click()">
         Escolher Arquivos
       </button>
@@ -143,8 +164,10 @@
 
 
     <div mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close style="background-color: #D32F2F; color: white; border-radius: 20px">Fechar</button>
-      <button mat-button style="background-color: #1976D2; color: white; border-radius: 20px" type="submit" (click)="onSubmit()">
+      <button mat-button mat-dialog-close style="background-color: #D32F2F; color: white; border-radius: 20px">Fechar
+      </button>
+      <button mat-button style="background-color: #1976D2; color: white; border-radius: 20px" type="submit"
+              (click)="onSubmit()">
         {{ data ? 'Editar' : 'Cadastrar' }}
       </button>
     </div>
