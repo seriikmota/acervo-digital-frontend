@@ -1,0 +1,184 @@
+/* Estilos gerais */
+.card-super {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-content {
+  padding: 20px;
+}
+
+/* Títulos */
+h1 {
+  font-size: 2.5rem;
+  color: #1F1C1D;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+h1 + section {
+  margin-bottom: 20px;
+}
+
+section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  text-align: justify;
+}
+
+section a {
+  color: #1F1C1D;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+section a:hover {
+  text-decoration: underline;
+}
+
+/* Lista */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* Grid de Criadores */
+.creator-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+  gap: 20px; /* espaçamento entre os cards */
+  justify-items: center;
+}
+
+.cards-creator {
+  width: 100%;
+  max-width: 300px; /* Largura máxima de cada card */
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cards-creator:hover {
+  transform: translateY(-5px);
+}
+
+mat-card-header {
+  background-color: #1F1C1D;
+  color: white;
+  padding: 12px;
+  border-radius: 8px 8px 0 0;
+}
+
+mat-card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+mat-card-footer {
+  background-color: #f4f4f9;
+  padding: 16px;
+  border-radius: 0 0 8px 8px;
+}
+
+mat-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+mat-chip {
+  margin: 8px 0;
+  background-color: #1F1C1D;
+  color: white;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+mat-chip:hover {
+  background-color: #837b7b;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  mat-card-content {
+    padding: 15px;
+  }
+
+  .creator-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas médias */
+  }
+
+  .cards-creator {
+    max-width: 90%;
+  }
+
+  mat-card-header {
+    text-align: center;
+  }
+
+  mat-chip {
+    width: 100%;
+    text-align: center;
+  }
+
+  section p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-super {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .creator-grid {
+    grid-template-columns: 1fr; /* 1 coluna em telas pequenas */
+  }
+
+  .cards-creator {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  mat-chip {
+    padding: 5px 10px;
+  }
+
+  mat-card-title {
+    font-size: 1.2rem;
+  }
+
+  mat-card-footer {
+    padding: 10px;
+  }
+
+  section p {
+    font-size: 0.95rem;
+  }
+}

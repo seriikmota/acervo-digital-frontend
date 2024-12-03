@@ -1,0 +1,154 @@
+<h1 class="titulo">Cadastro de Item</h1>
+
+<mat-divider></mat-divider>
+<div class="form-container">
+  <form [formGroup]="itemsForm">
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Código do Item</mat-label>
+        <input matInput formControlName="numberCode" placeholder="Código do Item">
+        <mat-error *ngIf="itemsForm.get('numberCode')?.hasError('required')">
+          Código do Item é obrigatório!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" placeholder="Nome" required>
+        <mat-error *ngIf="itemsForm.get('name')?.hasError('required')">
+          Nome é obrigatório!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Coletor</mat-label>
+        <input matInput formControlName="collector" placeholder="Coletor" required>
+        <mat-error *ngIf="itemsForm.get('collector')?.hasError('required')">
+          Coletor é obrigatório!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-label>Taxonomia</mat-label>
+        <input matInput formControlName="taxonomy" placeholder="Taxonomia" required>
+        <mat-error *ngIf="itemsForm.get('taxonomy')?.hasError('required')">
+          Taxonomia é obrigatória!
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Coleção</mat-label>
+        <input matInput formControlName="collection" placeholder="Coleção" required>
+        <mat-error *ngIf="itemsForm.get('collection')?.hasError('required')">
+          Coleção é obrigatória!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Proveniência</mat-label>
+        <input matInput formControlName="provenance" placeholder="Proveniência" required>
+        <mat-error *ngIf="itemsForm.get('provenance')?.hasError('required')">
+          Proveniência é obrigatória!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Localização</mat-label>
+        <input matInput formControlName="location" placeholder="Localização" required>
+        <mat-error *ngIf="itemsForm.get('location')?.hasError('required')">
+          Localização é obrigatória!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Período</mat-label>
+        <input matInput formControlName="period" placeholder="Período" required>
+        <mat-error *ngIf="itemsForm.get('period')?.hasError('required')">
+          Período é obrigatório!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Data de Registro</mat-label>
+        <input matInput formControlName="registerDate" [matDatepicker]="RegisterPicker" placeholder="Data de Registro" required>
+        <mat-error *ngIf="itemsForm.get('registerDate')?.hasError('required')">
+          Data de Registro é obrigatória!
+        </mat-error>
+        <mat-datepicker-toggle matIconSuffix [for]="RegisterPicker"></mat-datepicker-toggle>
+        <mat-datepicker #RegisterPicker>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Data de Patrimônio</mat-label>
+        <input matInput formControlName="heritageDate" [matDatepicker]="herigatePicker" placeholder="Data de Patrimônio" required>
+        <mat-error *ngIf="itemsForm.get('heritageDate')?.hasError('required')">
+          Data de Patrimônio é obrigatória!
+        </mat-error>
+        <mat-datepicker-toggle matIconSuffix [for]="herigatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #herigatePicker>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Ano Coleta</mat-label>
+        <input matInput formControlName="colleactionYear" [matDatepicker]="colleactionYear" placeholder="Ano Coleta" required>
+        <mat-error *ngIf="itemsForm.get('colleactionYear')?.hasError('required')">
+          Data de Ano coleta é obrigatória!
+        </mat-error>
+        <mat-datepicker-toggle matIconSuffix [for]="colleactionYear"></mat-datepicker-toggle>
+        <mat-datepicker #colleactionYear>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Descrição</mat-label>
+        <input matInput formControlName="description" placeholder="Descrição" required>
+        <mat-error *ngIf="itemsForm.get('description')?.hasError('required')">
+          Descrição é obrigatória!
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="upload-container">
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        Escolher Arquivos
+      </button>
+      <input
+        #fileInput
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        hidden
+        multiple
+      />
+      <div *ngIf="selectedFiles.length > 0" class="file-list">
+        <p *ngFor="let file of selectedFiles; let i = index">
+          {{ file.name }}
+          <button mat-icon-button color="warn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </p>
+      </div>
+    </div>
+
+
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close style="background-color: #D32F2F; color: white; border-radius: 20px">Fechar</button>
+      <button mat-button style="background-color: #1976D2; color: white; border-radius: 20px" type="submit" (click)="onSubmit()">
+        {{ data ? 'Editar' : 'Cadastrar' }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<simple-notifications></simple-notifications>

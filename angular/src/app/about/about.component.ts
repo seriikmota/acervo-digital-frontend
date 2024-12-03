@@ -21,8 +21,8 @@ export class AboutComponent {
     },
     {
       name: 'Erik Mota',
-      email: 'luizfelipedn57@gmail.com',
-      phone: '+55 (62) 99688-5739',
+      email: 'seriikmota.dev@gmail.com',
+      phone: '+55 (62) 98429-1788',
       git: "https://github.com/seriikmota"
     }
   ];
@@ -37,13 +37,18 @@ export class AboutComponent {
       name: 'Luiz Felipe de Almeida e Silva',
       email: 'luizfelipedn57@gmail.com',
       phone: '+55 (62) 99688-5739',
-      git: "https://github.com/marcos-abs"
+      git: "https://github.com/Lipolys"
     },
     {
       name: 'Marcos Antônio Barbosa de Souza',
       email: 'desouza.marcos@outlook.com.br',
       phone: '+55 (62) 99208-9474',
-      git: "https://github.com/lipolys"
+      git: "https://github.com/marcos-abs"
     }
   ]
+
+  redirectToWhatsapp(numero: string) {
+    const cleanedNumber = numero.replace(/\D/g, '');
+    window.open('https://wa.me/' + cleanedNumber + '?text=Quero%20conversar%20sobre%20o%20seu%20trabalho!', '_blank');
+  }
 }

@@ -1,0 +1,63 @@
+<h1 mat-dialog-title>Adicionar Nova Postagem</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="addPostForm">
+    <!-- Título -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" placeholder="Digite o título da postagem">
+    </mat-form-field>
+
+    <!-- Subtítulo -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Subtítulo</mat-label>
+      <input matInput formControlName="subtitle" placeholder="Digite o subtítulo">
+    </mat-form-field>
+
+    <!-- Conteúdo -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Conteúdo</mat-label>
+      <textarea matInput formControlName="content" rows="4" placeholder="Digite o conteúdo"></textarea>
+    </mat-form-field>
+
+    <!-- Tag -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Tag</mat-label>
+      <input matInput formControlName="tag" placeholder="Digite uma tag">
+    </mat-form-field>
+
+    <!-- Upload de Arquivos -->
+    <div class="upload-container">
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        Escolher Arquivos
+      </button>
+      <input
+        #fileInput
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        hidden
+        multiple
+      />
+      <div *ngIf="selectedFiles.length > 0" class="file-list">
+        <p *ngFor="let file of selectedFiles; let i = index">
+          {{ file.name }}
+          <button mat-icon-button color="warn" (click)="removeFile(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </p>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!addPostForm.valid"
+    (click)="onSubmit()">
+    Salvar
+  </button>
+</div>

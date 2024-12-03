@@ -1,5 +1,5 @@
-import { lastValueFrom, Observable, catchError, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {catchError, Observable, throwError} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import * as myGlobals from './globals';
 
 export abstract class AbstractService<T> {
@@ -9,12 +9,22 @@ export abstract class AbstractService<T> {
     this.url = `${myGlobals.API_URL}/${baseUrl}`;
   }
 
-  listar(filtroObjeto: any, pageNumber: number, pageSize: number): Observable<any[]> {
-    filtroObjeto.pageNumber = pageNumber;
-    filtroObjeto.pageSize = pageSize;
+  listar(filtroObjeto: any, pageNumber: number, pageSize: number, sortData: any): Observable<any[]> {
+    let params;
+    if (sortData) {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize)
+        .set('sort', `${sortData.sortParam},${sortData.sortDirection}`)
+    } else {
+      params = new HttpParams()
+        .set('page', pageNumber)
+        .set('size', pageSize)
+    }
 
     return this.httpService.get<any[]>(this.url,{
-      headers: this.createHeaders()
+      headers: this.createHeaders(),
+      params: params
     })
       .pipe(
         catchError(this.handleError)
@@ -68,13 +78,17 @@ export abstract class AbstractService<T> {
       );
   }
 
-  exportar(dado: any): Observable<any> {
-    return this.httpService.post<any>(`${this.url}/exportar`, dado, {
-      headers: this.createHeaders()
-    })
-      .pipe(
+  exportarPdf(id: any): Observable<any> {
+    let params = new HttpParams()
+      .set('id', id);
+
+    return this.httpService.get<any>(`${this.url}/pdf`, {
+      headers: this.createHeaders(),
+      params: params,
+      responseType: 'arraybuffer' as 'json',
+    }).pipe(
         catchError(this.handleError)
-      );
+    );
   }
 
   protected handleError(error: any): Observable<never> {

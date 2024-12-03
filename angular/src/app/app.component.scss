@@ -12,17 +12,90 @@ mat-toolbar {
   z-index: 5;
   background-color: #1F1C1D;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #333;
+}
+
+.img-logo {
+  height: 3rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
 }
 
 mat-sidenav-container {
   height: calc(100vh - 60px);
-  background-color: #8abf92;
+  background-color: #ffffff;
 }
 
-.img-logo {
-  height: 4rem;
-  width: 9rem;
+/* Responsividade */
+@media (max-width: 768px) {
+  mat-toolbar {
+    padding: 0 12px;
+  }
+
+  .img-logo {
+    height: 2.5rem; /* Ajuste o tamanho para telas menores */
+  }
+
+  .user-info {
+    font-size: 0.9rem;
+  }
+
+  mat-toolbar button {
+    font-size: 1.2rem;
+  }
 }
-.example-spacer {
-  flex: 1 1 auto;
+
+@media (max-width: 600px) {
+  mat-toolbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 16px;
+  }
+
+  .img-logo {
+    height: 2rem; /* Ajuste ainda menor para telas muito pequenas */
+    margin-bottom: 8px;
+  }
+
+  .user-info {
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+  }
+
+  mat-toolbar button {
+    margin-bottom: 8px;
+  }
+}
+
+/* Estilo adicional para o menu */
+mat-menu {
+  background-color: #1F1C1D;
+  color: white;
+}
+
+mat-menu button {
+  color: white;
+}
+
+.mat-sidenav.opened {
+  width: 250px; /* Ajuste o tamanho do menu lateral */
+}
+
+.sidenav-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.no-layout {
+  overflow: hidden;
 }

@@ -1,0 +1,93 @@
+<h1 class="titulo">Cadastro de Assistente</h1>
+
+<mat-divider></mat-divider>
+
+<div class="form-container">
+  <form [formGroup]="usuarioForm">
+    <!-- Primeira linha: Nome e Email -->
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" placeholder="Nome do Usuário">
+        <mat-error *ngIf="usuarioForm.get('name')?.hasError('required')">
+          Nome é obrigatório!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Email" type="email">
+        <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">
+          Email é obrigatório!
+        </mat-error>
+        <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">
+          Email inválido!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Segunda linha: Login -->
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Login</mat-label>
+        <input matInput formControlName="login" placeholder="Login">
+        <mat-error *ngIf="usuarioForm.get('login')?.hasError('required')">
+          Login é obrigatório!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Terceira linha: Senha e Confirmar Senha -->
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Senha</mat-label>
+        <input matInput formControlName="password" placeholder="Senha" type="password">
+        <mat-error *ngIf="usuarioForm.get('password')?.hasError('required')">
+          Senha é obrigatória!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-field">
+        <mat-label>Repita a Senha</mat-label>
+        <input matInput formControlName="confirmPassword" placeholder="Repita a Senha" type="password">
+        <mat-error *ngIf="usuarioForm.get('confirmPassword')?.hasError('required')">
+          Confirmação de senha é obrigatória!
+        </mat-error>
+        <mat-error *ngIf="usuarioForm.hasError('passwordMismatch')">
+          As senhas não coincidem!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Quarta linha: Permissão -->
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Permissão</mat-label>
+        <mat-select formControlName="function" placeholder="Selecione a Permissão">
+          <mat-option *ngFor="let permission of permissions" [value]="permission">
+            {{ permission }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="usuarioForm.get('function')?.hasError('required')">
+          Permissão é obrigatória!
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Quinta linha: Toggle Ativo -->
+    <div class="form-row">
+      <mat-slide-toggle formControlName="enabled">
+        Ativo
+      </mat-slide-toggle>
+    </div>
+
+    <div mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close style="background-color:  #1fd219; color: white;">Fechar</button>
+      <button style="background-color:  #1976D2; color: white;" mat-button color="primary" type="submit" (click)="onSubmit()">
+        {{ data ? 'Editar' : 'Cadastrar' }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<simple-notifications></simple-notifications>

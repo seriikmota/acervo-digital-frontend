@@ -1,30 +1,39 @@
-<div class="sidenav-container"> <!-- Contêiner para o fundo -->
+<div class="sidenav-container">
   <mat-nav-list>
-    <a mat-list-item routerLink='/user' routerLinkActive="active-link">
-      <mat-icon>person</mat-icon>
-      <span>Usuários</span>
+    <a mat-list-item [routerLink]="UserPaths.LIST" routerLinkActive="active-link" *ngIf="showUser">
+      <mat-icon class="sidenav-icon">person</mat-icon>
+      <span class="sidenav-text">Usuários</span>
     </a>
 
-    <a mat-list-item routerLink='/items' routerLinkActive="active-link">
-      <mat-icon>format_list_bulleted</mat-icon>
-      <span>Itens</span>
+    <a mat-list-item [routerLink]="UserPaths.LIST_LOG" routerLinkActive="active-link" *ngIf="showUserLog">
+      <mat-icon class="sidenav-icon">history</mat-icon>
+      <span class="sidenav-text">Histórico</span>
     </a>
-    <a mat-list-item routerLink='/' routerLinkActive="active-link">
-      <mat-icon>wallpaper</mat-icon>
-      <span>Postagens</span>
+
+    <a mat-list-item [routerLink]="ItemPaths.LIST" routerLinkActive="active-link">
+      <mat-icon class="sidenav-icon">format_list_bulleted</mat-icon>
+      <span class="sidenav-text">Itens</span>
     </a>
-    <a mat-list-item routerLink='/log' routerLinkActive="active-link">
-      <mat-icon>history</mat-icon>
-      <span>Histórico</span>
+
+    <a mat-list-item [routerLink]="postPaths.LIST" routerLinkActive="active-link">
+      <mat-icon class="sidenav-icon">wallpaper</mat-icon>
+      <span class="sidenav-text">Postagens</span>
     </a>
+
+    <a mat-list-item [routerLink]="postTablePaths.LIST_TABLE" routerLinkActive="active-link" *ngIf="showPostTable">
+      <mat-icon class="sidenav-icon">settings</mat-icon>
+      <span class="sidenav-text">Config Postagem</span>
+    </a>
+
     <a mat-list-item (click)="redirectToWhatsapp()" target="_blank">
-      <mat-icon>call</mat-icon>
-      <span>Contato</span>
+      <mat-icon class="sidenav-icon">call</mat-icon>
+      <span class="sidenav-text">Contato</span>
     </a>
   </mat-nav-list>
+
   <div class="sidenav-footer">
     <div class="header-text" [class.hide-header-text]="sidenavCollapsed()">
-      <a routerLink='/about' routerLinkActive="active-link">Sobre </a>
+      <a routerLink='/about' routerLinkActive="active-link">Sobre</a>
     </div>
   </div>
 </div>

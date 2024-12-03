@@ -1,55 +1,69 @@
 <!-- Campo de filtro -->
-<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;" *ngIf="getnameComponent()=='items'">
+<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;" *ngIf="getShowFilter()">
   <mat-form-field style="flex-grow: 1; max-width: 400px;">
     <input matInput [(ngModel)]="filtro" placeholder="Pesquisar" />
     <button mat-icon-button *ngIf="filtro" matSuffix (click)="clearFilter()">
       <mat-icon>clear</mat-icon>
     </button>
-    <button mat-icon-button  matSuffix (click)="applyFilter()" style="border-radius: 20px; margin: 10px;">
+    <button mat-icon-button matSuffix (click)="applyFilter()" style="border-radius: 20px; margin: 10px;">
       <mat-icon>filter_list</mat-icon>
     </button>
   </mat-form-field>
 </div>
 
-<mat-card>
+<mat-card style="border-radius: 10px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
   <mat-card-content>
-    <div style="text-align: center">
+    <div style="text-align: center; padding: 20px;">
 
-      <!-- Tabela -->
-      <table mat-table [dataSource]="dataSource">
-        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column" >
-          <th mat-header-cell *matHeaderCellDef style="text-align: center">{{ columnNamesMapping[column] }}</th>
-          <td mat-cell *matCellDef="let element" style="text-align: center">{{ element[column] }}</td>
-        </ng-container>
+      <!-- Tabela Responsiva -->
+      <div class="table-container" style="overflow-x: auto; width: 100%; margin-bottom: 20px;">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="listarDados()" style="width: 100%; border-spacing: 0; border-collapse: collapse;">
+          <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center; background-color: #388E3C; color: white; padding: 12px; font-weight: bold;" mat-sort-header>
+              {{ columnNamesMapping[column] }}
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center; padding: 10px; border-bottom: 1px solid #e0f2f1;">
+              {{ element[column] }}
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="acao">
-          <th mat-header-cell *matHeaderCellDef style="text-align: center"> Ação </th>
-          <td mat-cell *matCellDef="let element" style="display:flex; flex-direction: column; align-items: center;">
-            <div style="display:flex; flex-direction: row">
-              <button mat-button (click)="editar(element)">Editar</button>
-              <button mat-button (click)="excluir(element)">Excluir</button>
-            </div>
-            <button mat-button (click)="excluir(element)">Exportar</button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="acao" *ngIf="getShowActions()">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center; background-color: #388E3C; color: white; padding: 12px;"> Ação </th>
+            <td mat-cell *matCellDef="let element" style="display:flex; flex-direction: row; justify-content: center; padding: 10px; border-bottom: 1px solid #e0f2f1;">
+              <button mat-raised-button (click)="editar(element)" style="background-color: #2069d8; color: white; border-radius: 20px; margin-right: 10px;" *ngIf="permissionConfig.HAS_PERMISSION_UPDATE">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-raised-button (click)="excluir(element)" style="background-color: #d32f2f; color:white; border-radius: 20px; margin-right: 10px;" *ngIf="permissionConfig.HAS_PERMISSION_DELETE">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-raised-button (click)="exportarPdf(element.id)" style="background-color: #388E3C; color:white; border-radius: 20px;" *ngIf="getShowExportPdf()">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns.concat(['acao'])"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns.concat(['acao']);"></tr>
-      </table>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns.concat(getShowActions() ? ['acao'] : [])"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns.concat(getShowActions() ? ['acao'] : []);"></tr>
+        </table>
+      </div>
 
       <!-- Paginação -->
-      <mat-paginator
-        [pageSize]="pageSize"
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        showFirstLastButtons
-        (page)="onPageChange($event)">
+      <mat-paginator [pageSize]="pageSize"
+                     [length]="dataSource.paginator?.length"
+                     [pageIndex]="dataSource.paginator?.pageIndex"
+                     [pageSizeOptions]="[5, 10, 25, 100]"
+                     showFirstLastButtons
+                     (page)="onPageChange($event)">
       </mat-paginator>
 
-      <!-- Botões de ação -->
-      <div style="display: flex; justify-content: end; margin-top: 10px;">
-        <button mat-raised-button style="background:#167362;color: white" class="button-incluir" (click)="incluir()">INCLUIR+</button>
-        <button mat-raised-button style="background:#731616;color: white" class="button-exportar" (click)="exportar()" *ngIf="false">EXPORTAR PDF</button>
+      <!-- Botão de Ação -->
+      <div *ngIf="getShowActions()" style="display: flex; justify-content: flex-end; margin-top: 10px;">
+        <button mat-raised-button style="background-color: #388E3C; color: white; justify-content: flex-end; border-radius: 20px" class="button-incluir" (click)="incluir()" *ngIf="permissionConfig.HAS_PERMISSION_CREATE">
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
     </div>
   </mat-card-content>
 </mat-card>
+
+<simple-notifications></simple-notifications>
