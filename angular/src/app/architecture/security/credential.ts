@@ -7,7 +7,6 @@ export class Credential {
   private _user!: User |undefined;
 
   constructor(private config: IConfig) {
-    console.log("Credition.constructor", config);
   }
 
   public init(user?: User): void {

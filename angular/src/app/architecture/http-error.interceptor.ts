@@ -14,6 +14,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(catchError((response: HttpErrorResponse): Observable<HttpEvent<Message>> => {
       const messageReponse = Object.assign(new MessageResponse(), response.error);
 
+      if (messageReponse.status === 401 || messageReponse.status === 403) {
+        delete messageReponse.messages;
+      }
+
       this.errorService.handleGlobalError(messageReponse);
 
       return throwError(messageReponse);
