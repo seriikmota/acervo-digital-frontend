@@ -46,7 +46,7 @@ export class ItemService extends AbstractService<any>{
 
   override save(formData: FormData): Observable<any> {
     console.log(this.createHeaders())
-    return this.httpService.post<any>(`${this.url}`, FormData, {
+    return this.httpService.post(`${this.url}`, formData, {
       headers: this.createHeaders()
     })
       .pipe(

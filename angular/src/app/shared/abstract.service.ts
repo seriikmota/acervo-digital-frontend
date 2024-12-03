@@ -99,7 +99,6 @@ export abstract class AbstractService<T> {
     const token = this.getToken();
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
     });
   }
 

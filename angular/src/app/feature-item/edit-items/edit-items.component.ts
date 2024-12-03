@@ -33,6 +33,7 @@ export class EditItemsComponent implements OnInit{
       id: [''],  // Inicializando vazio
       numberCode: ['', Validators.required],  // Campo obrigatório
       name: ['', Validators.required],
+      description:  ['', Validators.required],
       heritageDate: ['', Validators.required],
       taxonomy: ['', Validators.required],
       period: ['', Validators.required],
