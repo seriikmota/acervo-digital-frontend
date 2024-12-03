@@ -1,0 +1,21 @@
+<div class="post-container" *ngIf="posts?.length">
+  <mat-card class="post-card mat-elevation-z21" *ngFor="let post of posts">
+    <mat-card-header>
+      <mat-card-title>{{ post.title }}</mat-card-title>
+      <mat-card-subtitle>{{ post.subtitle }} - Publicado em: {{ post.publicationDate | date: 'mediumDate' }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <img mat-card-image *ngIf="post.images.length > 0" src="{{'data:image/jpg;base64,' + post.images[0].image}}" alt="Imagem do Post">
+
+    <mat-card-content>
+      <p>{{ post.content }}</p>
+      <span class="post-tag" *ngIf="post.tag">#{{ post.tag }}</span>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button aria-label="Editar" (click)="editar(post)">
+        <mat-icon>remove_red_eye</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

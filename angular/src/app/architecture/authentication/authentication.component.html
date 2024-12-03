@@ -1,0 +1,42 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>Autenticação</mat-card-title>
+    <mat-card-content>
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onSubmit()"
+        class="form"
+      >
+        <div class="login-content">
+          <mat-form-field >
+            <mat-label >Usuário</mat-label>
+            <input matInput formControlName="login" autocomplete="off"
+                   placeholder="Usuário" maxlength="20">
+            <mat-error *ngIf="handleError('login', 'required')">
+              Campo obrigatório!
+            </mat-error>
+            <mat-error *ngIf="handleError('login', 'minLength')">
+              Tamanho mínimo de 3 letras
+            </mat-error>
+
+          </mat-form-field>
+          <mat-form-field >
+            <mat-label>Senha</mat-label>
+            <input matInput formControlName="password" type="password" title="Senha"
+                   placeholder="Senha" >
+            <mat-error *ngIf="handleError('password', 'required')">
+              Campo obrigatório!
+            </mat-error>
+
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit"  title="Entrar">
+            <span>Entrar</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<simple-notifications></simple-notifications>

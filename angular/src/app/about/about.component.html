@@ -1,11 +1,14 @@
-<mat-card>
-  <mat-card-content style="display: flex; flex-direction: column; align-content: center">
+<div style="display: flex; align-items: center"></div>
+
+<mat-card class="card-super">
+  <mat-card-content>
     <h1>Aplicação LAPAGEO - UEG 2024</h1>
     <section style="padding: 10px; border-bottom: 1px solid #ddd;">
       <p>Esta aplicação foi desenvolvida como componente de avaliação para as disciplinas de Programação Web 2 e Construção de Software, sobre a tutoria,
-      respectivamente, dos professores Guiliano Rangel e Hellen de Castro, do curso de Sistemas de Informação da Universidade Estadual de Goiás, sob as restrições
+        respectivamente, dos professores Guiliano Rangel e Hellen de Castro, do curso de Sistemas de Informação da Universidade Estadual de Goiás, sob as restrições
         de código livre, dada a natureza didática do projeto.
-      A documentação do projeto pode ser encontrada <a href="teste">aqui</a>.</p>
+        A documentação do projeto pode ser encontrada <a href="https://drive.google.com/file/d/1IYVcr_aKJ_nEDR_2pJMdx6Yr9eBsOMUT/view?usp=sharing">aqui</a>.
+      </p>
       <ul>
         <li>Desenvolvido em Java com Spring no backend.</li>
         <li>Desenvolvido em TypeScript com Angular no backend.</li>
@@ -13,27 +16,35 @@
         <li>Última atualização: xx/xx/xxxx</li>
       </ul>
       <h1>Desenvolvido por: </h1>
-      <div style="display: flex; flex-direction: row;">
-        <div  style="flex-direction: column">
-          <section class="creator" *ngFor="let creator of creatorsColumn1">
-            <ul>
-              <li>{{ creator.name }}</li>
-              <li>Email: {{ creator.email }}</li>
-              <li>Telefone: {{ creator.phone }}</li>
-              <li><a href="{{creator.git}}">GitHub</a></li>
-            </ul>
-          </section>
-        </div>
-        <div  style="flex-direction: column">
-          <section class="creator" *ngFor="let creator of creatorsColumn2">
-            <ul>
-              <li>{{ creator.name }}</li>
-              <li>Email: {{ creator.email }}</li>
-              <li>Telefone: {{ creator.phone }}</li>
-              <li><a href="{{creator.git}}">GitHub</a></li>
-            </ul>
-          </section>
-        </div>
+      <div class="creator-grid">
+        <section *ngFor="let creator of creatorsColumn1">
+          <mat-card appearance="outlined" class="cards-creator">
+            <mat-card-header>
+              <mat-card-title>{{ creator.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-footer>
+              <mat-card-actions style="flex-direction: column; align-items: flex-start;">
+                <a href="mailto:{{creator.email}}"><mat-chip>{{ creator.email }}</mat-chip></a>
+                <mat-chip (click)="redirectToWhatsapp(creator.phone)">{{ creator.phone }}</mat-chip>
+                <mat-chip>{{creator.git}}</mat-chip>
+              </mat-card-actions>
+            </mat-card-footer>
+          </mat-card>
+        </section>
+        <section *ngFor="let creator of creatorsColumn2">
+          <mat-card appearance="outlined" class="cards-creator">
+            <mat-card-header>
+              <mat-card-title>{{ creator.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-footer>
+              <mat-card-actions style="flex-direction: column; align-items: flex-start;">
+                <a href="mailto:{{creator.email}}"><mat-chip>{{ creator.email }}</mat-chip></a>
+                <mat-chip (click)="redirectToWhatsapp(creator.phone)">{{ creator.phone }}</mat-chip>
+                <a href="{{creator.git}}"><mat-chip>{{creator.git}}</mat-chip></a>
+              </mat-card-actions>
+            </mat-card-footer>
+          </mat-card>
+        </section>
       </div>
     </section>
   </mat-card-content>

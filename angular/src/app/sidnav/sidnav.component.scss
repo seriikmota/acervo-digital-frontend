@@ -1,36 +1,119 @@
+/* Container do Sidenav */
 .sidenav-container {
-  background-color: #167362;
+  background: #A5D6A7; /* Cor mais suave e moderna */
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  color: white;
 }
 
+/* Estilo para os ícones do Sidenav */
+.sidenav-icon {
+  font-size: 24px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Efeito de hover nos itens do menu */
+mat-list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Efeito sutil ao passar o mouse */
+}
+
+mat-list-item.active-link {
+  background-color: rgba(255, 255, 255, 0.2); /* Destaque para o item ativo */
+}
+
+.sidenav-text {
+  font-size: 16px;
+  margin-left: 15px;
+  transition: color 0.3s ease;
+  white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adiciona reticências se o texto for muito longo */
+}
+
+/* Efeito de hover no texto */
+mat-list-item:hover .sidenav-text {
+  color: #e0e0e0;
+}
+
+/* Rodapé do Sidenav */
 .sidenav-footer {
   position: fixed;
-  bottom: 0;
+  bottom: 10px;
   left: 10px;
   text-align: start;
+  padding: 10px 0;
 }
 
 .header-text {
   padding: 10px;
-  margin: 0 auto;
-  width: fit-content
+  width: fit-content;
+  text-align: center;
 }
 
+/* Link do rodapé "Sobre" */
 .header-text a {
   color: white;
   text-decoration: none;
   font-weight: bold;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
+/* Efeito de hover no link "Sobre" */
+.header-text a:hover {
+  color: #b0e0e6;
+}
+
+/* Animação para esconder texto */
 .hide-header-text {
   opacity: 0;
   height: 0;
+  visibility: hidden;
 }
 
-span {
-  margin: 15px;
-  color: white; /* Cor do texto para os itens do menu */
+/* Personalização do link de contato */
+a[target="_blank"] {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+}
+
+a[target="_blank"]:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+a[target="_blank"] mat-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+/* Responsividade: esconder o texto em dispositivos móveis (caso o sidenav seja compactado) */
+@media (max-width: 768px) {
+  .sidenav-container {
+    width: 80px; /* Deixa o sidenav mais compacto */
+  }
+
+  .sidenav-text {
+    display: none; /* Esconde o texto */
+  }
+
+  .sidenav-icon {
+    margin-left: 0;
+    font-size: 28px;
+  }
+
+  .header-text {
+    text-align: center;
+  }
 }

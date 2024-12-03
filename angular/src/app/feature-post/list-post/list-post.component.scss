@@ -1,0 +1,171 @@
+/* Container Geral */
+.post-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas com largura igual */
+  gap: 20px; /* espaçamento entre os cards */
+  justify-items: center;
+  padding: 40px 20px;
+  width: 100%; /* Garantir que o container ocupe toda a largura da tela */
+  box-sizing: border-box; /* Inclui o padding no cálculo da largura */
+  margin: 0 auto; /* Centraliza o container */
+}
+
+/* Cartão de Post */
+.post-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  width: 100%; /* Deixe o cartão ocupar toda a largura disponível da célula */
+  max-width: 500px; /* Limite a largura máxima do cartão */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card img {
+  width: 200px; /* Define a largura fixa */
+  height: 200px; /* Define a altura fixa para manter o formato circular */
+  object-fit: cover; /* Garante que a imagem seja ajustada proporcionalmente */
+  border-radius: 50%; /* Torna a imagem redonda */
+  margin: 10px auto; /* Centraliza a imagem dentro do cartão */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona um leve efeito de sombra */
+}
+/* Botão de Nova Postagem */
+.add-post-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.add-post-button button {
+  background-color: #388e3c;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-post-button button:hover {
+  background-color: #2e7d32;
+  transform: scale(1.05);
+}
+
+/* Cartão de Post */
+.post-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Cabeçalho do Cartão */
+mat-card-header {
+  background: #4caf50;
+  color: white;
+  padding: 20px;
+}
+
+.author-avatar {
+  background-color: #a5d6a7;
+}
+
+mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+mat-card-subtitle {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* Carrossel de Imagens */
+.post-carousel {
+  margin: 0 auto;
+  width: 90%;
+}
+
+.post-carousel img {
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteúdo do Post */
+mat-card-content {
+  padding: 20px;
+  color: #424242;
+}
+
+mat-card-content p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+}
+
+.post-tag {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #e8f5e9;
+  color: #388e3c;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+/* Ações do Post */
+mat-card-actions {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #eeeeee;
+}
+
+mat-card-actions button {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-radius: 30px;
+  padding: 8px 20px;
+}
+
+button[aria-label="Editar"] {
+  background-color: #388e3c;
+  color: white;
+}
+
+button[aria-label="Editar"]:hover {
+  background-color: #2e7d32;
+}
+
+button[aria-label="Deletar"] {
+  background-color: #d32f2f;
+  color: white;
+}
+
+button[aria-label="Deletar"]:hover {
+  background-color: #b71c1c;
+}
+/* Layout Responsivo */
+@media (max-width: 1024px) {
+  .post-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas médias */
+  }
+}
+
+@media (max-width: 768px) {
+  .post-container {
+    grid-template-columns: 1fr; /* 1 coluna em telas pequenas */
+  }
+}
