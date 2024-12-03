@@ -63,12 +63,12 @@
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Permissão</mat-label>
-        <mat-select formControlName="function" placeholder="Selecione a Permissão">
+        <mat-select formControlName="userGroup" placeholder="Selecione a Permissão">
           <mat-option *ngFor="let permission of permissions" [value]="permission">
-            {{ permission }}
+            {{ getDisplayName(permission.name) }}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="usuarioForm.get('function')?.hasError('required')">
+        <mat-error *ngIf="usuarioForm.get('userGroup')?.hasError('required')">
           Permissão é obrigatória!
         </mat-error>
       </mat-form-field>
