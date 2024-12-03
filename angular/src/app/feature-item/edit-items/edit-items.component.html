@@ -4,6 +4,15 @@
 <div class="form-container">
   <form [formGroup]="itemsForm">
 
+    <div *ngIf="data?.images?.length > 0" class="image-container">
+      <div *ngFor="let image of data.images; let i = index" class="image-item">
+        <img src="{{ 'data:image/jpg;base64,' + image.image }}" alt="Image" class="image" />
+        <button mat-icon-button color="warn" (click)="removeImage(i)" *ngIf="data.view">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
     <div class="form-row">
       <mat-form-field class="form-field">
         <mat-label>Código do Item</mat-label>
@@ -135,7 +144,7 @@
 
     <div class="form-row" style="margin-top: 10px;">
       <mat-slide-toggle formControlName="approval">
-        Ativo
+        Aprovação
       </mat-slide-toggle>
     </div>
 
@@ -155,7 +164,7 @@
       <div *ngIf="selectedFiles.length > 0" class="file-list">
         <p *ngFor="let file of selectedFiles; let i = index">
           {{ file.name }}
-          <button mat-icon-button color="warn">
+          <button mat-icon-button color="warn" (click)="removeFile(i)">
             <mat-icon>close</mat-icon>
           </button>
         </p>

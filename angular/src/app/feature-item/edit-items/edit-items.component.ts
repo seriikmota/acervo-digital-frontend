@@ -43,8 +43,8 @@ export class EditItemsComponent implements OnInit{
       collection: ['', Validators.required],
       location: ['', Validators.required],
       registerDate: ['', Validators.required],
-      status: [null],  // Pode ser null por padrão
-      approval: [null],  // Pode ser null por padrão
+      status: [''],  // Pode ser null por padrão
+      approval: [''],  // Pode ser null por padrão
       files: [[]],
       user: [this.securityService.credential.user?.id]  // Pode ser null por padrão
     });
@@ -58,6 +58,13 @@ export class EditItemsComponent implements OnInit{
         }
       });
     }
+  }
+
+  removeImage(index: number): void {
+    this.data.images.splice(index, 1); // Remove a imagem do array de imagens existentes
+  }
+  removeFile(index: number): void {
+    this.selectedFiles.splice(index, 1);
   }
 
   onFileSelected(event: Event): void {
@@ -104,7 +111,7 @@ export class EditItemsComponent implements OnInit{
 
       if (this.itemsForm.get('id')?.value) {
 
-        this.itemsService.update(this.itemsForm.value, this.itemsForm.get('id')?.value).subscribe(
+        this.itemsService.update(formData, this.itemsForm.get('id')?.value).subscribe(
           response => {
             this.notificationsService.success("Item atualizado com sucesso!");
           }
@@ -120,14 +127,6 @@ export class EditItemsComponent implements OnInit{
       this.notificationsService.warn("Formulário inválido. Por favor, preencha todos os campos obrigatórios.");
     }
   }
-
-  // onFileSelected(event: Event): void {
-  //   const file = (event.target as HTMLInputElement).files?.[0];
-  //   if (file) {
-  //     // Realize ações com o arquivo, como upload ou pré-visualização
-  //   }
-  // }
-
 
 
 }
