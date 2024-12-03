@@ -1,8 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DialogMessageOkComponent} from "../core/dialog-message-ok/dialog-message-ok.component";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {EditUserService} from "./service/edit-user.service";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {UserService} from "../user.service";
+import {NotificationsService} from "angular2-notifications";
+import {DataSource} from "@angular/cdk/collections";
+import {UserGroup} from "../../model/user-group";
+import {AbstractService} from "../../shared/abstract.service";
 
 @Component({
   selector: 'app-edit-user',
@@ -16,12 +19,12 @@ export class EditUserComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userService: EditUserService,
-    private dialog: MatDialog,
-    private dialogRefCurrent: MatDialogRef<any>
+    private userService: UserService,
+    private notificationsService: NotificationsService,
+    private abstractService: AbstractService<UserGroup>
   ) {}
 
-  permissions: string[] = ['Admin', 'Assistant'];
+  permissions: UserGroup[] = [];
 
   ngOnInit(): void {
     // Inicializando o form vazio
@@ -52,6 +55,12 @@ export class EditUserComponent implements OnInit{
         }
       });
     }
+
+    // Carregar grupos permissões
+    this.abstractService.listar({}, 0, 100, {sortParam: 'name', sortDirection: 'asc'}).subscribe(response => {
+      this.permissions = response;
+    });
+
   }
 
 // Validador de senha
