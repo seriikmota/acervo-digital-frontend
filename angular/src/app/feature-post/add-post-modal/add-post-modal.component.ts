@@ -66,7 +66,7 @@ export class AddPostModalComponent {
       this.selectedFiles.forEach((file, index) => {
         formData.append(`files`, file); // Adiciona cada arquivo
       });
-
+console.log(dto)
       this.postService.createPost(formData).subscribe({
         next: (response) => {
           this.notificationsService.success('Postagem criada com sucesso!');

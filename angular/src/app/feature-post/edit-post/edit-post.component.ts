@@ -35,6 +35,7 @@ export class EditPostComponent {
     private securityService: SecurityService,
     private datePipe: DatePipe
   ) {
+    console.log("Edit post ",data)
     // Inicializando as permissões
     this.permissionConfig = this.getPermissions();
 
@@ -56,8 +57,8 @@ export class EditPostComponent {
         { value: this.data?.tag || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
         [Validators.required],
       ],
-      approval: [this.data?.approval || false, Validators.required],
-      publicationDate: [this.data?.publicationDate || new Date().toISOString(), Validators.required],
+      approval: [this.data?.approval === 'ativo' ? true : false, Validators.required],
+      publicationDate: [this.data?.publicationDate.DateFormat || new Date(), Validators.required],
     });
   }
 
