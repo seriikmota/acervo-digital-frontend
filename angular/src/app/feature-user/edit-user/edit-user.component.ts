@@ -56,7 +56,6 @@ export class EditUserComponent implements OnInit{
 
     // Carregar grupos permissões
     this.userService.listarGruposPermissoes().subscribe(response => {
-      console.log(response);
       this.permissions = response;
     });
 
@@ -71,8 +70,6 @@ export class EditUserComponent implements OnInit{
 
   onSubmit() {
     if (this.usuarioForm != null) {
-      console.log(this.usuarioForm)
-
       if (!this.usuarioForm.get('password')?.value && this.usuarioForm.get('id')?.value) {
         this.usuarioForm.get('password')?.setValue(this.data.password);
         this.usuarioForm.get('confirmPassword')?.setValue(this.data.password);
@@ -85,7 +82,6 @@ export class EditUserComponent implements OnInit{
           }
         );
       } else {
-        console.log("form: ", this.usuarioForm.value);
         this.userService.save(this.usuarioForm.value).subscribe(
           response => {
             this.notificationsService.success("Usuário salvo com sucesso!");
