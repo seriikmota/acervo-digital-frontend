@@ -22,7 +22,9 @@ type PermissionConfig = {
   HAS_PERMISSION_READ?: boolean,
 };
 
-@Directive()
+@Directive({
+  selector:'[appRoot]'
+})
 export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   displayedColumns: string[] = [];
   columnNamesMapping: { [key: string]: string };
