@@ -20,7 +20,6 @@ export class EditUserComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService,
     private notificationsService: NotificationsService,
-    private abstractService: AbstractService<UserGroup>
   ) {}
 
   permissions: UserGroup[] = [];
@@ -33,7 +32,7 @@ export class EditUserComponent implements OnInit{
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      function: ['', Validators.required],
+      userGroup: ['', Validators.required],
       login: ['', Validators.required],
       enabled: [this.data?.enabled || false, Validators.required]
     }, {
@@ -56,7 +55,8 @@ export class EditUserComponent implements OnInit{
     }
 
     // Carregar grupos permissões
-    this.abstractService.listar({}, 0, 100, {sortParam: 'name', sortDirection: 'asc'}).subscribe(response => {
+    this.userService.listarGruposPermissoes().subscribe(response => {
+      console.log(response);
       this.permissions = response;
     });
 
@@ -85,6 +85,7 @@ export class EditUserComponent implements OnInit{
           }
         );
       } else {
+        console.log("form: ", this.usuarioForm.value);
         this.userService.save(this.usuarioForm.value).subscribe(
           response => {
             this.notificationsService.success("Usuário salvo com sucesso!");
@@ -94,5 +95,13 @@ export class EditUserComponent implements OnInit{
     } else {
       this.notificationsService.warn("Formulário inválido. Por favor, preencha todos os campos obrigatórios.");
     }
+  }
+
+  getDisplayName(name: string): string {
+    const nameMap: { [key: string]: string } = {
+      'admin': 'Administrador',
+      'assistant': 'Assistente'
+    };
+    return nameMap[name] || name;
   }
 }

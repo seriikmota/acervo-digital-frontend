@@ -32,4 +32,12 @@ export class UserService extends AbstractService<any>{
         catchError(this.handleError)
     );
   }
+
+  listarGruposPermissoes(): Observable<any[]> {
+    return this.httpService.get<any[]>(`${this.url}/getUserGroup`,{
+      headers: this.createHeaders()
+    }).pipe(
+        catchError(this.handleError)
+    );
+  }
 }
