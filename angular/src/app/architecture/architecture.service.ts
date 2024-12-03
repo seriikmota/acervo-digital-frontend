@@ -93,20 +93,20 @@ export class ArchitectureService {
                 refreshToken: data.refreshToken || '',
                 roles: data.roles
               };
-              console.log(data.roles)
               this.securityService.init(user);
             }
           });
     });
 
     this.securityService.onForbidden.subscribe(() => {
-      this.notificationsService.warn("Sem acesso");
-      this.router.navigate([this.securityService.securityConfig.loginRouter]);
+      this.router.navigate(['']);
+      this.securityService.onUpdateMenu.emit()
+      this.securityService.onUpdateUser.emit()
+      this.notificationsService.warn("Você não possui permissão para acessar ou realizar essa ação");
     });
 
     this.securityService.onUnauthorized.subscribe(() => {
-      this.notificationsService.warn("Não autorizado!");
-      this.router.navigate(['/']);
+      this.router.navigate([this.securityService.securityConfig.loginRouter]);
     });
   }
 }
