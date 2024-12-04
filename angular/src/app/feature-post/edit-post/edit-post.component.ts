@@ -1,4 +1,4 @@
-import {Component, inject, Inject} from '@angular/core';
+import {Component, inject, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../post.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -23,7 +23,7 @@ export type RoleConfig = {
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
 })
-export class EditPostComponent {
+export class EditPostComponent implements OnInit{
   editPostForm: FormGroup;
   selectedFiles: File[] = [];
   permissionConfig: PermissionConfig;
@@ -58,9 +58,22 @@ export class EditPostComponent {
         { value: this.data?.tag || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
         [Validators.required],
       ],
-      approval: [this.data?.approval === 'Ativo' ? true : false, Validators.required],
+      approval: [this.data?.approval === 'Aprovado' ? true : false, Validators.required],
     });
   }
+
+  ngOnInit(): void {
+    if (this.data.images && this.data.images.length > 0) {
+      Promise.all(
+        this.data.images.map((image: { image: string }, index: number) =>
+          this.urlToFile(`data:image/jpg;base64,${image.image}`, `existing_image_${index + 1}.jpg`)
+        )
+      ).then((files) => {
+        this.selectedFiles.push(...files);
+        console.log('Imagens existentes convertidas para arquivos:', this.selectedFiles);
+      });
+    }
+    }
 
   // Retorna a configuração de roles
   private getRoles(): RoleConfig {
@@ -84,10 +97,8 @@ export class EditPostComponent {
   }
 
   removeImage(index: number): void {
-    this.data.images.splice(index, 1); // Remove a imagem do array de imagens existentes
-  }
-  removeFile(index: number): void {
-    this.selectedFiles.splice(index, 1);
+      this.data.images.splice(index, 1); // Remove a imagem existente
+      this.selectedFiles.splice(index, 1); // Remove a nova imagem
   }
 
   onFileSelected(event: Event): void {
@@ -137,6 +148,13 @@ export class EditPostComponent {
         },
       });
     }
+  }
+
+
+  private async urlToFile(url: string, filename: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], filename, { type: blob.type });
   }
 
 }
