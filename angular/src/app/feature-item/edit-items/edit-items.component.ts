@@ -1,6 +1,6 @@
 import {Component, inject, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DateAdapter} from '@angular/material/core';
 import {SecurityService} from "../../architecture/security/security.service";
 import {ItemService} from "../item.service";
@@ -22,6 +22,7 @@ export class EditItemsComponent implements OnInit{
     private itemsService: ItemService,
     private dateAdapter: DateAdapter<Date>,
     private notificationsService: NotificationsService,
+    private dialogRef: MatDialogRef<EditItemsComponent>,
   ) {
     this.dateAdapter.setLocale('en-GB');
   }
@@ -45,7 +46,10 @@ export class EditItemsComponent implements OnInit{
       registerDate: ['', Validators.required],
       status: [''],  // Pode ser null por padrão
       approval: [''],  // Pode ser null por padrão
-      files: [[]],
+      images: [[   {
+        id: '',
+        image: ''
+      }]],
       user: [this.securityService.credential.user?.id]  // Pode ser null por padrão
     });
 
@@ -53,19 +57,35 @@ export class EditItemsComponent implements OnInit{
     if (this.data?.id != null) {
       this.itemsService.consultarPorId(this.data.id).subscribe(response => {
         if (response) {
-          // Preenchendo o formulário com os dados retornados
           this.itemsForm.patchValue(response);
+          this.data = response;
+          console.log(this.data)
         }
       });
     }
+    if (this.itemsForm.get('images') ) {
+      Promise.all(
+        this.itemsForm.get('images')?.value.map((image: { image: string }, index: number) =>
+          this.urlToFile(`data:image/jpg;base64,${image.image}`, `existing_image_${index + 1}.jpg`)
+        )
+      ).then((files) => {
+        this.selectedFiles.push(...files);
+        console.log('Imagens existentes convertidas para arquivos:', this.selectedFiles);
+      });
+    }
+
+
   }
 
   removeImage(index: number): void {
-    this.data.images.splice(index, 1); // Remove a imagem do array de imagens existentes
+    if (this.selectedFiles != null && (this.selectedFiles.length > 3)) {
+      this.selectedFiles.splice(index, 1);
+      this.data.images.splice(index, 1);
+    }else {
+      this.data.images.splice(index, 1);
+    }
   }
-  removeFile(index: number): void {
-    this.selectedFiles.splice(index, 1);
-  }
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -111,15 +131,17 @@ export class EditItemsComponent implements OnInit{
 
       if (this.itemsForm.get('id')?.value) {
 
-        this.itemsService.update(formData, this.itemsForm.get('id')?.value).subscribe(
+        this.itemsService.update(formData,this.data.id).subscribe(
           response => {
             this.notificationsService.success("Item atualizado com sucesso!");
+            this.dialogRef.close(true);
           }
         );
       } else {
         this.itemsService.save(formData).subscribe(
           response => {
             this.notificationsService.success("Item salvo com sucesso!");
+            this.dialogRef.close(true);
           }
         );
       }
@@ -128,5 +150,10 @@ export class EditItemsComponent implements OnInit{
     }
   }
 
+  private async urlToFile(url: string, filename: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], filename, { type: blob.type });
+  }
 
 }
