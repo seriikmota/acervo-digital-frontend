@@ -5,6 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {SecurityService} from "../../architecture/security/security.service";
 import {postRoles} from "../post-routing.module";
 import {DatePipe} from "@angular/common";
+import {NotificationsService} from "angular2-notifications";
 type PermissionConfig = {
   HAS_PERMISSION_CREATE?: boolean,
   HAS_PERMISSION_UPDATE?: boolean,
@@ -33,7 +34,7 @@ export class EditPostComponent {
     private dialogRef: MatDialogRef<EditPostComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private securityService: SecurityService,
-    private datePipe: DatePipe
+    private notificationsService: NotificationsService,
   ) {
     console.log("Edit post ",data)
     // Inicializando as permissões
@@ -57,8 +58,7 @@ export class EditPostComponent {
         { value: this.data?.tag || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
         [Validators.required],
       ],
-      approval: [this.data?.approval === 'ativo' ? true : false, Validators.required],
-      publicationDate: [this.data?.publicationDate.DateFormat || new Date(), Validators.required],
+      approval: [this.data?.approval === 'Ativo' ? true : false, Validators.required],
     });
   }
 
@@ -90,15 +90,19 @@ export class EditPostComponent {
     this.selectedFiles.splice(index, 1);
   }
 
-  onFileSelected(event: any): void {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        this.selectedFiles.push(files[i]); // Armazena arquivos selecionados
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const filesArray = Array.from(input.files);
+      if (this.selectedFiles.length + filesArray.length > 3) {
+        this.notificationsService.error('Você pode enviar no máximo 3 imagens.');
+        return;
       }
+
+      this.selectedFiles.push(...filesArray);
+      console.log('Arquivos selecionados:', this.selectedFiles.map(file => file.name));
     }
   }
-
   onSubmit(): void {
     if (this.editPostForm.valid) {
       const dto = {
@@ -107,17 +111,20 @@ export class EditPostComponent {
         subtitle: this.editPostForm.get('subtitle')?.value,
         content: this.editPostForm.get('content')?.value,
         approval: this.editPostForm.get('approval')?.value,
-        publicationDate: this.editPostForm.get('publicationDate')?.value, // Garantindo que seja uma string ISO válida
         tag: this.editPostForm.get('tag')?.value,
-        images: this.data.images, // Inclui as imagens existentes
+        files: [], // Inclui as imagens existentes
       };
 
+
       const formData = new FormData();
+
+      // Adicionar o DTO como JSON
       formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
 
-      // Adiciona novas imagens ao FormData
-      this.selectedFiles.forEach((file) => {
-        formData.append('files', file);
+
+      // Adicionar novas imagens selecionadas
+      this.selectedFiles.forEach((file, index) => {
+        formData.append(`files`, file); // Adiciona cada arquivo
       });
 
       this.postService.updatePost(formData, this.data.id).subscribe({
