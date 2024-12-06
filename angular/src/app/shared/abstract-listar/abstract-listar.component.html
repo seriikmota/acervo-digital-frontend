@@ -61,7 +61,7 @@
         <mat-icon style="font-size: 20px;">picture_as_pdf</mat-icon>
       </button>
 
-      <button mat-fab  (click)="View(element)"  style="background-color: #00796b; color:white; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; padding: 0; transition: background-color 0.3s ease;">
+      <button mat-fab *ngIf="getnameComponent()=='items'" (click)="View(element)"  style="background-color: #00796b; color:white; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; padding: 0; transition: background-color 0.3s ease;">
         <mat-icon>remove_red_eye</mat-icon>
       </button>
     </td>
