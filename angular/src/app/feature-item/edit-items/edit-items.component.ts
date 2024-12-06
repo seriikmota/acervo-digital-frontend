@@ -46,10 +46,7 @@ export class EditItemsComponent implements OnInit{
       registerDate: ['', Validators.required],
       status: [''],  // Pode ser null por padrão
       approval: [''],  // Pode ser null por padrão
-      images: [[   {
-        id: '',
-        image: ''
-      }]],
+      images: [],
       user: [this.securityService.credential.user?.id]  // Pode ser null por padrão
     });
 
@@ -59,21 +56,17 @@ export class EditItemsComponent implements OnInit{
         if (response) {
           this.itemsForm.patchValue(response);
           this.data = response;
-          console.log(this.data)
+          Promise.all(
+            this.itemsForm.get('images')?.value.map((image: { image: string }, index: number) =>
+              this.urlToFile(`data:image/jpg;base64,${image.image}`, `existing_image_${index + 1}.jpg`)
+            )
+          ).then((files) => {
+            this.selectedFiles.push(...files);
+            console.log('Imagens existentes convertidas para arquivos:', this.selectedFiles);
+          });
         }
       });
     }
-    if (this.data.images!=null && this.data.images.length>0 ) {
-      Promise.all(
-        this.itemsForm.get('images')?.value.map((image: { image: string }, index: number) =>
-          this.urlToFile(`data:image/jpg;base64,${image.image}`, `existing_image_${index + 1}.jpg`)
-        )
-      ).then((files) => {
-        this.selectedFiles.push(...files);
-        console.log('Imagens existentes convertidas para arquivos:', this.selectedFiles);
-      });
-    }
-
 
   }
 
