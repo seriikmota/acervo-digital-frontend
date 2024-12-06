@@ -9,8 +9,8 @@ export class AboutComponent {
   creatorsColumn1 = [
     {
       name: 'Davi ',
-      email: 'luizfelipedn57@gmail.com',
-      phone: '+55 (62) 99688-5739',
+      email: 'davifariagoncalves@gmail.com',
+      phone: '+55 (62) 99991-9116',
       git: "https://github.com/Davii-code"
     },
     {

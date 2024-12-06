@@ -1,39 +1,39 @@
 <div class="sidenav-container">
   <mat-nav-list>
     <a mat-list-item [routerLink]="UserPaths.LIST" routerLinkActive="active-link" *ngIf="showUser">
-      <mat-icon class="sidenav-icon">person</mat-icon>
+      <mat-icon matListItemIcon>person</mat-icon>
       <span class="sidenav-text">Usuários</span>
     </a>
 
     <a mat-list-item [routerLink]="UserPaths.LIST_LOG" routerLinkActive="active-link" *ngIf="showUserLog">
-      <mat-icon class="sidenav-icon">history</mat-icon>
+      <mat-icon matListItemIcon>history</mat-icon>
       <span class="sidenav-text">Histórico</span>
     </a>
 
     <a mat-list-item [routerLink]="ItemPaths.LIST" routerLinkActive="active-link">
-      <mat-icon class="sidenav-icon">format_list_bulleted</mat-icon>
+      <mat-icon matListItemIcon>format_list_bulleted</mat-icon>
       <span class="sidenav-text">Itens</span>
     </a>
 
     <a mat-list-item [routerLink]="postPaths.LIST" routerLinkActive="active-link">
-      <mat-icon class="sidenav-icon">wallpaper</mat-icon>
+      <mat-icon matListItemIcon>wallpaper</mat-icon>
       <span class="sidenav-text">Postagens</span>
     </a>
 
     <a mat-list-item [routerLink]="postTablePaths.LIST_TABLE" routerLinkActive="active-link" *ngIf="showPostTable">
-      <mat-icon class="sidenav-icon">settings</mat-icon>
+      <mat-icon matListItemIcon>settings</mat-icon>
       <span class="sidenav-text">Config Postagem</span>
     </a>
 
     <a mat-list-item (click)="redirectToWhatsapp()" target="_blank">
-      <mat-icon class="sidenav-icon">call</mat-icon>
-      <span class="sidenav-text">Contato</span>
+      <mat-icon matListItemIcon>call</mat-icon>
+      <span class="sidenav-text2">Contato</span>
     </a>
   </mat-nav-list>
 
   <div class="sidenav-footer">
     <div class="header-text" [class.hide-header-text]="sidenavCollapsed()">
-      <a routerLink='/about' routerLinkActive="active-link">Sobre</a>
+      <a routerLink='/about' routerLinkActive="active-link"><span style="color: #1f1c1d">Sobre</span></a>
     </div>
   </div>
 </div>
