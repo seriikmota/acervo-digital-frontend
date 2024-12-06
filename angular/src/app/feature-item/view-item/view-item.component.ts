@@ -18,6 +18,7 @@ export class ViewItemComponent implements OnInit{
       this.itemsService.consultarView(this.data.id).subscribe(response => {
         if (response) {
           this.data = response;
+          console.log(this.data)
         }
       });
     }

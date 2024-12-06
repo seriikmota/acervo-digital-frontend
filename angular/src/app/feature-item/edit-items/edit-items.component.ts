@@ -63,7 +63,7 @@ export class EditItemsComponent implements OnInit{
         }
       });
     }
-    if (this.itemsForm.get('images') ) {
+    if (this.data.images!=null && this.data.images.length>0 ) {
       Promise.all(
         this.itemsForm.get('images')?.value.map((image: { image: string }, index: number) =>
           this.urlToFile(`data:image/jpg;base64,${image.image}`, `existing_image_${index + 1}.jpg`)
