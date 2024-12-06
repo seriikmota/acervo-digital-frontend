@@ -8,9 +8,9 @@
 <div mat-dialog-content>
   <form [formGroup]="editPostForm">
     <!-- Exibição de imagens -->
-    <div *ngIf="selectedFiles.length > 0" class="image-container">
-      <div *ngFor="let image of selectedFiles.values(); let i = index" class="image-item">
-        <img src="{{image }}" alt="Image" class="image" />
+    <div *ngIf="data?.images?.length > 0" class="image-container">
+      <div *ngFor="let image of data.images; let i = index" class="image-item">
+        <img src="{{'data:image/jpg;base64,' + image.image }}" alt="Image" class="image" />
         <button mat-icon-button color="warn" (click)="removeImage(i)">
           <mat-icon>delete</mat-icon>
         </button>
