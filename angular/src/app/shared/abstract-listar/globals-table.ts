@@ -9,13 +9,12 @@ export const columnNamesMappingUser = {
 };
 
 //Items
-export const displayedColumnsItems: string[] = ['numberCode','name', 'period', 'location', 'taxonomy'];
+export const displayedColumnsItems: string[] = ['numberCode','name', 'period', 'taxonomy'];
 export const columnNamesMappingItems = {
  //fazer o mapeamento das colunas
   numberCode: 'Código',
   name: 'Nome',
   period: 'Periodo',
-  location: 'Localização',
   taxonomy: 'Taxonomia'
 };
 

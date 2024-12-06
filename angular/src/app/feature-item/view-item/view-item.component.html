@@ -1,0 +1,98 @@
+<h1 class="titulo">Visualização de Item</h1>
+<mat-divider></mat-divider>
+
+<div class="view-container">
+  <!-- Exibição de imagens já cadastradas -->
+  <div *ngIf="data?.images?.length > 0" class="image-container">
+    <div *ngFor="let image of data.images; let i = index" class="image-item">
+      <img src="{{ 'data:image/jpg;base64,' + image.image }}" alt="Imagem do Item" class="image" />
+    </div>
+  </div>
+
+  <!-- Exibição dos campos do Formulário -->
+  <div class="view-row">
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Código do Item</mat-label>
+      <input matInput value="{{data?.numberCode}}" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Nome</mat-label>
+      <input matInput value="{{data?.name}}" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Coletor</mat-label>
+      <input matInput value="{{data?.collector}}" readonly>
+    </mat-form-field>
+  </div>
+
+  <div class="view-row">
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Taxonomia</mat-label>
+      <input matInput value="{{data?.taxonomy}}" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Coleção</mat-label>
+      <input matInput value="{{data?.collection}}" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Proveniência</mat-label>
+      <input matInput value="{{data?.provenance}}" readonly>
+    </mat-form-field>
+  </div>
+
+  <div class="view-row">
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Localização</mat-label>
+      <input matInput value="{{data?.location}}" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Período</mat-label>
+      <input matInput value="{{data?.period}}" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Data de Registro</mat-label>
+      <input matInput [value]="data?.registerDate | date" readonly>
+    </mat-form-field>
+  </div>
+
+  <div class="view-row">
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Data de Patrimônio</mat-label>
+      <input matInput [value]="data?.heritageDate | date" readonly>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Ano Coleta</mat-label>
+      <input matInput [value]="data?.colleactionYear | date" readonly>
+    </mat-form-field>
+
+
+  </div>
+
+  <!-- Exibição do campo de Descrição -->
+  <div class="view-row">
+    <mat-form-field class="form-field" disabled>
+      <mat-label>Descrição</mat-label>
+      <textarea matInput [value]="data?.description" readonly></textarea>
+    </mat-form-field>
+  </div>
+
+
+
+
+
+  <!-- Botões de Ação -->
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close style="background-color: #D32F2F; color: white; border-radius: 20px">
+      Fechar
+    </button>
+  </div>
+</div>
+
+<simple-notifications></simple-notifications>

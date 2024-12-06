@@ -1,10 +1,11 @@
-import {Component, inject, Inject} from '@angular/core';
+import {Component, inject, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PostService} from "../post.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {SecurityService} from "../../architecture/security/security.service";
 import {postRoles} from "../post-routing.module";
 import {DatePipe} from "@angular/common";
+import {NotificationsService} from "angular2-notifications";
 type PermissionConfig = {
   HAS_PERMISSION_CREATE?: boolean,
   HAS_PERMISSION_UPDATE?: boolean,
@@ -22,7 +23,7 @@ export type RoleConfig = {
   templateUrl: './edit-post.component.html',
   styleUrl: './edit-post.component.scss'
 })
-export class EditPostComponent {
+export class EditPostComponent implements OnInit{
   editPostForm: FormGroup;
   selectedFiles: File[] = [];
   permissionConfig: PermissionConfig;
@@ -33,8 +34,9 @@ export class EditPostComponent {
     private dialogRef: MatDialogRef<EditPostComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private securityService: SecurityService,
-    private datePipe: DatePipe
+    private notificationsService: NotificationsService,
   ) {
+    console.log("Edit post ",data)
     // Inicializando as permissões
     this.permissionConfig = this.getPermissions();
 
@@ -56,10 +58,22 @@ export class EditPostComponent {
         { value: this.data?.tag || '', disabled: !this.permissionConfig.HAS_PERMISSION_UPDATE },
         [Validators.required],
       ],
-      approval: [this.data?.approval || false, Validators.required],
-      publicationDate: [this.data?.publicationDate || new Date().toISOString(), Validators.required],
+      approval: [this.data?.approval === 'Aprovado' ? true : false, Validators.required],
     });
   }
+
+  ngOnInit(): void {
+    if (this.data.images && this.data.images.length > 0) {
+      Promise.all(
+        this.data.images.map((image: { image: string }, index: number) =>
+          this.urlToFile(`data:image/jpg;base64,${image.image}`, `existing_image_${index + 1}.jpg`)
+        )
+      ).then((files) => {
+        this.selectedFiles.push(...files);
+        console.log('Imagens existentes convertidas para arquivos:', this.selectedFiles);
+      });
+    }
+    }
 
   // Retorna a configuração de roles
   private getRoles(): RoleConfig {
@@ -83,21 +97,23 @@ export class EditPostComponent {
   }
 
   removeImage(index: number): void {
-    this.data.images.splice(index, 1); // Remove a imagem do array de imagens existentes
-  }
-  removeFile(index: number): void {
-    this.selectedFiles.splice(index, 1);
+      this.data.images.splice(index, 1); // Remove a imagem existente
+      this.selectedFiles.splice(index, 1); // Remove a nova imagem
   }
 
-  onFileSelected(event: any): void {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        this.selectedFiles.push(files[i]); // Armazena arquivos selecionados
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const filesArray = Array.from(input.files);
+      if (this.selectedFiles.length + filesArray.length > 3) {
+        this.notificationsService.error('Você pode enviar no máximo 3 imagens.');
+        return;
       }
+
+      this.selectedFiles.push(...filesArray);
+      console.log('Arquivos selecionados:', this.selectedFiles.map(file => file.name));
     }
   }
-
   onSubmit(): void {
     if (this.editPostForm.valid) {
       const dto = {
@@ -106,17 +122,20 @@ export class EditPostComponent {
         subtitle: this.editPostForm.get('subtitle')?.value,
         content: this.editPostForm.get('content')?.value,
         approval: this.editPostForm.get('approval')?.value,
-        publicationDate: this.editPostForm.get('publicationDate')?.value, // Garantindo que seja uma string ISO válida
         tag: this.editPostForm.get('tag')?.value,
-        images: this.data.images, // Inclui as imagens existentes
+        files: [], // Inclui as imagens existentes
       };
 
+
       const formData = new FormData();
+
+      // Adicionar o DTO como JSON
       formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
 
-      // Adiciona novas imagens ao FormData
-      this.selectedFiles.forEach((file) => {
-        formData.append('files', file);
+
+      // Adicionar novas imagens selecionadas
+      this.selectedFiles.forEach((file, index) => {
+        formData.append(`files`, file); // Adiciona cada arquivo
       });
 
       this.postService.updatePost(formData, this.data.id).subscribe({
@@ -129,6 +148,13 @@ export class EditPostComponent {
         },
       });
     }
+  }
+
+
+  private async urlToFile(url: string, filename: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], filename, { type: blob.type });
   }
 
 }

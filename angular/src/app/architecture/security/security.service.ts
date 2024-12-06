@@ -34,7 +34,6 @@ export class SecurityService {
   }
 
   public init(user?: User): void {
-    console.log('security.service', user);
     this.credential.init(user);
     this.onUpdateMenu.emit();
     this.onUpdateUser.emit(this._credential.user);

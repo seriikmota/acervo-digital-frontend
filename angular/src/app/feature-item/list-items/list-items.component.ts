@@ -6,6 +6,7 @@ import {columnNamesMappingItems} from "../../shared/abstract-listar/globals-tabl
 import {ItemService} from "../item.service";
 import {EditItemsComponent} from "../edit-items/edit-items.component";
 import {ItemRoles} from "../item-routing.module";
+import {ViewItemComponent} from "../view-item/view-item.component";
 
 @Component({
   selector: 'app-list-items',
@@ -52,5 +53,18 @@ export class ListItemsComponent extends AbstractListarComponent{
       DELETE_ROLE: ItemRoles.DELETE,
       READ_ROLE: ItemRoles.READ,
     };
+  }
+
+  override View(element: any): void {
+    const dialogRef = this.dialog.open(ViewItemComponent, {
+      maxWidth: 'auto',
+      height: 'auto',
+      maxHeight: '90vh',
+      data: element,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.listarDados();
+    });
   }
 }

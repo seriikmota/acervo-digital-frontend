@@ -55,7 +55,6 @@ export class AddPostModalComponent {
         subtitle: this.addPostForm.get('subtitle')?.value,
         content: this.addPostForm.get('content')?.value,
         approval: true,
-        publicationDate: new Date().toISOString(),
         tag: this.addPostForm.get('tag')?.value,
         files: []
       };

@@ -57,7 +57,4 @@ export class SidnavComponent {
       this.sidenavCollapsed.set(state.sidenavCollapsed);
     }
   }
-
-
-
 }

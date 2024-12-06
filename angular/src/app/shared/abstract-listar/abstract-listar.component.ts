@@ -22,7 +22,9 @@ type PermissionConfig = {
   HAS_PERMISSION_READ?: boolean,
 };
 
-@Directive()
+@Directive({
+    selector: 'app-abstract-listar',
+})
 export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   displayedColumns: string[] = [];
   columnNamesMapping: { [key: string]: string };
@@ -74,7 +76,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
                 item[key] = this.formatDate(value);
               }
               if (key.toLowerCase().includes('approval')) {
-                item[key] = item[key] ? 'Ativo' : 'Inativo';
+                item[key] = item[key] ? 'Aprovado' : 'Não Aprovado';
               }
             }
           }
@@ -131,6 +133,20 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
         this.listarDados();
+    });
+  }
+
+
+  View(element: any): void {
+    const dialogRef = this.dialog.open(this.getEditComponent(), {
+      maxWidth: 'auto',
+      height: 'auto',
+      maxHeight: '90vh',
+      data: element,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.listarDados();
     });
   }
 
