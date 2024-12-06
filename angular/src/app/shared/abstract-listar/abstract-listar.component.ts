@@ -13,6 +13,7 @@ export type RoleConfig = {
   UPDATE_ROLE?: string,
   DELETE_ROLE?: string,
   READ_ROLE?: string,
+  PUBLISHER_AUTHORIZE?: string,
 };
 
 type PermissionConfig = {
@@ -20,6 +21,7 @@ type PermissionConfig = {
   HAS_PERMISSION_UPDATE?: boolean,
   HAS_PERMISSION_DELETE?: boolean,
   HAS_PERMISSION_READ?: boolean,
+  HAS_PERMISSION_PUBLISHER_AUTHORIZE?: boolean,
 };
 
 @Directive({
@@ -82,6 +84,12 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
           }
           return item;
         });
+
+        // Adicione a coluna APENAS UMA VEZ
+        if (this.shouldShowApprovalToggle() && !this.displayedColumns.includes('approvalToggle')) {
+          this.displayedColumns = [...this.displayedColumns, 'approvalToggle']; // Use spread operator
+        }
+
         this.paginator.pageIndex = data.pageable.pageNumber;
         this.paginator.pageSize = data.pageable.pageSize;
         this.paginator.length = data.totalElements;
@@ -219,6 +227,7 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
       HAS_PERMISSION_UPDATE: this.securityService.hasRoles(config.UPDATE_ROLE ? config.UPDATE_ROLE : ''),
       HAS_PERMISSION_DELETE: this.securityService.hasRoles(config.DELETE_ROLE ? config.DELETE_ROLE : ''),
       HAS_PERMISSION_READ: this.securityService.hasRoles(config.READ_ROLE ? config.READ_ROLE : ''),
+      HAS_PERMISSION_PUBLISHER_AUTHORIZE: this.securityService.hasRoles(config.PUBLISHER_AUTHORIZE ? config.PUBLISHER_AUTHORIZE : ''),
     };
   }
 
@@ -230,5 +239,24 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
   }
   protected getShowExportPdf(): boolean {
     return false;
+  }
+
+  protected shouldShowApprovalToggle(): boolean {
+    if (!this.permissionConfig.HAS_PERMISSION_PUBLISHER_AUTHORIZE) return false;
+    return this.dataSource?.data.some(item => 'approval' in item);
+  }
+
+
+  toggleApproval(element: any): void {
+    const updatedApproval = element.approval;
+    this.service.updateApproval(element.id, updatedApproval).subscribe({
+      next: () => {
+        this.notificationsService.success(`Status de aprovação atualizado para: ${updatedApproval ? 'Aprovado' : 'Pendente'}`);
+      },
+      error: () => {
+        this.notificationsService.error('Erro ao atualizar o status de aprovação');
+        element.approval = !updatedApproval; // Reverte em caso de erro
+      }
+    });
   }
 }

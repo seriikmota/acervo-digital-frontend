@@ -52,6 +52,7 @@ export class ListItemsComponent extends AbstractListarComponent{
       UPDATE_ROLE: ItemRoles.UPDATE,
       DELETE_ROLE: ItemRoles.DELETE,
       READ_ROLE: ItemRoles.READ,
+      PUBLISHER_AUTHORIZE: ItemRoles.PUBLISHER_AUTHORIZE,
     };
   }
 

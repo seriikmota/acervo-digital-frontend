@@ -35,19 +35,42 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="acao" *ngIf="getShowActions()">
-    <th mat-header-cell *matHeaderCellDef
-        style="text-align: center; background-color: #4CAF50; color: white; padding: 12px; border-bottom: 2px solid #ffffff; font-weight: bold;">
-      Ação
-    </th>
-    <td mat-cell *matCellDef="let element"
-        style="display: flex; justify-content: center; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid #e0f2f1;">
-      <!-- Botões de Ação -->
-      <button mat-fab (click)="editar(element)"
-              style="background-color: #0288d1; color: white; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; padding: 0; transition: background-color 0.3s ease;"
-              *ngIf="permissionConfig.HAS_PERMISSION_UPDATE">
-        <mat-icon style="font-size: 20px;">edit</mat-icon>
-      </button>
+          <ng-container matColumnDef="approvalToggle" *ngIf="shouldShowApprovalToggle()">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center; background-color: #388E3C; color: white;">
+              Aprovação
+            </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;">
+              <mat-slide-toggle [(ngModel)]="element.approval" (change)="toggleApproval(element)">
+                {{ element.approval ? 'Aprovado' : 'Pendente' }}
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acao" *ngIf="getShowActions()">
+            <th mat-header-cell *matHeaderCellDef
+                style="text-align: center; background-color: #4CAF50; color: white; padding: 12px; border-bottom: 2px solid #ffffff; font-weight: bold;">
+              Ação
+            </th>
+            <td mat-cell *matCellDef="let element"
+                style="display: flex; justify-content: center; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid #e0f2f1;">
+              <!-- Botões de Ação -->
+              <button mat-fab (click)="editar(element)"
+                      style="background-color: #0288d1; color: white; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; padding: 0; transition: background-color 0.3s ease;"
+                      *ngIf="permissionConfig.HAS_PERMISSION_UPDATE">
+                <mat-icon style="font-size: 20px;">edit</mat-icon>
+              </button>
+              <button mat-raised-button (click)="excluir(element)"
+                      style="background-color: #d32f2f; color:white; border-radius:40%; width: 36px; height: 36px;"
+                      *ngIf="permissionConfig.HAS_PERMISSION_DELETE">
+                <mat-icon style="font-size: 18px;">delete</mat-icon>
+              </button>
+              <button mat-raised-button (click)="exportarPdf(element.id)"
+                      style="background-color: #388E3C; color:white; border-radius: 40%; width: 36px; height: 36px;"
+                      *ngIf="getShowExportPdf()">
+                <mat-icon style="font-size: 18px;">picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
       <button mat-fab (click)="excluir(element)"
               style="background-color: #d32f2f; color:white; border-radius: 50%; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; padding: 0; transition: background-color 0.3s ease;"

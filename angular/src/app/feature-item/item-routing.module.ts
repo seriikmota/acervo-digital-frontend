@@ -9,6 +9,7 @@ export enum ItemRoles {
   UPDATE = "ROLE_ITEM_UPDATE",
   DELETE = "ROLE_ITEM_DELETE",
   LIST_ALL = "ROLE_ITEM_LISTALL",
+  PUBLISHER_AUTHORIZE = "ROLE_PUBLISHER_AUTHORIZE",
 }
 
 export enum ItemPaths {

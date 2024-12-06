@@ -16,6 +16,7 @@ export const columnNamesMappingItems = {
   name: 'Nome',
   period: 'Periodo',
   taxonomy: 'Taxonomia'
+  approval: 'Publicado',
 };
 
 //log

@@ -140,4 +140,16 @@ export abstract class AbstractService<T> {
       reader.readAsArrayBuffer(arquivo);
     });
   }
+
+  updateApproval(id: number, approval: boolean): Observable<any> {
+    return this.httpService.put<any>(
+      `${this.url}/approval/${id}`,
+      { approval },
+      { headers: this.createHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 }
