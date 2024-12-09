@@ -1,9 +1,12 @@
 import {catchError, Observable, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import * as myGlobals from './globals';
+import {SecurityService} from "../architecture/security/security.service";
+import {inject} from "@angular/core";
 
 export abstract class AbstractService<T> {
   protected url: string;
+  protected securityService = inject(SecurityService);
 
   protected constructor(protected httpService: HttpClient, baseUrl: string) {
     this.url = `${myGlobals.API_URL}/${baseUrl}`;
@@ -70,8 +73,13 @@ export abstract class AbstractService<T> {
   }
 
   filter(dado: string): Observable<any> {
+    let headers = new HttpHeaders();
+    if (this.securityService.isValid()) {
+      headers = this.createHeaders();
+    }
+
     return this.httpService.get<any>(`${this.url}/search/${dado}`, {
-      headers: this.createHeaders()
+      headers: headers
     })
       .pipe(
         catchError(this.handleError)

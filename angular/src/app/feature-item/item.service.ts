@@ -2,14 +2,12 @@ import {inject, Injectable} from '@angular/core';
 import {AbstractService} from "../shared/abstract.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {catchError, Observable} from "rxjs";
-import {SecurityService} from "../architecture/security/security.service";
 import {ItemRoles} from "./item-routing.module";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService extends AbstractService<any>{
-  private securityService = inject(SecurityService);
 
   protected constructor(httpService: HttpClient) {
     super(httpService,'item');

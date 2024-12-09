@@ -197,9 +197,14 @@ export abstract class AbstractListarComponent implements OnInit,AfterViewInit {
     this.service.filter(this.filtro).subscribe({
       next: (data) => {
         if (data != null) {
-          this.dataSource.data = data
+          this.dataSource.data = data.content
+
+          this.paginator.pageIndex = data.pageable.pageNumber;
+          this.paginator.pageSize = data.pageable.pageSize;
+          this.paginator.length = data.totalElements;
+
+          this.changeDetector.detectChanges();
         }
-        this.notificationsService.error("Registro não encontrado")
       }
     });
   }
