@@ -46,7 +46,6 @@ export abstract class AbstractService<T> {
 
   consultarView(id:number): Observable<any[]> {
     return this.httpService.get<any[]>(`${this.url}/view/${id}`,{
-      headers: this.createHeaders()
     })
       .pipe(
         catchError(this.handleError)

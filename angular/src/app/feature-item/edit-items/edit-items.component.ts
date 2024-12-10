@@ -71,7 +71,7 @@ export class EditItemsComponent implements OnInit{
   }
 
   removeImage(index: number): void {
-    if (this.selectedFiles != null && (this.selectedFiles.length > 3)) {
+    if (this.selectedFiles != null && (this.selectedFiles.length > 0)) {
       this.selectedFiles.splice(index, 1);
       this.data.images.splice(index, 1);
     }else {
